@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "164048550926",
+    "project_id": "gcc-application",
+    "storage_bucket": "gcc-application.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:164048550926:android:3b2a29376f49abad58d05f",
+        "android_client_info": {
+          "package_name": "com.gcc.gccapplication"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCkoyfLbk2g2mV3ju1L8oX7mq0BwcyO3sU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

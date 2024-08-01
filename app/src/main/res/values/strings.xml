@@ -1,0 +1,41 @@
+<resources>
+    <string name="app_name">Jopanik</string>
+
+    <string name="registrasi">REGISTRASI</string>
+    <string name="login">LOGIN</string>
+
+    <string name="nama_lengkap">Nama Lengkap</string>
+    <string name="alamat_email">Alamat Email</string>
+    <string name="password">Password</string>
+    <string name="belum_punya_akun">Belum punya akun?</string>
+    <string name="sudah_punya_akun">Sudah punya akun?</string>
+    <string name="ulangi_password">Ulangi Password</string>
+    <string name="develop_by">Develop By</string>
+
+    <string name="trashbag">Trashbag</string>
+    <string name="home">Home</string>
+    <string name="profile">Profile</string>
+
+    <string name="sampah_organik">Sampah Organik</string>
+    <string name="trash_name">Nama Sampah</string>
+    <string name="trash_description">Desc Sampah</string>
+
+    <string name="ubah_password">Ubah Password</string>
+    <string name="keranjang_sampah">Keranjang Sampah</string>
+    <string name="histori_sampah">Histori Sampah</string>
+    <string name="rekap_sampah">Rekap Sampah</string>
+    <string name="logout">Logout</string>
+    <string name="masukkan_jumlah_sampah_kg">Masukkan Jumlah Sampah (KG)</string>
+    <string name="dummy_jumlah_sampah">0.0 KG</string>
+    <string name="deskripsi">Deskripsi</string>
+    <string name="kumpulkan">Kumpulkan</string>
+    <string name="angkut">Angkut</string>
+    <string name="kurangi_jumlah_sampah">Kurangi Jumlah Sampah</string>
+    <string name="tambah_jumlah_sampah">Tambahi Jumlah Sampah</string>
+    <string name="atur_ulang">Atur Ulang</string>
+    <string name="notifikasi">Notifikasi</string>
+    <string name="histori_upload_sampah">Histori Upload Sampah</string>
+    <string name="password_lama">Password Lama</string>
+    <string name="password_baru">Password Baru</string>
+
+</resources>
