@@ -38,6 +38,8 @@ class RegisterViewModel : ViewModel() {
                         // Prepare the user data to be saved in Firestore
                         val userData = mapOf(
                             "uid" to uid,
+                            "name" to fullName,
+                            "email" to email,
                             "role" to "user"
                         )
 

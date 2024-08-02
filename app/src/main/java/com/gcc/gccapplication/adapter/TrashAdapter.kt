@@ -6,10 +6,11 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.gcc.gccapplication.R
 import com.gcc.gccapplication.data.model.TrashModel
 
-class TrashAdapter(private val listTrash: ArrayList<TrashModel>) : RecyclerView.Adapter<TrashAdapter.ListViewHolder>() {
+class TrashAdapter(var listTrash: ArrayList<TrashModel>) : RecyclerView.Adapter<TrashAdapter.ListViewHolder>() {
     private lateinit var onItemClickCallback: OnItemClickCallback
 
     fun setOnItemClickCallback(onItemClickCallback: OnItemClickCallback) {
@@ -22,10 +23,14 @@ class TrashAdapter(private val listTrash: ArrayList<TrashModel>) : RecyclerView.
     }
 
     override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
-        val (name, description, photo) = listTrash[position]
-        holder.imgPhoto.setImageResource(photo)
+        val (name, description, photoUrl) = listTrash[position]
         holder.tvName.text = name
         holder.tvDescription.text = description
+        Glide.with(holder.itemView.context)
+            .load(photoUrl)
+            .placeholder(R.drawable.img_dummy_image)
+            .into(holder.imgPhoto)
+
         holder.itemView.setOnClickListener {
             onItemClickCallback.onItemClicked(listTrash[holder.adapterPosition])
         }
@@ -34,12 +39,12 @@ class TrashAdapter(private val listTrash: ArrayList<TrashModel>) : RecyclerView.
     override fun getItemCount(): Int = listTrash.size
 
     class ListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val imgPhoto: ImageView = itemView.findViewById(R.id.img_item_photo)
-        val tvName: TextView = itemView.findViewById(R.id.tv_item_name)
-        val tvDescription: TextView = itemView.findViewById(R.id.tv_item_description)
+        val imgPhoto: ImageView = itemView.findViewById(R.id.ivTrashPhoto)
+        val tvName: TextView = itemView.findViewById(R.id.tvTrashName)
+        val tvDescription: TextView = itemView.findViewById(R.id.tvTrashDescription)
     }
+
     interface OnItemClickCallback {
         fun onItemClicked(data: TrashModel)
     }
-
 }

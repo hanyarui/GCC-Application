@@ -9,11 +9,11 @@ import com.gcc.gccapplication.R
 import com.gcc.gccapplication.databinding.ActivityChangePasswordBinding
 
 class ChangePasswordActivity : AppCompatActivity() {
+
     private lateinit var binding: ActivityChangePasswordBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         binding = ActivityChangePasswordBinding.inflate(layoutInflater)
         setContentView(binding.root)
 

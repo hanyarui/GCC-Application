@@ -9,6 +9,7 @@
     <!-- Fonts -->
     <color name="black">#000000</color>
     <color name="white">#FFFFFF</color>
+    <color name="blue">#2085FF</color>
 
     <!-- Select/Unselect -->
     <color name="card_selected">#5FC129</color>

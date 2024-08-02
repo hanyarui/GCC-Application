@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/primary"
     tools:context=".ui.activity.DetailActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -38,6 +39,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:background="@drawable/bg_rounded_top"
         app:layout_constraintBottom_toTopOf="@id/clBottomLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -45,7 +47,10 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_rounded_top"
+            android:clipToOutline="true"
+            tools:ignore="UnusedAttribute">
 
             <ImageView
                 android:id="@+id/ivTrash"
@@ -71,7 +76,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/lytPlusMinus"
                 android:layout_width="match_parent"
-                android:layout_height="48dp"
+                android:layout_height="0dp"
                 android:layout_marginTop="20dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -96,6 +101,7 @@
                     style="@style/TextDetail"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
+                    android:padding="8dp"
                     android:background="@drawable/it_stroke"
                     android:hint="@string/dummy_jumlah_sampah"
                     android:textAlignment="center"

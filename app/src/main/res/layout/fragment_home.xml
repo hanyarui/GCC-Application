@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/fragmentHome"
+    android:background="@color/white"
     tools:context=".ui.activity.PageActivity">
 
     <LinearLayout
@@ -35,7 +36,7 @@
                     style="@style/TextDetail"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Selamat Datang"
+                    android:text="@string/selamat_datang"
                     android:textSize="18sp"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
@@ -44,9 +45,8 @@
                 <TextView
                     android:id="@+id/tvNama"
                     style="@style/TextDetail"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Nama"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/nama"
                     android:textSize="18sp"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
@@ -57,7 +57,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/clNotification"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
                 android:background="@drawable/bg_rounded_notification"
                 android:padding="8dp"

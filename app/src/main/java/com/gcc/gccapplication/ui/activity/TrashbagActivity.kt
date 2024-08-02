@@ -9,11 +9,11 @@ import com.gcc.gccapplication.R
 import com.gcc.gccapplication.databinding.ActivityTrashbagBinding
 
 class TrashbagActivity : AppCompatActivity() {
+
     private lateinit var binding: ActivityTrashbagBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         binding = ActivityTrashbagBinding.inflate(layoutInflater)
         setContentView(binding.root)
     }

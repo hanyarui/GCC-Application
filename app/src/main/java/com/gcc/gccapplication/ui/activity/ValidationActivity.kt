@@ -1,21 +1,39 @@
 package com.gcc.gccapplication.ui.activity
 
+import android.content.Intent
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import com.gcc.gccapplication.R
+import com.gcc.gccapplication.databinding.ActivityValidationBinding
 
 class ValidationActivity : AppCompatActivity() {
+
+    private lateinit var binding: ActivityValidationBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContentView(R.layout.activity_validation)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
+        binding = ActivityValidationBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        setupListeners()
+    }
+
+    private fun setupListeners() {
+        binding.tvSignUp.setOnClickListener {
+            navigateToLoginActivity()
         }
+
+        binding.btnMulai.setOnClickListener {
+            navigateToRegisterActivity()
+        }
+    }
+
+    private fun navigateToLoginActivity() {
+        val intent = Intent(this, LoginActivity::class.java)
+        startActivity(intent)
+    }
+
+    private fun navigateToRegisterActivity() {
+        val intent = Intent(this, RegisterActivity::class.java)
+        startActivity(intent)
     }
 }

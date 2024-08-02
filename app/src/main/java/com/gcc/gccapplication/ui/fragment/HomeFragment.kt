@@ -1,23 +1,26 @@
 package com.gcc.gccapplication.ui.fragment
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.gcc.gccapplication.R
 import com.gcc.gccapplication.adapter.TrashAdapter
 import com.gcc.gccapplication.data.model.TrashModel
+import com.gcc.gccapplication.viewModel.HomeViewModel
 
 class HomeFragment : Fragment() {
 
     private lateinit var tvNama: TextView
     private lateinit var rvSampah: RecyclerView
     private lateinit var trashAdapter: TrashAdapter
+    private val trashViewModel: HomeViewModel by viewModels()
     private var fullName: String? = null
 
     companion object {
@@ -55,12 +58,14 @@ class HomeFragment : Fragment() {
         // Setup RecyclerView
         setupRecyclerView()
 
+        // Observe data changes from ViewModel
+        observeViewModel()
+
         return view
     }
 
     private fun setupRecyclerView() {
-        val listTrash = generateDummyTrashData() // Replace with your actual data source
-        trashAdapter = TrashAdapter(listTrash)
+        trashAdapter = TrashAdapter(ArrayList())
         rvSampah.apply {
             layoutManager = LinearLayoutManager(activity)
             adapter = trashAdapter
@@ -74,11 +79,15 @@ class HomeFragment : Fragment() {
         })
     }
 
-    private fun generateDummyTrashData(): ArrayList<TrashModel> {
-        // Dummy data, replace with actual data
-        val list = ArrayList<TrashModel>()
-        list.add(TrashModel("Plastic", "Plastic waste", R.drawable.ic_trash))
-        list.add(TrashModel("Glass", "Glass waste", R.drawable.ic_trash))
-        return list
+    private fun observeViewModel() {
+        trashViewModel.trashData.observe(viewLifecycleOwner) { trashList ->
+            if (trashList.isEmpty()) {
+                Toast.makeText(context, "Belum ada data sampah", Toast.LENGTH_SHORT).show()
+            }
+            trashAdapter.listTrash = trashList as ArrayList<TrashModel>
+            trashAdapter.notifyDataSetChanged()
+        }
+
+        trashViewModel.fetchTrashData()
     }
 }

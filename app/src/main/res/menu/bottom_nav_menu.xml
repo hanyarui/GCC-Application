@@ -4,10 +4,10 @@
         android:id="@+id/nav_home"
         android:title="@string/home"
         android:icon="@drawable/ic_home" />
-<!--    <item-->
-<!--        android:id="@+id/nav_bag"-->
-<!--        android:title="@string/trashbag"-->
-<!--        android:icon="@drawable/ic_collect" />-->
+    <item
+        android:id="@+id/nav_bag"
+        android:title="@string/histori_sampah"
+        android:icon="@drawable/ic_paste" />
     <item
         android:id="@+id/nav_person"
         android:title="@string/profile"

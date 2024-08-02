@@ -1,6 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent">
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/card_view"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:layout_marginStart="8dp"
+    android:layout_marginTop="4dp"
+    android:layout_marginEnd="8dp"
+    android:layout_marginBottom="4dp"
+    card_view:cardCornerRadius="4dp">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dp">
+
+        <ImageView
+            android:id="@+id/ivTrashPhoto"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:scaleType="centerCrop"
+            card_view:layout_constraintBottom_toBottomOf="parent"
+            card_view:layout_constraintStart_toStartOf="parent"
+            card_view:layout_constraintTop_toTopOf="parent"
+            tools:src="@tools:sample/avatars" />
+
+        <TextView
+            android:id="@+id/tvTrashName"
+            style="@style/TextDetail"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            tools:text="@string/trash_name"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            card_view:layout_constraintEnd_toEndOf="parent"
+            card_view:layout_constraintStart_toEndOf="@+id/ivTrashPhoto"
+            card_view:layout_constraintTop_toTopOf="@+id/ivTrashPhoto" />
+
+        <TextView
+            android:id="@+id/tvJumlahSampah"
+            style="@style/TextDetail"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/jumlah_sampah"
+            card_view:layout_constraintBottom_toTopOf="@+id/tvTrashAmount"
+            card_view:layout_constraintEnd_toEndOf="@+id/tvTrashName"
+            card_view:layout_constraintStart_toStartOf="@+id/tvTrashName" />
+
+        <TextView
+            android:id="@+id/tvTrashAmount"
+            style="@style/TextSubDetail"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/jumlah_sampah_kg"
+            card_view:layout_constraintBottom_toBottomOf="@+id/ivTrashPhoto"
+            card_view:layout_constraintEnd_toEndOf="@+id/tvJumlahSampah"
+            card_view:layout_constraintStart_toStartOf="@+id/tvJumlahSampah" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>

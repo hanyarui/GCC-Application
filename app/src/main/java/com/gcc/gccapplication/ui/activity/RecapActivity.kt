@@ -9,11 +9,11 @@ import com.gcc.gccapplication.R
 import com.gcc.gccapplication.databinding.ActivityRecapBinding
 
 class RecapActivity : AppCompatActivity() {
+
     private lateinit var binding: ActivityRecapBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         binding = ActivityRecapBinding.inflate(layoutInflater)
         setContentView(binding.root)
     }

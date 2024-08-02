@@ -20,7 +20,8 @@
     <string name="trash_name">Nama Sampah</string>
     <string name="trash_description">Desc Sampah</string>
 
-    <string name="ubah_password">Ubah Password</string>
+    <string name="ubah_password">UBAH PASSWORD</string>
+    <string name="ubah_password_desc">Ubah Password</string>
     <string name="keranjang_sampah">Keranjang Sampah</string>
     <string name="histori_sampah">Histori Sampah</string>
     <string name="rekap_sampah">Rekap Sampah</string>
@@ -37,5 +38,22 @@
     <string name="histori_upload_sampah">Histori Upload Sampah</string>
     <string name="password_lama">Password Lama</string>
     <string name="password_baru">Password Baru</string>
+    <string name="ulangi_password_baru">ulangi Password Baru</string>
+    <string name="konfirmasi">KONFIRMASI</string>
+    <string name="lupa_password_desc">email untuk melakukan pergantian password akan dikirimkan</string>
+    <string name="lupa_kata_sandi">Lupa Kata Sandi?</string>
+    <string name="jumlah_sampah">Jumlah Sampah</string>
+    <string name="jumlah_sampah_kg">Jumlah Sampah KG</string>
+
+    <string name="landing_page">Selamatkan Bumi, Selamatkan Masa Depan.</string>
+    <string name="background_logo_landing_page">Background Logo Landing Page</string>
+    <string name="sign_in">Sign in</string>
+    <string name="mulai">MULAI</string>
+    <string name="alamat">Alamat</string>
+    <string name="nomor_telp">Nomor Telp</string>
+    <string name="daftar_sampah">Daftar Sampah</string>
+    <string name="tambah_data_sampah">Tambah Data Sampah</string>
+    <string name="nama">Nama</string>
+    <string name="selamat_datang">Selamat Datang</string>
 
 </resources>

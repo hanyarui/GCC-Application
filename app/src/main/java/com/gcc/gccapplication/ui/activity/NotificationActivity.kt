@@ -9,11 +9,11 @@ import com.gcc.gccapplication.R
 import com.gcc.gccapplication.databinding.ActivityNotificationBinding
 
 class NotificationActivity : AppCompatActivity() {
+
     private lateinit var binding: ActivityNotificationBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         binding = ActivityNotificationBinding.inflate(layoutInflater)
         setContentView(binding.root)
     }

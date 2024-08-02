@@ -3,8 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.fargment.ProfileFragment">
+    tools:context=".ui.fragment.ProfileFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/clTop"
@@ -28,7 +29,7 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <TextView
-                android:id="@+id/tvWelcome"
+                android:id="@+id/tvEmail"
                 style="@style/TextDetail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -41,15 +42,36 @@
             <TextView
                 android:id="@+id/tvNama"
                 style="@style/TextDetail"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
                 android:text="@string/nama_lengkap"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvWelcome" />
+                app:layout_constraintTop_toBottomOf="@+id/tvEmail" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+<!--        <androidx.constraintlayout.widget.ConstraintLayout-->
+<!--            android:id="@+id/clNotification"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginTop="32dp"-->
+<!--            android:background="@drawable/bg_rounded_notification"-->
+<!--            android:padding="8dp"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="parent">-->
+
+<!--            <ImageView-->
+<!--                android:id="@+id/ivNotification"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:src="@drawable/ic_notification"-->
+<!--                app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toTopOf="parent" />-->
+
+<!--        </androidx.constraintlayout.widget.ConstraintLayout>-->
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -84,15 +106,6 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <View
-        android:id="@+id/vBorder1"
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:background="@drawable/bg_border_horizontal"
-        app:layout_constraintTop_toBottomOf="@+id/btnKeranjang"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/btnUbahPass"
         android:layout_width="match_parent"
@@ -103,7 +116,7 @@
         android:textAlignment="textStart"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/vBorder1" >
+        app:layout_constraintTop_toBottomOf="@+id/btnKeranjang" >
 
         <ImageView
             android:id="@+id/ivUbahPass"
@@ -117,21 +130,12 @@
         <TextView
             style="@style/TextDetail"
             android:layout_marginStart="16dp"
-            android:text="@string/ubah_password"
+            android:text="@string/ubah_password_desc"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/ivUbahPass"
             app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <View
-        android:id="@+id/vBorder2"
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:background="@drawable/bg_border_horizontal"
-        app:layout_constraintTop_toBottomOf="@+id/btnUbahPass"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/btnHistori"
@@ -141,7 +145,7 @@
         android:padding="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/vBorder2" >
+        app:layout_constraintTop_toBottomOf="@+id/btnUbahPass" >
 
         <ImageView
             android:id="@+id/ivRekap"
@@ -162,15 +166,6 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <View
-        android:id="@+id/vBorder3"
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:background="@drawable/bg_border_horizontal"
-        app:layout_constraintTop_toBottomOf="@+id/btnHistori"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/btnLogout"
         android:layout_width="match_parent"
@@ -179,7 +174,7 @@
         android:padding="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/vBorder3" >
+        app:layout_constraintTop_toBottomOf="@+id/btnHistori" >
 
         <ImageView
             android:id="@+id/ivLogout"
@@ -200,23 +195,34 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <View
-        android:id="@+id/vBorder4"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/btnDataSampah"
         android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:background="@drawable/bg_border_horizontal"
-        app:layout_constraintTop_toBottomOf="@+id/btnLogout"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:padding="16dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/btnRekapSampah" >
 
-    <View
-        android:id="@+id/vBorder5"
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:background="@drawable/bg_border_horizontal"
-        app:layout_constraintBottom_toTopOf="@+id/btnRekapSampah"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        <ImageView
+            android:id="@+id/ivDataSampah"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_add_box"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            style="@style/TextDetail"
+            android:layout_marginStart="16dp"
+            android:text="@string/tambah_data_sampah"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/ivDataSampah"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/btnRekapSampah"
