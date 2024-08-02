@@ -10,8 +10,9 @@ import com.bumptech.glide.Glide
 import com.gcc.gccapplication.R
 import com.gcc.gccapplication.data.model.TrashModel
 
-class TrashAdapter(var listTrash: ArrayList<TrashModel>) : RecyclerView.Adapter<TrashAdapter.ListViewHolder>() {
-    private lateinit var onItemClickCallback: OnItemClickCallback
+class TrashAdapter(val listTrash: ArrayList<TrashModel>) : RecyclerView.Adapter<TrashAdapter.ListViewHolder>() {
+
+    private var onItemClickCallback: OnItemClickCallback? = null
 
     fun setOnItemClickCallback(onItemClickCallback: OnItemClickCallback) {
         this.onItemClickCallback = onItemClickCallback
@@ -23,28 +24,28 @@ class TrashAdapter(var listTrash: ArrayList<TrashModel>) : RecyclerView.Adapter<
     }
 
     override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
-        val (name, description, photoUrl) = listTrash[position]
-        holder.tvName.text = name
-        holder.tvDescription.text = description
+        val trashItem = listTrash[position]
+        holder.tvName.text = trashItem.name
+        holder.tvDescription.text = trashItem.description
         Glide.with(holder.itemView.context)
-            .load(photoUrl)
+            .load(trashItem.photoUrl)
             .placeholder(R.drawable.img_dummy_image)
-            .into(holder.imgPhoto)
+            .into(holder.ivPhoto)
 
         holder.itemView.setOnClickListener {
-            onItemClickCallback.onItemClicked(listTrash[holder.adapterPosition])
+            onItemClickCallback?.onItemClicked(trashItem.id)
         }
     }
 
     override fun getItemCount(): Int = listTrash.size
 
     class ListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val imgPhoto: ImageView = itemView.findViewById(R.id.ivTrashPhoto)
+        val ivPhoto: ImageView = itemView.findViewById(R.id.ivTrashPhoto)
         val tvName: TextView = itemView.findViewById(R.id.tvTrashName)
         val tvDescription: TextView = itemView.findViewById(R.id.tvTrashDescription)
     }
 
     interface OnItemClickCallback {
-        fun onItemClicked(data: TrashModel)
+        fun onItemClicked(id: String?)
     }
 }

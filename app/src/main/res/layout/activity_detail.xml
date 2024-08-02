@@ -39,7 +39,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:background="@drawable/bg_rounded_top"
+        android:background="@color/white"
         app:layout_constraintBottom_toTopOf="@id/clBottomLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -47,18 +47,14 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/bg_rounded_top"
-            android:clipToOutline="true"
-            tools:ignore="UnusedAttribute">
+            android:layout_height="wrap_content">
 
             <ImageView
                 android:id="@+id/ivTrash"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
+                android:layout_height="240dp"
                 android:src="@drawable/img_dummy_image"
                 android:scaleType="centerCrop"
-                app:layout_constraintHeight_percent="0.35"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -72,6 +68,16 @@
                 android:text="@string/masukkan_jumlah_sampah_kg"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/ivTrash" />
+
+            <TextView
+                android:id="@+id/tvAlamat"
+                style="@style/TextDetail"
+                android:layout_width="match_parent"
+                android:layout_marginTop="20dp"
+                android:paddingHorizontal="12dp"
+                android:text="@string/alamat"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/lytPlusMinus" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/lytPlusMinus"
@@ -129,18 +135,18 @@
                 android:id="@+id/tvDesc"
                 style="@style/TextSubTitle"
                 android:layout_width="match_parent"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="8dp"
                 android:paddingHorizontal="12dp"
                 android:text="@string/deskripsi"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/lytPlusMinus" />
+                app:layout_constraintTop_toBottomOf="@+id/tvAlamat" />
 
             <TextView
                 android:id="@+id/tvTrashDesc"
                 style="@style/TextSubDetail"
                 android:layout_width="match_parent"
-                android:padding="12dp"
+                android:paddingHorizontal="12dp"
                 android:text="@string/trash_description"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvDesc" />

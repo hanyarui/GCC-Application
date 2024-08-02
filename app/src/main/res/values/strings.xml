@@ -55,5 +55,23 @@
     <string name="tambah_data_sampah">Tambah Data Sampah</string>
     <string name="nama">Nama</string>
     <string name="selamat_datang">Selamat Datang</string>
+    <string name="tipe_sampah">Tipe Sampah</string>
+    <string name="masukkan_nama_sampah">Masukkan Nama Sampah</string>
+    <string name="pilih_tipe_sampah">Pilih Tipe Sampah</string>
+    <string name="deskripsi_sampah">Deskripsi Sampah</string>
+    <string name="masukkan_deskripsi_sampah">Masukkan Deskripsi Sampah</string>
+    <string name="alamat_pemrosesan_sampah">Alamat Pemrosesan Sampah</string>
+    <string name="masukkan_alamat_untuk_memproses_sampah">Masukkan Alamat untuk Memproses Sampah</string>
+    <string name="history">History</string>
+
+    <string-array name="array_tipe_sampah">
+        <item>Organik</item>
+        <item>Botol Plastik Bening</item>
+        <item>Botol Plastik Berwarna</item>
+        <item>Plastik</item>
+        <item>Kardus</item>
+        <item>Kertas</item>
+        <item>Logam</item>
+    </string-array>
 
 </resources>

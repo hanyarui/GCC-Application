@@ -5,7 +5,7 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class TrashbagModel(
-    val name: String,
+    val id: String,
+    val trashId: String,
     val amount: Double,
-    val photo: Int
 ) : Parcelable

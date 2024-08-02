@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.gcc.gccapplication.R
 import com.gcc.gccapplication.data.local.UserPreferences
+import com.gcc.gccapplication.ui.activity.CreateTrashActivity
 import com.gcc.gccapplication.ui.activity.LoginActivity
 import com.gcc.gccapplication.ui.activity.TrashbagActivity
 
@@ -98,7 +99,7 @@ class ProfileFragment : Fragment() {
 
         btnDataSampah.setOnClickListener {
             // Handle Data Sampah button click
-            // Navigate to a new activity or fragment for adding trash data
+            startActivity(Intent(activity, CreateTrashActivity::class.java))
         }
 
         btnRekapSampah.setOnClickListener {

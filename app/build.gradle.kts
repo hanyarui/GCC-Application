@@ -63,6 +63,9 @@ dependencies {
     // Glide
     implementation(libs.github.glide)
 
+    // Ucrop
+    implementation(libs.yalantis.ucrop)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

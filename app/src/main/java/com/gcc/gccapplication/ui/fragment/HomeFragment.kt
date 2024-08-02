@@ -1,5 +1,6 @@
 package com.gcc.gccapplication.ui.fragment
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,8 +13,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.gcc.gccapplication.R
 import com.gcc.gccapplication.adapter.TrashAdapter
-import com.gcc.gccapplication.data.model.TrashModel
 import com.gcc.gccapplication.viewModel.HomeViewModel
+import com.gcc.gccapplication.ui.activity.DetailActivity
 
 class HomeFragment : Fragment() {
 
@@ -25,6 +26,7 @@ class HomeFragment : Fragment() {
 
     companion object {
         private const val ARG_FULL_NAME = "full_name"
+        private const val EXTRA_TRASH_ID = "extra_trash_id"
 
         fun newInstance(fullName: String): HomeFragment {
             val fragment = HomeFragment()
@@ -46,19 +48,14 @@ class HomeFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_home, container, false)
 
         tvNama = view.findViewById(R.id.tvNama)
         rvSampah = view.findViewById(R.id.rvSampah)
 
-        // Set the full name
         tvNama.text = fullName
 
-        // Setup RecyclerView
         setupRecyclerView()
-
-        // Observe data changes from ViewModel
         observeViewModel()
 
         return view
@@ -71,10 +68,11 @@ class HomeFragment : Fragment() {
             adapter = trashAdapter
         }
 
-        // Handle item click
         trashAdapter.setOnItemClickCallback(object : TrashAdapter.OnItemClickCallback {
-            override fun onItemClicked(data: TrashModel) {
-                // Handle item click
+            override fun onItemClicked(id: String?) {
+                val intent = Intent(activity, DetailActivity::class.java)
+                intent.putExtra(EXTRA_TRASH_ID, id)
+                startActivity(intent)
             }
         })
     }
@@ -84,7 +82,10 @@ class HomeFragment : Fragment() {
             if (trashList.isEmpty()) {
                 Toast.makeText(context, "Belum ada data sampah", Toast.LENGTH_SHORT).show()
             }
-            trashAdapter.listTrash = trashList as ArrayList<TrashModel>
+            trashAdapter.listTrash.apply {
+                clear()
+                addAll(trashList)
+            }
             trashAdapter.notifyDataSetChanged()
         }
 

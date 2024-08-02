@@ -17,10 +17,12 @@ class HomeViewModel : ViewModel() {
             .addOnSuccessListener { documents ->
                 val trashList = ArrayList<TrashModel>()
                 for (document in documents) {
+                    val id = document.id
                     val name = document.getString("name") ?: ""
                     val description = document.getString("description") ?: ""
+                    val address = document.getString("address") ?: ""
                     val photoUrl = document.getString("photoUrl") ?: ""
-                    trashList.add(TrashModel(name, description, photoUrl))
+                    trashList.add(TrashModel(id, name, description, address, photoUrl))
                 }
                 _trashData.value = trashList
             }
