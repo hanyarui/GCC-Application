@@ -22,6 +22,11 @@ class RegisterViewModel : ViewModel() {
             return
         }
 
+        if (password.length < 8) {
+            onFailure("Password must be at least 8 characters long")
+            return
+        }
+
         if (password != confirmPassword) {
             onFailure("Passwords do not match")
             return
@@ -40,7 +45,8 @@ class RegisterViewModel : ViewModel() {
                             "uid" to uid,
                             "name" to fullName,
                             "email" to email,
-                            "role" to "user"
+                            "role" to "user",
+                            "address" to ""
                         )
 
                         // Save the UID and role in Firestore under the "users" collection

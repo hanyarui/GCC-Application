@@ -1,5 +1,6 @@
 package com.gcc.gccapplication.viewModel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -11,25 +12,34 @@ class HomeViewModel : ViewModel() {
     private val _trashData = MutableLiveData<List<TrashModel>>()
     val trashData: LiveData<List<TrashModel>> get() = _trashData
 
-    fun fetchTrashData() {
+    fun fetchTrashData(userAddress: String, userRole: String) {
         val db = FirebaseFirestore.getInstance()
-        db.collection("trash").get()
+        val trashCollection = db.collection("trash")
+
+        val query = if (userRole == "admin") {
+            trashCollection // Admin sees all trash data
+        } else {
+            Log.d("HomeViewModel", "Fetching trash data for address: $userAddress")
+            trashCollection.whereEqualTo("address", userAddress) // Other users see only their address-specific trash data
+        }
+
+        query.get()
             .addOnSuccessListener { documents ->
                 val trashList = ArrayList<TrashModel>()
                 for (document in documents) {
+                    val address = document.getString("address") ?: ""
                     val id = document.id
                     val name = document.getString("name") ?: ""
                     val description = document.getString("description") ?: ""
-                    val address = document.getString("address") ?: ""
                     val photoUrl = document.getString("photoUrl") ?: ""
                     trashList.add(TrashModel(id, name, description, address, photoUrl))
                 }
                 _trashData.value = trashList
+                Log.d("HomeViewModel", "Fetched ${trashList.size} trash items")
             }
-            .addOnFailureListener { exception ->
-                // Handle failure
-                _trashData.value = emptyList()
+            .addOnFailureListener { e ->
+                _trashData.value = emptyList() // Handle failure by setting empty list
+                Log.e("HomeViewModel", "Failed to fetch trash data: ${e.message}")
             }
     }
 }
-

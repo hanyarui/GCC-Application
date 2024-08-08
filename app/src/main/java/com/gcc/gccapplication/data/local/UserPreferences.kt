@@ -13,6 +13,7 @@ class UserPreferences(context: Context) {
         private const val EMAIL_KEY = "email"
         private const val NAME_KEY = "fullName"
         private const val ROLE_KEY = "role"  // Tambahkan konstanta untuk role
+        private const val ADDRESS_KEY = "address"
     }
 
     fun saveToken(token: String) {
@@ -58,6 +59,17 @@ class UserPreferences(context: Context) {
 
     fun getRole(): String? {
         return prefs.getString(ROLE_KEY, null)
+    }
+
+    fun saveAddress(address: String) {
+        with(prefs.edit()) {
+            putString(ADDRESS_KEY, address)
+            apply()
+        }
+    }
+
+    fun getAddress(): String? {
+        return prefs.getString(ADDRESS_KEY, null)
     }
 
     fun clear() {

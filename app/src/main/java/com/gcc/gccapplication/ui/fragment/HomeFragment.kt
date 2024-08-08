@@ -13,8 +13,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.gcc.gccapplication.R
 import com.gcc.gccapplication.adapter.TrashAdapter
-import com.gcc.gccapplication.viewModel.HomeViewModel
+import com.gcc.gccapplication.data.local.UserPreferences
 import com.gcc.gccapplication.ui.activity.DetailActivity
+import com.gcc.gccapplication.viewModel.HomeViewModel
 
 class HomeFragment : Fragment() {
 
@@ -22,6 +23,7 @@ class HomeFragment : Fragment() {
     private lateinit var rvSampah: RecyclerView
     private lateinit var trashAdapter: TrashAdapter
     private val trashViewModel: HomeViewModel by viewModels()
+    private lateinit var userPreferences: UserPreferences
     private var fullName: String? = null
 
     companion object {
@@ -55,8 +57,17 @@ class HomeFragment : Fragment() {
 
         tvNama.text = fullName
 
-        setupRecyclerView()
-        observeViewModel()
+        // Initialize UserPreferences
+        userPreferences = UserPreferences(requireContext())
+        val userAddress = userPreferences.getAddress()
+        val userRole = userPreferences.getRole() ?: "user"
+
+        if (userAddress.isNullOrEmpty()) {
+            Toast.makeText(context, "Silahkan masukkan alamat anda terlebih dahulu", Toast.LENGTH_SHORT).show()
+        } else {
+            setupRecyclerView()
+            observeViewModel(userAddress, userRole)
+        }
 
         return view
     }
@@ -77,7 +88,7 @@ class HomeFragment : Fragment() {
         })
     }
 
-    private fun observeViewModel() {
+    private fun observeViewModel(userAddress: String, userRole: String) {
         trashViewModel.trashData.observe(viewLifecycleOwner) { trashList ->
             if (trashList.isEmpty()) {
                 Toast.makeText(context, "Belum ada data sampah", Toast.LENGTH_SHORT).show()
@@ -89,6 +100,6 @@ class HomeFragment : Fragment() {
             trashAdapter.notifyDataSetChanged()
         }
 
-        trashViewModel.fetchTrashData()
+        trashViewModel.fetchTrashData(userAddress, userRole)
     }
 }

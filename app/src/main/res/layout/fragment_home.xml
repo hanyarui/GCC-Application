@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/fragmentHome"
-    android:background="@color/white"
+    android:background="@color/accent"
     tools:context=".ui.activity.PageActivity">
 
     <LinearLayout
@@ -26,7 +26,7 @@
                 android:layout_marginTop="32dp"
                 android:layout_marginBottom="32dp"
                 android:background="@drawable/bg_rounded_welcome"
-                android:padding="16dp"
+                android:padding="12dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
@@ -81,7 +81,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/white">
+            android:paddingHorizontal="12dp">
 
             <TextView
                 android:id="@+id/tvTitle"
@@ -89,7 +89,6 @@
                 android:layout_marginTop="24dp"
                 android:text="@string/daftar_sampah"
                 android:textSize="22sp"
-                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 

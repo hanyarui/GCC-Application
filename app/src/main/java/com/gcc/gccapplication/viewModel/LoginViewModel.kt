@@ -1,6 +1,7 @@
 package com.gcc.gccapplication.viewModel
 
 import android.content.Context
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.gcc.gccapplication.data.local.UserPreferences
 import com.google.firebase.auth.FirebaseAuth
@@ -33,6 +34,10 @@ class LoginViewModel : ViewModel() {
                                 if (document.exists()) {
                                     val role = document.getString("role") ?: "user"
                                     val fullName = document.getString("name") ?: "Unknown"
+                                    val address = document.getString("address") ?: "Unknown"
+
+                                    // Logging address
+                                    Log.d("LoginViewModel", "Saving address: $address")
 
                                     // Buat token yang mencakup email, passwordHash, fullName, dan role
                                     val token = generateToken(email, passwordHash, fullName, role)
@@ -43,6 +48,7 @@ class LoginViewModel : ViewModel() {
                                     userPreferences.saveEmail(email)
                                     userPreferences.saveFullName(fullName)
                                     userPreferences.saveRole(role)
+                                    userPreferences.saveAddress(address)
 
                                     onSuccess()
                                 } else {

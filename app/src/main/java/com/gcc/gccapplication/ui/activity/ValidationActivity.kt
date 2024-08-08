@@ -13,6 +13,7 @@ class ValidationActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityValidationBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        supportActionBar?.hide()
 
         setupListeners()
     }

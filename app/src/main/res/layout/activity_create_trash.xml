@@ -130,7 +130,7 @@
                     android:id="@+id/etDesc"
                     style="@style/TextDetail"
                     android:layout_width="match_parent"
-                    android:layout_height="160dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:background="@drawable/it_stroke_rounded"
                     android:hint="@string/masukkan_deskripsi_sampah"
@@ -144,7 +144,7 @@
                     android:id="@+id/tvAlamat"
                     style="@style/TextDetail"
                     android:layout_marginTop="12dp"
-                    android:text="@string/alamat_pemrosesan_sampah"
+                    android:text="@string/dusun_pengelola_sampah"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/etDesc" />
 
@@ -152,9 +152,9 @@
                     android:id="@+id/etAlamat"
                     style="@style/TextDetail"
                     android:layout_width="match_parent"
-                    android:layout_height="120dp"
+                    android:layout_height="wrap_content"
                     android:background="@drawable/it_stroke_rounded"
-                    android:hint="@string/masukkan_alamat_untuk_memproses_sampah"
+                    android:hint="@string/masukkan_dusun_pengelola_sampah"
                     android:padding="12dp"
                     android:textAlignment="inherit"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -162,7 +162,7 @@
                     app:layout_constraintTop_toBottomOf="@id/tvAlamat"/>
 
                 <Button
-                    android:id="@+id/btnLogin"
+                    android:id="@+id/btnKonfirmasi"
                     style="@style/TextDetail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

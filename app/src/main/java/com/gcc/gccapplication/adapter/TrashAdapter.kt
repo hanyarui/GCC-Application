@@ -27,6 +27,7 @@ class TrashAdapter(val listTrash: ArrayList<TrashModel>) : RecyclerView.Adapter<
         val trashItem = listTrash[position]
         holder.tvName.text = trashItem.name
         holder.tvDescription.text = trashItem.description
+        holder.tvAddress.text = trashItem.address
         Glide.with(holder.itemView.context)
             .load(trashItem.photoUrl)
             .placeholder(R.drawable.img_dummy_image)
@@ -43,6 +44,7 @@ class TrashAdapter(val listTrash: ArrayList<TrashModel>) : RecyclerView.Adapter<
         val ivPhoto: ImageView = itemView.findViewById(R.id.ivTrashPhoto)
         val tvName: TextView = itemView.findViewById(R.id.tvTrashName)
         val tvDescription: TextView = itemView.findViewById(R.id.tvTrashDescription)
+        val tvAddress: TextView = itemView.findViewById(R.id.tvTrashAddress)
     }
 
     interface OnItemClickCallback {

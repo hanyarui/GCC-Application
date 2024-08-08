@@ -41,7 +41,7 @@ class CreateTrashActivity : AppCompatActivity() {
         }
 
         // Handle save button click
-        binding.btnLogin.setOnClickListener { saveTrashData() }
+        binding.btnKonfirmasi.setOnClickListener { saveTrashData() }
     }
 
     private fun startGallery() {

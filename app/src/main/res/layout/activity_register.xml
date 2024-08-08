@@ -45,6 +45,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="28dp"
+            app:boxBackgroundMode="outline"
+            app:boxStrokeColor="@color/black"
+            app:boxBackgroundColor="@color/white"
+            app:boxCornerRadiusTopStart="24dp"
+            app:boxCornerRadiusTopEnd="24dp"
+            app:boxCornerRadiusBottomStart="24dp"
+            app:boxCornerRadiusBottomEnd="24dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvRegister">
@@ -54,9 +61,9 @@
                 style="@style/TextDetail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/it_stroke_rounded"
                 android:paddingVertical="12dp"
                 android:paddingHorizontal="24dp"
+                android:inputType="textEmailAddress"
                 android:hint="@string/alamat_email" />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -66,6 +73,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
+            app:boxBackgroundMode="outline"
+            app:boxStrokeColor="@color/black"
+            app:boxBackgroundColor="@color/white"
+            app:boxCornerRadiusTopStart="24dp"
+            app:boxCornerRadiusTopEnd="24dp"
+            app:boxCornerRadiusBottomStart="24dp"
+            app:boxCornerRadiusBottomEnd="24dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/lytEmail">
@@ -75,9 +89,9 @@
                 style="@style/TextDetail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/it_stroke_rounded"
                 android:paddingVertical="12dp"
                 android:paddingHorizontal="24dp"
+                android:inputType="textPersonName"
                 android:hint="@string/nama_lengkap"/>
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -87,6 +101,13 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
             app:endIconMode="password_toggle"
+            app:boxBackgroundMode="outline"
+            app:boxStrokeColor="@color/black"
+            app:boxBackgroundColor="@color/white"
+            app:boxCornerRadiusTopStart="24dp"
+            app:boxCornerRadiusTopEnd="24dp"
+            app:boxCornerRadiusBottomStart="24dp"
+            app:boxCornerRadiusBottomEnd="24dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/lytNama">
@@ -96,9 +117,9 @@
                 style="@style/TextDetail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/it_stroke_rounded"
                 android:paddingVertical="12dp"
                 android:paddingHorizontal="24dp"
+                android:inputType="textPassword"
                 android:hint="@string/password" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -108,6 +129,13 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
             app:endIconMode="password_toggle"
+            app:boxBackgroundMode="outline"
+            app:boxStrokeColor="@color/black"
+            app:boxBackgroundColor="@color/white"
+            app:boxCornerRadiusTopStart="24dp"
+            app:boxCornerRadiusTopEnd="24dp"
+            app:boxCornerRadiusBottomStart="24dp"
+            app:boxCornerRadiusBottomEnd="24dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/lytPass">
@@ -117,9 +145,9 @@
                 style="@style/TextDetail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/it_stroke_rounded"
                 android:paddingVertical="12dp"
                 android:paddingHorizontal="24dp"
+                android:inputType="textPassword"
                 android:hint="@string/ulangi_password" />
         </com.google.android.material.textfield.TextInputLayout>
 

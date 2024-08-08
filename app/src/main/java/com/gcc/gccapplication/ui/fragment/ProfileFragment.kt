@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.gcc.gccapplication.R
 import com.gcc.gccapplication.data.local.UserPreferences
+import com.gcc.gccapplication.ui.activity.ChangePasswordActivity
 import com.gcc.gccapplication.ui.activity.CreateTrashActivity
 import com.gcc.gccapplication.ui.activity.LoginActivity
 import com.gcc.gccapplication.ui.activity.TrashbagActivity
@@ -20,7 +21,7 @@ class ProfileFragment : Fragment() {
     private lateinit var tvEmail: TextView
     private lateinit var btnKeranjang: ConstraintLayout
     private lateinit var btnUbahPass: ConstraintLayout
-    private lateinit var btnHistori: ConstraintLayout
+//    private lateinit var btnHistori: ConstraintLayout
     private lateinit var btnLogout: ConstraintLayout
     private lateinit var btnDataSampah: ConstraintLayout
     private lateinit var btnRekapSampah: ConstraintLayout
@@ -63,7 +64,7 @@ class ProfileFragment : Fragment() {
         tvEmail = view.findViewById(R.id.tvEmail)
         btnKeranjang = view.findViewById(R.id.btnKeranjang)
         btnUbahPass = view.findViewById(R.id.btnUbahPass)
-        btnHistori = view.findViewById(R.id.btnHistori)
+//        btnHistori = view.findViewById(R.id.btnHistori)
         btnLogout = view.findViewById(R.id.btnLogout)
         btnDataSampah = view.findViewById(R.id.btnDataSampah)
         btnRekapSampah = view.findViewById(R.id.btnRekapSampah)
@@ -82,13 +83,13 @@ class ProfileFragment : Fragment() {
 
         btnUbahPass.setOnClickListener {
             // Handle Ubah Password button click
-            // Navigate to a new activity or fragment for password change
+            startActivity(Intent(activity, ChangePasswordActivity::class.java))
         }
 
-        btnHistori.setOnClickListener {
-            // Handle Histori Sampah button click
-            // Navigate to a new activity or fragment for trash history
-        }
+//        btnHistori.setOnClickListener {
+//            // Handle Histori Sampah button click
+//            // Navigate to a new activity or fragment for trash history
+//        }
 
         btnLogout.setOnClickListener {
             // Handle Logout button click

@@ -27,6 +27,7 @@
     <string name="rekap_sampah">Rekap Sampah</string>
     <string name="logout">Logout</string>
     <string name="masukkan_jumlah_sampah_kg">Masukkan Jumlah Sampah (KG)</string>
+    <string name="masukkan_jumlah_sampah">Masukkan Jumlah Sampah</string>
     <string name="dummy_jumlah_sampah">0.0 KG</string>
     <string name="deskripsi">Deskripsi</string>
     <string name="kumpulkan">Kumpulkan</string>
@@ -43,12 +44,13 @@
     <string name="lupa_password_desc">email untuk melakukan pergantian password akan dikirimkan</string>
     <string name="lupa_kata_sandi">Lupa Kata Sandi?</string>
     <string name="jumlah_sampah">Jumlah Sampah</string>
-    <string name="jumlah_sampah_kg">Jumlah Sampah KG</string>
+    <string name="jumlah_sampah_kg">Jumlah Sampah (KG)</string>
 
     <string name="landing_page">Selamatkan Bumi, Selamatkan Masa Depan.</string>
     <string name="background_logo_landing_page">Background Logo Landing Page</string>
     <string name="sign_in">Sign in</string>
     <string name="mulai">MULAI</string>
+    <string name="alamat_desc">Dusun:</string>
     <string name="alamat">Alamat</string>
     <string name="nomor_telp">Nomor Telp</string>
     <string name="daftar_sampah">Daftar Sampah</string>
@@ -60,9 +62,11 @@
     <string name="pilih_tipe_sampah">Pilih Tipe Sampah</string>
     <string name="deskripsi_sampah">Deskripsi Sampah</string>
     <string name="masukkan_deskripsi_sampah">Masukkan Deskripsi Sampah</string>
-    <string name="alamat_pemrosesan_sampah">Alamat Pemrosesan Sampah</string>
-    <string name="masukkan_alamat_untuk_memproses_sampah">Masukkan Alamat untuk Memproses Sampah</string>
+    <string name="dusun_pengelola_sampah">Dusun Pengelola Sampah</string>
+    <string name="masukkan_dusun_pengelola_sampah">Dusun Pengelola Sampah</string>
     <string name="history">History</string>
+    <string name="alamat_lengkap">Alamat Lengkap</string>
+    <string name="masukkan_alamat_lengkap_anda">Masukkan Alamat Lengkap anda</string>
 
     <string-array name="array_tipe_sampah">
         <item>Organik</item>
@@ -73,5 +77,9 @@
         <item>Kertas</item>
         <item>Logam</item>
     </string-array>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="silahkan_masukkan_jumlah_sampah">Silahkan Masukkan Jumlah Sampah</string>
+    <string name="lupa_password">LUPA PASSWORD</string>
 
 </resources>

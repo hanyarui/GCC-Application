@@ -23,7 +23,7 @@ class TrashbagAdapter(private val listTrashbag: ArrayList<TrashbagModel>) : Recy
 
     override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
         val (name, amount, photo) = listTrashbag[position]
-        holder.imgPhoto.setImageResource(photo)
+//        holder.imgPhoto.setImageResource(photo)
         holder.tvName.text = name
         holder.tvAmount.text = amount.toString()
         holder.itemView.setOnClickListener {
