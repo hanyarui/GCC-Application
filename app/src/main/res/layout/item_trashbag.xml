@@ -10,9 +10,12 @@
     android:layout_marginTop="4dp"
     android:layout_marginEnd="8dp"
     android:layout_marginBottom="4dp"
-    card_view:cardCornerRadius="4dp">
+    android:backgroundTintMode="src_in"
+    card_view:cardBackgroundColor="@color/primary"
+    card_view:cardCornerRadius="12dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/card_vieew"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="8dp">
@@ -34,21 +37,24 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
-            tools:text="@string/trash_name"
+            android:textColor="@color/white"
             android:textSize="16sp"
             android:textStyle="bold"
             card_view:layout_constraintEnd_toEndOf="parent"
             card_view:layout_constraintStart_toEndOf="@+id/ivTrashPhoto"
-            card_view:layout_constraintTop_toTopOf="@+id/ivTrashPhoto" />
+            card_view:layout_constraintTop_toTopOf="@+id/ivTrashPhoto"
+            tools:text="@string/trash_name" />
 
         <TextView
             android:id="@+id/tvJumlahSampah"
             style="@style/TextDetail"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@string/jumlah_sampah"
+            android:text="Jumlah Sampah:        KG"
+            android:textColor="@color/white"
             card_view:layout_constraintBottom_toTopOf="@+id/tvTrashAmount"
             card_view:layout_constraintEnd_toEndOf="@+id/tvTrashName"
+            card_view:layout_constraintHorizontal_bias="0.0"
             card_view:layout_constraintStart_toStartOf="@+id/tvTrashName" />
 
         <TextView
@@ -57,8 +63,21 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/jumlah_sampah_kg"
+            android:textColor="@color/white"
             card_view:layout_constraintBottom_toBottomOf="@+id/ivTrashPhoto"
             card_view:layout_constraintEnd_toEndOf="@+id/tvJumlahSampah"
             card_view:layout_constraintStart_toStartOf="@+id/tvJumlahSampah" />
+
+        <TextView
+            android:id="@+id/tvKG"
+            style="@style/TextDetail"
+            android:textColor="@color/white"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="51dp"
+            android:layout_marginEnd="80dp"
+            android:text="1.0"
+            card_view:layout_constraintEnd_toEndOf="@+id/tvJumlahSampah"
+            card_view:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

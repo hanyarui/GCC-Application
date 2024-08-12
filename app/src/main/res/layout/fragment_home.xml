@@ -56,9 +56,9 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/clNotification"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
+                android:layout_width="67dp"
+                android:layout_height="53dp"
+                android:layout_marginTop="52dp"
                 android:background="@drawable/bg_rounded_notification"
                 android:padding="8dp"
                 app:layout_constraintEnd_toEndOf="parent"

@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/card_view"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:layout_marginStart="8dp"
+    android:layout_marginTop="4dp"
+    android:layout_marginEnd="8dp"
+    android:layout_marginBottom="4dp"
+    android:backgroundTintMode="src_in"
+    card_view:cardBackgroundColor="@color/primary"
+    card_view:cardCornerRadius="12dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cardd"
+        android:layout_width="392dp"
+        android:layout_height="132dp"
+        android:padding="8dp">
+
+
+        <TextView
+            android:id="@+id/tvTrashNames"
+            style="@style/TextDetail"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="@string/trash_names"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            card_view:layout_constraintEnd_toEndOf="parent"
+            card_view:layout_constraintHorizontal_bias="1.0"
+            card_view:layout_constraintStart_toStartOf="parent"
+            card_view:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvTrashDescription"
+            style="@style/TextSubDetail"
+            android:layout_width="354dp"
+            android:layout_height="28dp"
+            android:ellipsize="end"
+            android:justificationMode="inter_word"
+            android:maxLines="3"
+            android:text="@string/jumlah_sampah"
+            android:textColor="@color/white"
+            card_view:layout_constraintBottom_toTopOf="@+id/tvTrashAddress"
+            card_view:layout_constraintEnd_toEndOf="@+id/tvTrashNames"
+            card_view:layout_constraintHorizontal_bias="0.0"
+            card_view:layout_constraintStart_toStartOf="@+id/tvTrashNames"
+            card_view:layout_constraintTop_toBottomOf="@+id/tvTrashNames"
+            card_view:layout_constraintVertical_bias="0.166" />
+
+        <TextView
+            android:id="@+id/tvKg"
+            style="@style/TextSubDetail"
+            android:layout_marginStart="128dp"
+            android:layout_marginTop="1dp"
+            android:text="1 KG"
+            android:textColor="@color/white"
+            card_view:layout_constraintStart_toStartOf="@+id/tvTrashDescription"
+            card_view:layout_constraintTop_toTopOf="@+id/tvTrashDescription" />
+
+        <TextView
+            android:id="@+id/tvTrashAddress"
+            style="@style/TextSubDetail"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="32dp"
+            android:text="@string/alamat"
+            android:textColor="@color/white"
+            card_view:layout_constraintBottom_toBottomOf="parent"
+            card_view:layout_constraintEnd_toEndOf="parent"
+            card_view:layout_constraintHorizontal_bias="0.0"
+            card_view:layout_constraintStart_toEndOf="@+id/tvAlamatDesc" />
+
+        <TextView
+            android:id="@+id/tvAlamatDesc"
+            style="@style/TextSubDetail"
+            android:layout_marginStart="12dp"
+            android:layout_marginBottom="32dp"
+            android:text="@string/alamat_desc"
+            android:textColor="@color/white"
+            card_view:layout_constraintBottom_toBottomOf="parent"
+            card_view:layout_constraintStart_toStartOf="@+id/tvTrashDescription" />
+
+        <TextView
+            android:id="@+id/tvTanggalWaktu"
+            style="@style/TextSubDetail"
+            android:layout_marginStart="8dp"
+            android:layout_marginBottom="8dp"
+            android:text="25 juni 2024, 12.40"
+            card_view:layout_constraintBottom_toBottomOf="parent"
+            card_view:layout_constraintStart_toStartOf="parent"
+            android:textColor="@color/white" />
+
+        <ImageView
+            android:layout_width="137dp"
+            android:layout_height="109dp"
+            android:layout_marginEnd="8dp"
+            android:src="@drawable/ready_pickup"
+            card_view:layout_constraintBottom_toBottomOf="parent"
+            card_view:layout_constraintEnd_toEndOf="parent"
+            card_view:layout_constraintTop_toTopOf="parent"
+            card_view:layout_constraintVertical_bias="0.571" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>

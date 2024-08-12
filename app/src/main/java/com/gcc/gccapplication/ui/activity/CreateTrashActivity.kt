@@ -3,13 +3,16 @@ package com.gcc.gccapplication.ui.activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.view.MenuItem
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.Spinner
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import com.gcc.gccapplication.R
 import com.gcc.gccapplication.databinding.ActivityCreateTrashBinding
 import com.gcc.gccapplication.viewModel.CreateTrashViewModel
@@ -20,12 +23,27 @@ class CreateTrashActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityCreateTrashBinding
     private var currentImageUri: Uri? = null
+    private lateinit var customTitle: TextView
     private val viewModel: CreateTrashViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityCreateTrashBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        // Set up the Toolbar as the ActionBar
+        val toolbar: Toolbar = findViewById(R.id.toolbar)
+        setSupportActionBar(toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+        // Inflate and set the custom title view
+        val customView = layoutInflater.inflate(R.layout.actionbar_title, null)
+        customTitle = customView.findViewById(R.id.custom_title)
+        supportActionBar?.setDisplayShowCustomEnabled(true)
+        supportActionBar?.setDisplayShowTitleEnabled(true)
+        supportActionBar?.customView = customView
+
+        customTitle.text = "Tambah Data Sampah"
 
         binding.ivPhotoSampah.setOnClickListener { startGallery() }
 
@@ -111,5 +129,14 @@ class CreateTrashActivity : AppCompatActivity() {
                 Toast.makeText(this, "Failed to save trash data: ${e.message}", Toast.LENGTH_SHORT).show()
             }
         )
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> {
+                finish()
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 }

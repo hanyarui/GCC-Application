@@ -6,11 +6,16 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
+    android:layout_marginStart="8dp"
     android:layout_marginTop="4dp"
+    android:layout_marginEnd="8dp"
     android:layout_marginBottom="4dp"
-    card_view:cardCornerRadius="4dp">
+    android:backgroundTintMode="src_in"
+    card_view:cardBackgroundColor="@color/primary"
+    card_view:cardCornerRadius="12dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cardd"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="8dp">
@@ -33,6 +38,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
             android:text="@string/trash_name"
+            android:textColor="@color/white"
             android:textSize="16sp"
             android:textStyle="bold"
             card_view:layout_constraintEnd_toEndOf="parent"
@@ -48,6 +54,7 @@
             android:justificationMode="inter_word"
             android:maxLines="3"
             android:text="@string/trash_description"
+            android:textColor="@color/white"
             card_view:layout_constraintBottom_toTopOf="@+id/tvTrashAddress"
             card_view:layout_constraintEnd_toEndOf="@+id/tvTrashName"
             card_view:layout_constraintStart_toStartOf="@+id/tvTrashName"
@@ -57,6 +64,7 @@
             android:id="@+id/tvAlamatDesc"
             style="@style/TextSubDetail"
             android:text="@string/alamat_desc"
+            android:textColor="@color/white"
             card_view:layout_constraintBottom_toBottomOf="parent"
             card_view:layout_constraintStart_toStartOf="@+id/tvTrashDescription" />
 
@@ -68,6 +76,7 @@
             android:layout_marginStart="4dp"
             android:layout_marginEnd="8dp"
             android:text="@string/alamat"
+            android:textColor="@color/white"
             card_view:layout_constraintBottom_toBottomOf="parent"
             card_view:layout_constraintEnd_toEndOf="parent"
             card_view:layout_constraintStart_toEndOf="@+id/tvAlamatDesc" />

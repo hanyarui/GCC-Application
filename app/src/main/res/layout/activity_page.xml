@@ -21,15 +21,16 @@
         android:id="@+id/bnvMain"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingVertical="8dp"
         android:background="@color/white"
-        app:labelVisibilityMode="selected"
+        android:paddingVertical="8dp"
         app:itemIconTint="@color/primary"
-        app:itemTextColor="@color/primary"
         app:itemRippleColor="@color/secondary"
-        app:menu="@menu/bottom_nav_menu"
+        app:itemTextColor="@color/primary"
+        app:labelVisibilityMode="selected"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:menu="@menu/bottom_nav_menu" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

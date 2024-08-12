@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Jopanik</string>
+    <string name="app_name">CleanScape</string>
 
     <string name="registrasi">REGISTRASI</string>
     <string name="login">LOGIN</string>
@@ -18,6 +18,7 @@
 
     <string name="sampah_organik">Sampah Organik</string>
     <string name="trash_name">Nama Sampah</string>
+    <string name="trash_names">Nama-nama Sampah</string>
     <string name="trash_description">Desc Sampah</string>
 
     <string name="ubah_password">UBAH PASSWORD</string>
@@ -43,7 +44,7 @@
     <string name="konfirmasi">KONFIRMASI</string>
     <string name="lupa_password_desc">email untuk melakukan pergantian password akan dikirimkan</string>
     <string name="lupa_kata_sandi">Lupa Kata Sandi?</string>
-    <string name="jumlah_sampah">Jumlah Sampah</string>
+    <string name="jumlah_sampah">Jumlah Sampah :</string>
     <string name="jumlah_sampah_kg">Jumlah Sampah (KG)</string>
 
     <string name="landing_page">Selamatkan Bumi, Selamatkan Masa Depan.</string>

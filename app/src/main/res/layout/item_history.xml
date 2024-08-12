@@ -10,7 +10,8 @@
     android:layout_marginTop="4dp"
     android:layout_marginEnd="8dp"
     android:layout_marginBottom="4dp"
-    card_view:cardCornerRadius="4dp">
+    card_view:cardCornerRadius="4dp"
+    card_view:cardBackgroundColor="@color/primary">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -21,6 +22,7 @@
             android:id="@+id/tvName"
             style="@style/TextDetail"
             android:text="@string/nama_lengkap"
+            android:textColor="@color/white"
             android:textSize="16sp"
             android:textStyle="bold"
             card_view:layout_constraintStart_toStartOf="parent"
@@ -30,6 +32,7 @@
             android:id="@+id/tvAlamat"
             style="@style/TextSubDetail"
             android:text="@string/alamat"
+            android:textColor="@color/white"
             card_view:layout_constraintStart_toStartOf="parent"
             card_view:layout_constraintTop_toBottomOf="@+id/tvName" />
 
@@ -37,6 +40,7 @@
             android:id="@+id/tvTelp"
             style="@style/TextSubDetail"
             android:text="@string/nomor_telp"
+            android:textColor="@color/white"
             card_view:layout_constraintStart_toStartOf="parent"
             card_view:layout_constraintTop_toBottomOf="@+id/tvAlamat" />
 
@@ -44,6 +48,7 @@
             android:id="@+id/tvSampah"
             style="@style/TextDetail"
             android:text="@string/daftar_sampah"
+            android:textColor="@color/white"
             android:textSize="16sp"
             android:textStyle="bold"
             card_view:layout_constraintStart_toStartOf="parent"

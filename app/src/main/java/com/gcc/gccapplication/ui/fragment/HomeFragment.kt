@@ -72,6 +72,7 @@ class HomeFragment : Fragment() {
         return view
     }
 
+//    kode buat negload adapter
     private fun setupRecyclerView() {
         trashAdapter = TrashAdapter(ArrayList())
         rvSampah.apply {
