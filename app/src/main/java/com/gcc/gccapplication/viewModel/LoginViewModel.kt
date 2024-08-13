@@ -63,6 +63,7 @@ class LoginViewModel : ViewModel() {
                     }
                 } else {
                     onFailure("Login failed: ${task.exception?.message}")
+                    println(task.exception?.message)
                 }
             }
     }

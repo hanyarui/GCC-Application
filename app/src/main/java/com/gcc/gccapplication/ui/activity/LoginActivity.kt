@@ -37,12 +37,19 @@ class LoginActivity : AppCompatActivity() {
                 },
                 onFailure = { errorMessage ->
                     Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "password salah", Toast.LENGTH_SHORT).show()
                 }
             )
         }
 
         binding.tvAkun.setOnClickListener {
             val intent = Intent(this, RegisterActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
+
+        binding.tvPassword.setOnClickListener{
+            val intent = Intent(this, ForgotPasswordActivity::class.java)
             startActivity(intent)
             finish()
         }
