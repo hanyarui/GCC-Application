@@ -5,30 +5,26 @@ import android.os.Bundle
 import android.view.MenuItem
 import android.widget.TextView
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import com.gcc.gccapplication.R
-import androidx.lifecycle.Observer
 import com.gcc.gccapplication.databinding.ActivityForgotPasswordBinding
 import com.gcc.gccapplication.viewModel.ForgotPasswordViewModel
-
-
+import androidx.lifecycle.Observer
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 
 class ForgotPasswordActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityForgotPasswordBinding
     private lateinit var customTitle: TextView
-    private val forgotPassswordViewModel : ForgotPasswordViewModel by viewModels()
+    private val forgotPassswordViewModel: ForgotPasswordViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityForgotPasswordBinding.inflate(layoutInflater)
         setContentView(binding.root)
-//        supportActionBar?.hide()
 
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
@@ -43,28 +39,29 @@ class ForgotPasswordActivity : AppCompatActivity() {
 
         customTitle.text = ""
 
-        binding.btnResetPass.setOnClickListener{
+        // Kirim email reset password
+        binding.btnResetPass.setOnClickListener {
             val email = binding.etEmail.text.toString().trim()
-            if( email.isNotEmpty()) {
+            if (email.isNotEmpty()) {
                 forgotPassswordViewModel.sendResetPassEmail(email)
-
-            }else{
+            } else {
                 Toast.makeText(this, "Email tidak boleh kosong", Toast.LENGTH_SHORT).show()
             }
         }
-        // masih ada bug, pas udah ganti pass di link email,  pas mo  login  pake pass baru gabisa..
-        forgotPassswordViewModel.passwordChangeSuccess.observe(this, Observer{ succes ->
-            if (succes)  {
+
+        // Observe success state
+        forgotPassswordViewModel.passwordChangeSuccess.observe(this, Observer { success ->
+            if (success) {
                 Toast.makeText(this, "Email untuk reset password telah dikirim", Toast.LENGTH_SHORT).show()
 
-
+                // Arahkan ke LoginActivity setelah email terkirim
                 val intent = Intent(this, LoginActivity::class.java)
                 startActivity(intent)
                 finish()
             }
         })
 
-
+        // Observe error messages
         forgotPassswordViewModel.errorMessage.observe(this, Observer { error ->
             if (error != null) {
                 Toast.makeText(this, error, Toast.LENGTH_SHORT).show()
@@ -81,5 +78,15 @@ class ForgotPasswordActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
+    private fun updatePassword(user: FirebaseUser, newPassword: String) {
+        // Mengupdate password pengguna di Firebase menggunakan plaintext password
+        forgotPassswordViewModel.updatePassword(user, newPassword)
+    }
 
+    private fun handlePasswordReset(newPassword: String) {
+        val user = FirebaseAuth.getInstance().currentUser
+        user?.let {
+            forgotPassswordViewModel.handlePasswordReset(it, newPassword)
+        }
+    }
 }
