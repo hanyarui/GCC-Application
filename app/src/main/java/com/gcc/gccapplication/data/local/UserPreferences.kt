@@ -13,6 +13,7 @@ class UserPreferences(context: Context) {
         private const val NAME_KEY = "fullName"
         private const val ROLE_KEY = "role"  // Tambahkan konstanta untuk role
         private const val ADDRESS_KEY = "address"
+        private const val UID_KEY = "uid"
     }
 
     fun saveEmail(email: String) {
@@ -66,4 +67,29 @@ class UserPreferences(context: Context) {
             apply()
         }
     }
+    fun getUid(): String? {
+        return prefs.getString(UID_KEY, null)
+    }
+    // Fungsi untuk mendapatkan semua data user dalam satu objek User
+    fun getUserData(): User? {
+        val email = getEmail()
+        val fullName = getFullName()
+        val role = getRole()
+        val address = getAddress()
+        val uid = getUid().toString()
+
+        return if (email != null && fullName != null && role != null && address != null) {
+            User(email, fullName, role, address,uid)
+        } else {
+            null
+        }
+    }
 }
+
+data class User(
+    val email: String,
+    val fullName: String,
+    val role: String,
+    val address: String,
+    val Uid: String
+)

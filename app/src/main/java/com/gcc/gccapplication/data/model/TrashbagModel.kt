@@ -8,6 +8,9 @@ data class TrashbagModel(
     val id: String?=null,
     val name : String?=null,
     val trashId: String?=null,
-    val amount: Double?=null,
-    val photoUrl: String?=null,
+//    val waktu : String?= null,
+    val amount: String?=null,
+    val photoUrl: String ?=null,
+
+//    val photoUrl: String?=null,
 ) : Parcelable

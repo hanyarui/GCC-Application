@@ -1,24 +1,45 @@
 package com.gcc.gccapplication.ui.activity
 
+import android.os.Build
 import android.os.Bundle
 import android.view.MenuItem
+import android.widget.ImageButton
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.constraintlayout.widget.ConstraintLayout
 import com.bumptech.glide.Glide
 import com.gcc.gccapplication.R
+import com.gcc.gccapplication.data.local.UserPreferences
+import java.time.LocalDateTime
 import com.gcc.gccapplication.databinding.ActivityDetailBinding
+import com.gcc.gccapplication.ui.fragment.ProfileFragment
+import com.gcc.gccapplication.ui.fragment.ProfileFragment.Companion
 import com.gcc.gccapplication.viewModel.DetailViewModel
+import com.gcc.gccapplication.viewModel.TrashbagViewModel
+import com.google.android.material.textfield.TextInputEditText
+import java.util.Calendar
 
 class DetailActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityDetailBinding
     private val detailViewModel: DetailViewModel by viewModels()
+//    private val trashbagViewModel: TrashbagViewModel by viewModels()
+
     private lateinit var customTitle: TextView
+    private lateinit var btnPlus: ImageButton
+    private lateinit var btnMinus: ImageButton
+    private lateinit var etJumlahSampah: TextInputEditText
+    private lateinit var lytBtnAngkut : ConstraintLayout
+    private lateinit var lytBtnKumpul : ConstraintLayout
+    private lateinit var userPreferences: UserPreferences
 
     companion object {
         const val EXTRA_TRASH_ID = "extra_trash_id"
+        const val ARG_EMAIL = "email"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,11 +59,13 @@ class DetailActivity : AppCompatActivity() {
         supportActionBar?.setDisplayShowTitleEnabled(false)
         supportActionBar?.customView = customView
 
+        plusMinusBtn()
         val trashId = intent.getStringExtra(EXTRA_TRASH_ID)
         if (trashId != null) {
             detailViewModel.getTrashDetail(trashId)
         }
 
+        btnKumpulAngkut()
         observeViewModel()
     }
 
@@ -62,6 +85,73 @@ class DetailActivity : AppCompatActivity() {
         }
     }
 
+    private fun plusMinusBtn(){
+        //set button plus minus
+        btnPlus = findViewById(R.id.btnPlus)
+        btnMinus = findViewById(R.id.btnMinus)
+        etJumlahSampah = findViewById(R.id.etJumlahSampah)
+
+
+        btnPlus.setOnClickListener{
+            val currentVal = etJumlahSampah.text.toString().toDoubleOrNull()  ?: 0.0
+            val newVal = currentVal + 0.5
+            etJumlahSampah.setText(newVal.toString())
+
+        }
+
+        btnMinus.setOnClickListener{
+            val currentVal = etJumlahSampah.text.toString().toDoubleOrNull()  ?: 0.0
+            val newVal = if (currentVal > 0) currentVal - 0.5 else 0.0
+            etJumlahSampah.setText(newVal.toString())
+        }
+    }
+
+    private fun btnKumpulAngkut(){
+        lytBtnAngkut = findViewById((R.id.lytBtnAngkut))
+        lytBtnKumpul = findViewById((R.id.lytBtnKumpul))
+
+        lytBtnAngkut.setOnClickListener{
+            Toast.makeText(this, "Ini Angkut", Toast.LENGTH_SHORT).show()
+            finish()
+        }
+
+        lytBtnKumpul.setOnClickListener{
+            kumpulSampah()
+//            finish()
+        }
+    }
+
+//    @RequiresApi(Build.VERSION_CODES.O)
+    private fun kumpulSampah(){
+        val calendar = Calendar.getInstance()
+//        val id = intent.getStringExtra(EXTRA_TRASH_ID)
+        val trashId = intent.getStringExtra(EXTRA_TRASH_ID) ?: return
+        val trashAmount =  binding.etJumlahSampah.text.toString()
+        val trashTime = calendar.time.toString()
+        userPreferences = UserPreferences(this)
+        val email = userPreferences.getEmail()
+
+        if(trashAmount.isEmpty()){
+            Toast.makeText(this, "Masukkan jumlah sampah terlebih dahulu!", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        if (email!= null) {
+            detailViewModel.kumpulSampah(
+            trashId,
+            trashAmount,
+            trashTime,
+            email,
+            onSuccess = {
+                Toast.makeText(this, "Berhasil memasukkan ke keranjang", Toast.LENGTH_SHORT).show()
+                finish()
+            },
+            onFailure = { e ->
+                Toast.makeText(this, "Gagal memasukkan ke keranjang: ${e.message}", Toast.LENGTH_SHORT).show()
+            })
+        }
+    }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> {
@@ -70,4 +160,6 @@ class DetailActivity : AppCompatActivity() {
         }
         return super.onOptionsItemSelected(item)
     }
+
+
 }
