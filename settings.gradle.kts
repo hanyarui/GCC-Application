@@ -21,6 +21,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "GCC Application"
+rootProject.name = "CleanScape"
 include(":app")
  
