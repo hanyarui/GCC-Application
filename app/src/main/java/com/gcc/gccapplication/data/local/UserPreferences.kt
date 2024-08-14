@@ -9,22 +9,10 @@ class UserPreferences(context: Context) {
 
     companion object {
         private const val PREFS_NAME = "userPreferences"
-        private const val TOKEN_KEY = "token"
         private const val EMAIL_KEY = "email"
         private const val NAME_KEY = "fullName"
         private const val ROLE_KEY = "role"  // Tambahkan konstanta untuk role
         private const val ADDRESS_KEY = "address"
-    }
-
-    fun saveToken(token: String) {
-        with(prefs.edit()) {
-            putString(TOKEN_KEY, token)
-            apply()
-        }
-    }
-
-    fun getToken(): String? {
-        return prefs.getString(TOKEN_KEY, null)
     }
 
     fun saveEmail(email: String) {

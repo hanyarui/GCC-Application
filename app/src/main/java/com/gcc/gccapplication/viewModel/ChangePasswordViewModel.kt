@@ -7,7 +7,6 @@ import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import java.security.MessageDigest
 
 class ChangePasswordViewModel : ViewModel() {
 
@@ -27,11 +26,9 @@ class ChangePasswordViewModel : ViewModel() {
 
         val user = auth.currentUser
         user?.let {
-            val currentPasswordHash = hashString(currentPassword, "SHA-256")
-            reauthenticateUser(it, currentPasswordHash) { isReauthenticated ->
+            reauthenticateUser(it, currentPassword) { isReauthenticated ->
                 if (isReauthenticated) {
-                    val newPasswordHash = hashString(newPassword, "SHA-256")
-                    updatePassword(it, newPasswordHash)
+                    updatePassword(it, newPassword)
                 } else {
                     _errorMessage.value = "Reauthentication failed"
                 }
@@ -41,10 +38,11 @@ class ChangePasswordViewModel : ViewModel() {
         }
     }
 
-    private fun reauthenticateUser(user: FirebaseUser, currentPasswordHash: String, callback: (Boolean) -> Unit) {
+    private fun reauthenticateUser(user: FirebaseUser, currentPassword: String, callback: (Boolean) -> Unit) {
         val email = user.email
         if (email != null) {
-            val credential: AuthCredential = EmailAuthProvider.getCredential(email, currentPasswordHash)
+            // Reauthenticate user with the raw current password
+            val credential: AuthCredential = EmailAuthProvider.getCredential(email, currentPassword)
             user.reauthenticate(credential)
                 .addOnCompleteListener { task ->
                     callback(task.isSuccessful)
@@ -54,8 +52,9 @@ class ChangePasswordViewModel : ViewModel() {
         }
     }
 
-    private fun updatePassword(user: FirebaseUser, newPasswordHash: String) {
-        user.updatePassword(newPasswordHash)
+    private fun updatePassword(user: FirebaseUser, newPassword: String) {
+        // Update user's password with the raw new password
+        user.updatePassword(newPassword)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     _passwordChangeSuccess.value = true
@@ -63,11 +62,5 @@ class ChangePasswordViewModel : ViewModel() {
                     _errorMessage.value = task.exception?.message ?: "Password update failed"
                 }
             }
-    }
-
-    private fun hashString(input: String, algorithm: String): String {
-        return MessageDigest.getInstance(algorithm)
-            .digest(input.toByteArray())
-            .fold("", { str, it -> str + "%02x".format(it) })
     }
 }

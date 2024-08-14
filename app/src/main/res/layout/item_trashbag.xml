@@ -50,34 +50,31 @@
             style="@style/TextDetail"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Jumlah Sampah:        KG"
+            android:text="@string/jumlah_sampah"
             android:textColor="@color/white"
-            card_view:layout_constraintBottom_toTopOf="@+id/tvTrashAmount"
-            card_view:layout_constraintEnd_toEndOf="@+id/tvTrashName"
-            card_view:layout_constraintHorizontal_bias="0.0"
+            card_view:layout_constraintBottom_toBottomOf="parent"
             card_view:layout_constraintStart_toStartOf="@+id/tvTrashName" />
-
-        <TextView
-            android:id="@+id/tvTrashAmount"
-            style="@style/TextSubDetail"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@string/jumlah_sampah_kg"
-            android:textColor="@color/white"
-            card_view:layout_constraintBottom_toBottomOf="@+id/ivTrashPhoto"
-            card_view:layout_constraintEnd_toEndOf="@+id/tvJumlahSampah"
-            card_view:layout_constraintStart_toStartOf="@+id/tvJumlahSampah" />
 
         <TextView
             android:id="@+id/tvKG"
             style="@style/TextDetail"
-            android:textColor="@color/white"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="51dp"
-            android:layout_marginEnd="80dp"
-            android:text="1.0"
-            card_view:layout_constraintEnd_toEndOf="@+id/tvJumlahSampah"
-            card_view:layout_constraintTop_toTopOf="parent" />
+            android:layout_marginStart="4dp"
+            android:text="@string/_1_0"
+            android:textColor="@color/white"
+            card_view:layout_constraintBottom_toBottomOf="parent"
+            card_view:layout_constraintStart_toEndOf="@+id/tvJumlahSampah" />
+
+        <TextView
+            android:id="@+id/tvKGDesc"
+            style="@style/TextDetail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:text="@string/kg"
+            android:textColor="@color/white"
+            card_view:layout_constraintBottom_toBottomOf="parent"
+            card_view:layout_constraintStart_toEndOf="@+id/tvKG" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

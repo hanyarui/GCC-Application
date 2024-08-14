@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModel
 import com.gcc.gccapplication.data.local.UserPreferences
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import java.security.MessageDigest
 
 class LoginViewModel : ViewModel() {
     private val auth: FirebaseAuth = FirebaseAuth.getInstance()
@@ -19,8 +18,8 @@ class LoginViewModel : ViewModel() {
         onSuccess: () -> Unit,
         onFailure: (String) -> Unit
     ) {
-        val passwordHash = hashString(password, "SHA-256")
-        auth.signInWithEmailAndPassword(email, passwordHash)
+        // Login with the raw password (no manual hashing)
+        auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     val user = auth.currentUser
@@ -36,15 +35,9 @@ class LoginViewModel : ViewModel() {
                                     val fullName = document.getString("name") ?: "Unknown"
                                     val address = document.getString("address") ?: "Unknown"
 
-                                    // Logging address
-                                    Log.d("LoginViewModel", "Saving address: $address")
-
-                                    // Buat token yang mencakup email, passwordHash, fullName, dan role
-                                    val token = generateToken(email, passwordHash, fullName, role)
 
                                     // Simpan token dan data lainnya ke SharedPreferences
                                     val userPreferences = UserPreferences(context)
-                                    userPreferences.saveToken(token)
                                     userPreferences.saveEmail(email)
                                     userPreferences.saveFullName(fullName)
                                     userPreferences.saveRole(role)
@@ -63,19 +56,7 @@ class LoginViewModel : ViewModel() {
                     }
                 } else {
                     onFailure("Login failed: ${task.exception?.message}")
-                    println(task.exception?.message)
                 }
             }
-    }
-
-    private fun generateToken(email: String, passwordHash: String, fullName: String, role: String): String {
-        val combinedString = email + passwordHash + fullName + role
-        return hashString(combinedString, "SHA-256")
-    }
-
-    private fun hashString(input: String, algorithm: String): String {
-        return MessageDigest.getInstance(algorithm)
-            .digest(input.toByteArray())
-            .fold("", { str, it -> str + "%02x".format(it) })
     }
 }

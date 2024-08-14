@@ -3,7 +3,6 @@ package com.gcc.gccapplication.viewModel
 import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import java.security.MessageDigest
 
 class RegisterViewModel : ViewModel() {
     private val auth: FirebaseAuth = FirebaseAuth.getInstance()
@@ -32,15 +31,12 @@ class RegisterViewModel : ViewModel() {
             return
         }
 
-        val passwordHash = hashString(password, "SHA-256")
-        auth.createUserWithEmailAndPassword(email, passwordHash)
+        auth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    // Get the UID from the created user
                     val uid = auth.currentUser?.uid
 
                     if (uid != null) {
-                        // Prepare the user data to be saved in Firestore
                         val userData = mapOf(
                             "uid" to uid,
                             "name" to fullName,
@@ -49,7 +45,6 @@ class RegisterViewModel : ViewModel() {
                             "address" to ""
                         )
 
-                        // Save the UID and role in Firestore under the "users" collection
                         firestore.collection("users").document(uid).set(userData)
                             .addOnSuccessListener {
                                 onSuccess()
@@ -64,11 +59,5 @@ class RegisterViewModel : ViewModel() {
                     onFailure("Registration failed: ${task.exception?.message}")
                 }
             }
-    }
-
-    private fun hashString(input: String, algorithm: String): String {
-        return MessageDigest.getInstance(algorithm)
-            .digest(input.toByteArray())
-            .fold("", { str, it -> str + "%02x".format(it) })
     }
 }

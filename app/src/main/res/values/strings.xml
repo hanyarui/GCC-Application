@@ -44,7 +44,7 @@
     <string name="konfirmasi">KONFIRMASI</string>
     <string name="lupa_password_desc">email untuk melakukan pergantian password akan dikirimkan</string>
     <string name="lupa_kata_sandi">Lupa Kata Sandi?</string>
-    <string name="jumlah_sampah">Jumlah Sampah :</string>
+    <string name="jumlah_sampah">Jumlah Sampah:</string>
     <string name="jumlah_sampah_kg">Jumlah Sampah (KG)</string>
 
     <string name="landing_page">Selamatkan Bumi, Selamatkan Masa Depan.</string>
@@ -82,5 +82,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="silahkan_masukkan_jumlah_sampah">Silahkan Masukkan Jumlah Sampah</string>
     <string name="lupa_password">LUPA PASSWORD</string>
+    <string name="kg">KG</string>
+    <string name="_1_0">1.0</string>
 
 </resources>
