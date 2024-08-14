@@ -4,8 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
-import java.security.MessageDigest
+import com.google.firebase.auth.FirebaseAuthInvalidUserException
 
 class ForgotPasswordViewModel : ViewModel() {
     private val _passwordChangeSuccess = MutableLiveData<Boolean>()
@@ -22,34 +21,17 @@ class ForgotPasswordViewModel : ViewModel() {
                 if (task.isSuccessful) {
                     _passwordChangeSuccess.postValue(true)
                 } else {
-                    _errorMessage.postValue(task.exception?.message ?: "Gagal mengirimkan email")
+                    val exception = task.exception
+                    if (exception != null) {
+                        if (exception is FirebaseAuthInvalidUserException) {
+                            _errorMessage.postValue("Email tidak terdaftar")
+                        } else {
+                            _errorMessage.postValue(exception.message ?: "Gagal mengirimkan email")
+                        }
+                    } else {
+                        _errorMessage.postValue("Gagal mengirimkan email")
+                    }
                 }
             }
-    }
-
-    private fun hashString(input: String, algorithm: String): String {
-        return MessageDigest.getInstance(algorithm)
-            .digest(input.toByteArray())
-            .fold("") { str, it -> str + "%02x".format(it) }
-    }
-
-    fun updatePassword(user: FirebaseUser, newPassword: String) {
-        // Firebase requires plaintext password for updating
-        user.updatePassword(newPassword)
-            .addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    _passwordChangeSuccess.value = true
-                } else {
-                    _errorMessage.value = task.exception?.message ?: "Gagal memperbarui password"
-                }
-            }
-    }
-
-    fun handlePasswordReset(user: FirebaseUser, newPassword: String) {
-        // Optionally hash the password for any internal use, but Firebase needs plaintext
-        val hashedPassword = hashString(newPassword, "SHA-256")
-
-        // You can store hashedPassword if needed, but to update in Firebase, use the plaintext password
-        updatePassword(user, newPassword)
     }
 }

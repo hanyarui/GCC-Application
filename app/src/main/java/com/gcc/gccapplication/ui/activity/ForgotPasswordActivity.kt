@@ -12,8 +12,6 @@ import com.gcc.gccapplication.R
 import com.gcc.gccapplication.databinding.ActivityForgotPasswordBinding
 import com.gcc.gccapplication.viewModel.ForgotPasswordViewModel
 import androidx.lifecycle.Observer
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 
 class ForgotPasswordActivity : AppCompatActivity() {
 
@@ -76,17 +74,5 @@ class ForgotPasswordActivity : AppCompatActivity() {
             }
         }
         return super.onOptionsItemSelected(item)
-    }
-
-    private fun updatePassword(user: FirebaseUser, newPassword: String) {
-        // Mengupdate password pengguna di Firebase menggunakan plaintext password
-        forgotPassswordViewModel.updatePassword(user, newPassword)
-    }
-
-    private fun handlePasswordReset(newPassword: String) {
-        val user = FirebaseAuth.getInstance().currentUser
-        user?.let {
-            forgotPassswordViewModel.handlePasswordReset(it, newPassword)
-        }
     }
 }
