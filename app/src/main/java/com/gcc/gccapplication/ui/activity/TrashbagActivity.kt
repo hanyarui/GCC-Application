@@ -11,8 +11,10 @@ import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.viewModels
@@ -35,12 +37,12 @@ class TrashbagActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityTrashbagBinding
     private lateinit var customTitle: TextView
-    private lateinit var ivTrashPhoto: Photo
-    private lateinit var tvTrashName: TextView
     private lateinit var rvKeranjangSampah: RecyclerView
     private val trashViewModel: TrashbagViewModel by viewModels()
     private lateinit var trashAdapter: TrashbagAdapter
-
+    private lateinit var userPreferences: UserPreferences
+    private lateinit var lytBtnAngkut : ConstraintLayout
+    private lateinit var lytBtnKumpul : ConstraintLayout
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,79 +50,126 @@ class TrashbagActivity : AppCompatActivity() {
         binding = ActivityTrashbagBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        // Initialize UserPreferences
+        userPreferences = UserPreferences(this)
+
         // Set up the Toolbar as the ActionBar
+        setupToolbar()
+
+        // Set up RecyclerView
+        setupRecyclerView()
+
+        // Observe the ViewModel
+        observeViewModel()
+
+        btnResetAngkut()
+    }
+
+    private fun setupToolbar() {
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-
-        // Inflate and set the custom title view
-        val customView = layoutInflater.inflate(R.layout.actionbar_title, null)
-        customTitle = customView.findViewById(R.id.custom_title)
-        supportActionBar?.setDisplayShowCustomEnabled(true)
-        supportActionBar?.setDisplayShowTitleEnabled(true)
-        supportActionBar?.customView = customView
-
-        customTitle.text = "Keranjang Sampah"
-
-        rvKeranjangSampah = findViewById(R.id.rvKeranjangSampah)
-        setupRecyclerView()
-        observeViewModel("Tamanan","Admin")
-    }
-
-//    override fun onCreateView(
-//        inflater: LayoutInflater, container: ViewGroup?,
-//        savedInstanceState: Bundle?
-//    ): View? {
-//        val view = inflater.inflate(R.layout.activity_trashbag, container, false)
-//
-//
-//        rvKeranjangSampah = view.findViewById(R.id.rvKeranjangSampah    )
-//
-//        return view
-//    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            android.R.id.home -> {
-                finish()
+        supportActionBar?.apply {
+            setDisplayHomeAsUpEnabled(true)
+            setDisplayShowCustomEnabled(true)
+            setDisplayShowTitleEnabled(false)
+            customView = layoutInflater.inflate(R.layout.actionbar_title, null).apply {
+                customTitle = findViewById(R.id.custom_title)
+                customTitle.text = "Keranjang Sampah"
             }
         }
-        return super.onOptionsItemSelected(item)
     }
+
     private fun setupRecyclerView() {
         trashAdapter = TrashbagAdapter(ArrayList())
+        rvKeranjangSampah = findViewById(R.id.rvKeranjangSampah)
         rvKeranjangSampah.apply {
             layoutManager = LinearLayoutManager(this@TrashbagActivity)
             adapter = trashAdapter
         }
-
-
     }
 
-    private fun observeViewModel(userAddress: String, userRole: String) {
-        trashViewModel.trashData.observe(this) { trashList ->
-            if (trashList.isEmpty()) {
-                Toast.makeText(this, "Belum ada data sampah", Toast.LENGTH_SHORT).show()
-            }
-            trashAdapter.listTrashbag.apply {
-                clear()
-                addAll(trashList)
-            }
-            trashAdapter.notifyDataSetChanged()
+    private var isDataEmpty = true
+    private fun observeViewModel() {
+        val user = userPreferences.getUserData()
+        user?.let {
+            // Fetch trash data based on user email or other attribute
+            trashViewModel.fetchTrashData(it.email)  // Misalnya menggunakan email
         }
 
-        trashViewModel.fetchTrashData(userAddress, userRole)
+        // Observe trash data from ViewModel
+        trashViewModel.trashData.observe(this) { trashList ->
+            isDataEmpty = trashList.isEmpty()
+            if (isDataEmpty) {
+                Toast.makeText(this, "Belum ada data sampah", Toast.LENGTH_SHORT).show()
+            } else {
+                trashAdapter.listTrashbag.apply {
+                    clear()
+                    addAll(trashList)
+                }
+                trashAdapter.notifyDataSetChanged()
+            }
+        }
     }
-//            private fun setupRecyclerView() {
-//                trashbagAdapter = TrashbagAdapter(ArrayList())
-//                val recyclerView = findViewById<RecyclerView>(R.id.rvKeranjangSampah)
-//                val emptyView = findViewById<TextView>(R.id.emptyView)
-//
-//                recyclerView.apply {
-//                    layoutManager = LinearLayoutManager(this@TrashbagActivity)
-//                    adapter = trashbagAdapter
-//                }
-//
-//            }
+
+    private fun btnResetAngkut(){
+        lytBtnAngkut = findViewById((R.id.lytBtnAngkut))
+        lytBtnKumpul = findViewById((R.id.lytBtnAturUlang))
+
+        lytBtnAngkut.setOnClickListener{
+//            angkutSampah()
+            finish()
+        }
+
+        lytBtnKumpul.setOnClickListener{
+            if (isDataEmpty) {
+                Toast.makeText(this, "Tidak ada data untuk dihapus", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }else{
+                aturUlangSampah()
+
+            }
+
+        }
+    }
+
+    fun aturUlangSampah(){
+        if (isDataEmpty) {
+            Toast.makeText(this, "Tidak ada data untuk dihapus", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+
+        val email  = userPreferences.getEmail() ?: return
+
+        trashViewModel.resetTrashbag(
+            email,
+            onSuccess = {
+                // Menampilkan toast
+                Toast.makeText(this, "Berhasil menghapus semua sampah", Toast.LENGTH_SHORT).show()
+
+                // Menampilkan dialog konfirmasi
+                AlertDialog.Builder(this)
+                    .setTitle("Sukses")
+                    .setMessage("Semua data sampah telah dihapus.")
+                    .setPositiveButton("OK") { _, _ ->
+                        // Menyegarkan data di RecyclerView
+                        observeViewModel()
+                    }
+                    .show()
+                finish()
+            },
+            onFailure = {
+                Toast.makeText(this, "Gagal menghapus sampah", Toast.LENGTH_SHORT).show()
+            }
+        )
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == android.R.id.home) {
+            finish()
+            return true
+        }
+        return super.onOptionsItemSelected(item)
+    }
 
 }
