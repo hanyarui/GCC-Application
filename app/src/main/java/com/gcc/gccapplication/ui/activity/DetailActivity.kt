@@ -1,25 +1,19 @@
 package com.gcc.gccapplication.ui.activity
 
-import android.os.Build
 import android.os.Bundle
 import android.view.MenuItem
 import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.bumptech.glide.Glide
 import com.gcc.gccapplication.R
 import com.gcc.gccapplication.data.local.UserPreferences
-import java.time.LocalDateTime
 import com.gcc.gccapplication.databinding.ActivityDetailBinding
-import com.gcc.gccapplication.ui.fragment.ProfileFragment
-import com.gcc.gccapplication.ui.fragment.ProfileFragment.Companion
 import com.gcc.gccapplication.viewModel.DetailViewModel
-import com.gcc.gccapplication.viewModel.TrashbagViewModel
 import com.google.android.material.textfield.TextInputEditText
 import java.util.Calendar
 
@@ -108,10 +102,10 @@ class DetailActivity : AppCompatActivity() {
 
     private fun btnKumpulAngkut(){
         lytBtnAngkut = findViewById((R.id.lytBtnAngkut))
-        lytBtnKumpul = findViewById((R.id.lytBtnKumpul))
+        lytBtnKumpul = findViewById((R.id.lytBtnAturUlang))
 
         lytBtnAngkut.setOnClickListener{
-            Toast.makeText(this, "Ini Angkut", Toast.LENGTH_SHORT).show()
+            angkutSampah()
             finish()
         }
 
@@ -131,7 +125,7 @@ class DetailActivity : AppCompatActivity() {
         userPreferences = UserPreferences(this)
         val email = userPreferences.getEmail()
 
-        if(trashAmount.isEmpty()){
+        if(trashAmount.isEmpty() || trashAmount == "0.0"){
             Toast.makeText(this, "Masukkan jumlah sampah terlebih dahulu!", Toast.LENGTH_SHORT).show()
             return
         }
@@ -151,6 +145,40 @@ class DetailActivity : AppCompatActivity() {
             })
         }
     }
+
+    private fun angkutSampah(){
+        val trashId = intent.getStringExtra(EXTRA_TRASH_ID) ?: return
+        val trashAmount = binding.etJumlahSampah.text.toString()
+        val trashTime = Calendar.getInstance().time.toString()
+        userPreferences = UserPreferences(this)
+        val email = userPreferences.getEmail()
+
+
+        if (email != null) {
+            detailViewModel.angkutSampah(
+                trashId,
+                trashAmount,
+                trashTime,
+                email,
+                onSuccess = {
+                    detailViewModel.hapusDokumenTrash(
+                        trashId,
+                        onSuccess = {
+                            Toast.makeText(this, "Sampah berhasil diangkut dan dokumen dihapus", Toast.LENGTH_SHORT).show()
+                            finish()
+                        },
+                        onFailure = { e ->
+                            Toast.makeText(this, "Gagal menghapus dokumen trash: ${e.message}", Toast.LENGTH_SHORT).show()
+                        }
+                    )
+                },
+                onFailure = { e ->
+                    Toast.makeText(this, "Gagal memasukkan ke koleksi angkut: ${e.message}", Toast.LENGTH_SHORT).show()
+                }
+            )
+        }
+    }
+
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {

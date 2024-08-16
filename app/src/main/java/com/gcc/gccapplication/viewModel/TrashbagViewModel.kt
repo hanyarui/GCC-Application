@@ -13,7 +13,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 
-class TrashbagViewModel : ViewModel(){
+class TrashbagViewModel : ViewModel() {
 
     private val _trashData = MutableLiveData<List<TrashbagModel>>()
     val trashData: LiveData<List<TrashbagModel>> get() = _trashData
@@ -48,7 +48,15 @@ class TrashbagViewModel : ViewModel(){
                             val photoUrl = trashDoc.getString("photoUrl") ?: ""
 
                             // Add trash data to the list
-                            trashList.add(TrashbagModel(trashbagId, name, trashId, amount, photoUrl))
+                            trashList.add(
+                                TrashbagModel(
+                                    trashbagId,
+                                    name,
+                                    trashId,
+                                    amount,
+                                    photoUrl
+                                )
+                            )
 
                             // Update UI or data source once all data is fetched
                             if (trashList.size == trashbagDocuments.size()) {
@@ -57,7 +65,10 @@ class TrashbagViewModel : ViewModel(){
                             }
                         }
                         .addOnFailureListener { e ->
-                            Log.e("TrashbagViewModel", "Failed to fetch trash data for $trashId: ${e.message}")
+                            Log.e(
+                                "TrashbagViewModel",
+                                "Failed to fetch trash data for $trashId: ${e.message}"
+                            )
                         }
                 }
             }
@@ -79,7 +90,7 @@ class TrashbagViewModel : ViewModel(){
         onSuccess: () -> Unit,
         onFailure: (Exception) -> Unit
     ) {
-        viewModelScope.launch{
+        viewModelScope.launch {
             try {
                 val newDocRef = db.collection("trashbag").document()
                 val trashbagId = newDocRef.id
@@ -98,24 +109,52 @@ class TrashbagViewModel : ViewModel(){
             }
 
         }
+    }
 
+    fun resetTrashbag(email: String, onSuccess: () -> Unit, onFailure: (Exception) -> Unit) {
+        val db = FirebaseFirestore.getInstance()
+        val trashbagCollection = db.collection("trashbag")
 
-        fun getTrashIdByCondition(conditionField: String, conditionValue: String, onSuccess: (String) -> Unit, onFailure: (Exception) -> Unit) {
-            db.collection("trash")
-                .whereEqualTo(conditionField, conditionValue)
-                .get()
-                .addOnSuccessListener { documents ->
-                    if (!documents.isEmpty) {
-                        val trashId = documents.documents[0].id  // Ambil ID dokumen pertama yang cocok
-                        onSuccess(trashId)
-                    } else {
-                        onFailure(Exception("Document not found"))
+        // Query untuk mengambil semua dokumen dari koleksi trashbag yang memiliki email yang sama dengan userId
+        trashbagCollection.whereEqualTo("email", email).get()
+            .addOnSuccessListener { querySnapshot ->
+                // Menghapus semua dokumen yang ditemukan
+                val batch = db.batch()
+                for (document in querySnapshot.documents) {
+                    batch.delete(document.reference)
+                }
+
+                batch.commit()
+                    .addOnSuccessListener {
+                        onSuccess()
                     }
-                }
-                .addOnFailureListener { e ->
-                    onFailure(e)
-                }
-        }
+                    .addOnFailureListener { e ->
+                        onFailure(e)
+                    }
+            }
+            .addOnFailureListener { e ->
+                onFailure(e)
+            }
+    }
+
+}
+
+//        fun getTrashIdByCondition(conditionField: String, conditionValue: String, onSuccess: (String) -> Unit, onFailure: (Exception) -> Unit) {
+//            db.collection("trash")
+//                .whereEqualTo(conditionField, conditionValue)
+//                .get()
+//                .addOnSuccessListener { documents ->
+//                    if (!documents.isEmpty) {
+//                        val trashId = documents.documents[0].id  // Ambil ID dokumen pertama yang cocok
+//                        onSuccess(trashId)
+//                    } else {
+//                        onFailure(Exception("Document not found"))
+//                    }
+//                }
+//                .addOnFailureListener { e ->
+//                    onFailure(e)
+//                }
+//        }
 //        db.collection("trashbag")
 //            .add(trashbagData)
 //            .addOnSuccessListener {
@@ -126,5 +165,5 @@ class TrashbagViewModel : ViewModel(){
 //                Log.e("TrashbagViewModel", "Failed to add trash to trashbag: ${e.message}")
 //                onFailure(e)
 //            }
-    }
-}
+//    }
+//}

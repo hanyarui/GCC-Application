@@ -56,5 +56,39 @@ class DetailViewModel : ViewModel() {
         )
     }
 
+    fun angkutSampah(trashId: String, trashAmount: String, trashTime: String, email: String, onSuccess: () -> Unit, onFailure: (Exception) -> Unit) {
+//        val db = FirebaseFirestore.getInstance()
+//
+        val angkutData = hashMapOf(
+            "trashId" to trashId,
+            "amount" to trashAmount,
+            "time" to trashTime,
+            "email" to email
+        )
+
+        db.collection("angkut")
+            .add(angkutData)
+            .addOnSuccessListener {
+                onSuccess()
+            }
+            .addOnFailureListener { e ->
+                onFailure(e)
+            }
+    }
+
+    fun hapusDokumenTrash(trashId: String, onSuccess: () -> Unit, onFailure: (Exception) -> Unit) {
+        val db = FirebaseFirestore.getInstance()
+
+        db.collection("trashbag").document(trashId)
+            .delete()
+            .addOnSuccessListener {
+                onSuccess()
+            }
+            .addOnFailureListener { e ->
+                onFailure(e)
+            }
+    }
+
+
 
 }

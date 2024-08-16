@@ -11,8 +11,10 @@ import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.viewModels
@@ -39,6 +41,9 @@ class TrashbagActivity : AppCompatActivity() {
     private val trashViewModel: TrashbagViewModel by viewModels()
     private lateinit var trashAdapter: TrashbagAdapter
     private lateinit var userPreferences: UserPreferences
+    private lateinit var lytBtnAngkut : ConstraintLayout
+    private lateinit var lytBtnKumpul : ConstraintLayout
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,6 +61,8 @@ class TrashbagActivity : AppCompatActivity() {
 
         // Observe the ViewModel
         observeViewModel()
+
+        btnResetAngkut()
     }
 
     private fun setupToolbar() {
@@ -81,6 +88,7 @@ class TrashbagActivity : AppCompatActivity() {
         }
     }
 
+    private var isDataEmpty = true
     private fun observeViewModel() {
         val user = userPreferences.getUserData()
         user?.let {
@@ -90,7 +98,8 @@ class TrashbagActivity : AppCompatActivity() {
 
         // Observe trash data from ViewModel
         trashViewModel.trashData.observe(this) { trashList ->
-            if (trashList.isEmpty()) {
+            isDataEmpty = trashList.isEmpty()
+            if (isDataEmpty) {
                 Toast.makeText(this, "Belum ada data sampah", Toast.LENGTH_SHORT).show()
             } else {
                 trashAdapter.listTrashbag.apply {
@@ -102,6 +111,59 @@ class TrashbagActivity : AppCompatActivity() {
         }
     }
 
+    private fun btnResetAngkut(){
+        lytBtnAngkut = findViewById((R.id.lytBtnAngkut))
+        lytBtnKumpul = findViewById((R.id.lytBtnAturUlang))
+
+        lytBtnAngkut.setOnClickListener{
+//            angkutSampah()
+            finish()
+        }
+
+        lytBtnKumpul.setOnClickListener{
+            if (isDataEmpty) {
+                Toast.makeText(this, "Tidak ada data untuk dihapus", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }else{
+                aturUlangSampah()
+
+            }
+
+        }
+    }
+
+    fun aturUlangSampah(){
+        if (isDataEmpty) {
+            Toast.makeText(this, "Tidak ada data untuk dihapus", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+
+        val email  = userPreferences.getEmail() ?: return
+
+        trashViewModel.resetTrashbag(
+            email,
+            onSuccess = {
+                // Menampilkan toast
+                Toast.makeText(this, "Berhasil menghapus semua sampah", Toast.LENGTH_SHORT).show()
+
+                // Menampilkan dialog konfirmasi
+                AlertDialog.Builder(this)
+                    .setTitle("Sukses")
+                    .setMessage("Semua data sampah telah dihapus.")
+                    .setPositiveButton("OK") { _, _ ->
+                        // Menyegarkan data di RecyclerView
+                        observeViewModel()
+                    }
+                    .show()
+                finish()
+            },
+            onFailure = {
+                Toast.makeText(this, "Gagal menghapus sampah", Toast.LENGTH_SHORT).show()
+            }
+        )
+    }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == android.R.id.home) {
             finish()
@@ -109,4 +171,5 @@ class TrashbagActivity : AppCompatActivity() {
         }
         return super.onOptionsItemSelected(item)
     }
+
 }

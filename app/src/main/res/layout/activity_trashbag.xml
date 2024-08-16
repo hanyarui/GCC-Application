@@ -68,7 +68,7 @@
 
         <!-- Konten di bagian bawah -->
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/lytBtnKumpul"
+            android:id="@+id/lytBtnAturUlang"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:background="@color/white"
