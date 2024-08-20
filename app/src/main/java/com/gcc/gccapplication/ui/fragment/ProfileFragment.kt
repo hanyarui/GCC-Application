@@ -13,7 +13,9 @@ import com.gcc.gccapplication.data.local.UserPreferences
 import com.gcc.gccapplication.ui.activity.ChangePasswordActivity
 import com.gcc.gccapplication.ui.activity.CreateTrashActivity
 import com.gcc.gccapplication.ui.activity.LoginActivity
+import com.gcc.gccapplication.ui.activity.MainActivity
 import com.gcc.gccapplication.ui.activity.TrashbagActivity
+import com.gcc.gccapplication.ui.activity.ValidationActivity
 
 class ProfileFragment : Fragment() {
 
@@ -100,8 +102,11 @@ class ProfileFragment : Fragment() {
 
         btnLogout.setOnClickListener {
             // Handle Logout button click
+            userPreferences.firebaseSignOut()
             userPreferences.clear()
-            startActivity(Intent(activity, LoginActivity::class.java))
+            val intent = Intent(activity, ValidationActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            startActivity(intent)
             activity?.finish()
         }
 

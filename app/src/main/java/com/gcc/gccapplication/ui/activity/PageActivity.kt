@@ -38,7 +38,7 @@ class PageActivity : AppCompatActivity() {
         checkAddress(email)
 
         val homepageFragment = HomeFragment.newInstance(fullName)
-        val historyFragment = HistoryFragment.newInstance()
+        val historyFragment = HistoryFragment.newInstance(email)
         val profileFragment = ProfileFragment.newInstance(fullName, email)
 
         setCurrentFragment(homepageFragment)

@@ -1,32 +1,49 @@
 package com.gcc.gccapplication.ui.fragment
 
 import android.os.Bundle
+import android.provider.ContactsContract.CommonDataKinds.Email
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.gcc.gccapplication.R
+import com.gcc.gccapplication.adapter.HistoryAdapter
+import com.gcc.gccapplication.data.local.UserPreferences
+import com.gcc.gccapplication.databinding.ActivityHistoryBinding
+import com.gcc.gccapplication.databinding.FragmentHistoryBinding
+import com.gcc.gccapplication.viewModel.HistoryViewModel
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [HistoryFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class HistoryFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+
+
+    private lateinit var binding: FragmentHistoryBinding
+    private lateinit var rvKeranjangSampah: RecyclerView
+    private lateinit var userPreferences: UserPreferences
+    private lateinit var historyAdapter: HistoryAdapter
+    private val historyViewModel: HistoryViewModel by viewModels()    // TODO: Rename and change types of parameters
+    private var email: String? = null
+
+    companion object {
+        private const val ARG_EMAIL = "email"
+
+        fun newInstance(email: String) : HistoryFragment{
+            val fragment = HistoryFragment()
+            val args = Bundle()
+            args.putString(ARG_EMAIL, email)
+            fragment.arguments = args
+            return fragment
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+            email = it.getString(ARG_EMAIL)
         }
     }
 
@@ -34,27 +51,50 @@ class HistoryFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_history, container, false)
+//        binding = FragmentHistoryBinding.inflate(inflater, container, false)
+        val view = inflater.inflate(R.layout.fragment_history, container, false)
+        rvKeranjangSampah = view.findViewById(R.id.rvKeranjangSampah)
+
+        userPreferences = UserPreferences(requireContext())
+        email = arguments?.getString(ARG_EMAIL) ?: userPreferences.getEmail()
+        if(email != null){
+            setupRecyclerView()
+            observeViewModel()
+        }
+
+        return view
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment HistoryFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance() =
-            HistoryFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+    private fun setupRecyclerView() {
+        historyAdapter = HistoryAdapter(ArrayList())
+        rvKeranjangSampah.apply {
+            layoutManager = LinearLayoutManager(activity)
+            adapter = historyAdapter
+        }
+
+    }
+
+    private var isDataEmpty = true
+    private fun observeViewModel() {
+        email?.let { email ->
+            historyViewModel.fetchTrashData(email)
+        }
+
+        historyViewModel.angkutData.observe(viewLifecycleOwner) { trashList ->
+            try {
+                isDataEmpty = trashList.isEmpty()
+                if (isDataEmpty) {
+                    Toast.makeText(activity, "Belum ada data sampah", Toast.LENGTH_SHORT).show()
+                } else {
+                    historyAdapter.listAngkut.apply {
+                        clear()
+                        addAll(trashList)
+                    }
+                    historyAdapter.notifyDataSetChanged()
                 }
+            } catch (e: Exception) {
+                Log.e("HistoryFragment", "Error updating UI", e)
             }
+        }
     }
 }

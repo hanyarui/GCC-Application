@@ -59,12 +59,12 @@ class TrashbagViewModel : ViewModel() {
                             // Update UI or data source once all data is fetched
                             if (trashList.size == trashbagDocuments.size()) {
                                 _trashData.value = trashList
-                                Log.d("TrashbagViewModel", "Fetched ${trashList.size} trash items")
+                                Log.d("HistoryViewModel", "Fetched ${trashList.size} trash items")
                             }
                         }
                         .addOnFailureListener { e ->
                             Log.e(
-                                "TrashbagViewModel",
+                                "HisstoryViewModel",
                                 "Failed to fetch trash data for $trashId: ${e.message}"
                             )
                         }
@@ -72,7 +72,7 @@ class TrashbagViewModel : ViewModel() {
             }
             .addOnFailureListener { e ->
                 _trashData.value = emptyList() // Handle failure by setting empty list
-                Log.e("TrashbagViewModel", "Failed to fetch trashbag data: ${e.message}")
+                Log.e("HistoryViewModel", "Failed to fetch trashbag data: ${e.message}")
             }
     }
 
@@ -151,36 +151,41 @@ class TrashbagViewModel : ViewModel() {
                 "email" to trash["email"]
             )
 
-            // Mengambil reference dari document yang akan ditambahkan
             val docRef = db.collection("angkut").document()
-
-            // Menambahkan operasi untuk setiap sampah ke dalam batch
             batch.set(docRef, angkutData)
         }
 
-        // Menjalankan batch
         batch.commit()
             .addOnSuccessListener {
-                val deleteBatch = db.batch()
+                Log.d("AngkutSampahBatch", "Angkut data committed successfully")
 
+                val deleteBatch = db.batch()
                 trashList.forEach { trash ->
-                    val trashId = trash["trashId"] ?:  return@forEach
-                    val trashDocRef = db.collection("trashbag").document(trashId)
-                    deleteBatch.delete(trashDocRef)
+                    val trashbagId = trash["trashbagId"]
+                    if (trashbagId != null) {
+                        val trashDocRef = db.collection("trashbag").document(trashbagId)
+                        deleteBatch.delete(trashDocRef)
+                    } else {
+                        Log.e("AngkutSampahBatch", "Trash ID is null for item: $trash")
+                    }
                 }
+
                 deleteBatch.commit()
                     .addOnSuccessListener {
+                        Log.d("AngkutSampahBatch", "Trashbag data deleted successfully")
                         onSuccess()
                     }
                     .addOnFailureListener { e ->
+                        Log.e("AngkutSampahBatch", "Failed to delete trashbag data", e)
                         onFailure(e)
                     }
-
             }
             .addOnFailureListener { e ->
+                Log.e("AngkutSampahBatch", "Failed to commit angkut data", e)
                 onFailure(e)
             }
     }
+
 
 
     fun hapusDokumenTrash(trashId: String, onSuccess: () -> Unit, onFailure: (Exception) -> Unit) {
