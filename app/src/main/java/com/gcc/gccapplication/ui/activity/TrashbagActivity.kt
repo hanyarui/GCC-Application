@@ -1,13 +1,7 @@
 package com.gcc.gccapplication.ui.activity
 
-import android.content.ComponentName
-import android.content.Intent
 import android.os.Bundle
-import android.provider.ContactsContract.CommonDataKinds.Photo
-import android.view.LayoutInflater
 import android.view.MenuItem
-import android.view.View
-import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -15,22 +9,14 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.gcc.gccapplication.R
-import com.gcc.gccapplication.adapter.TrashAdapter
 import com.gcc.gccapplication.databinding.ActivityTrashbagBinding
 import com.gcc.gccapplication.adapter.TrashbagAdapter
 import com.gcc.gccapplication.data.local.UserPreferences
-import com.gcc.gccapplication.data.model.TrashbagModel
 import com.gcc.gccapplication.viewModel.TrashbagViewModel
-import com.gcc.gccapplication.ui.activity.DetailActivity
-import com.gcc.gccapplication.ui.fragment.HomeFragment
-import com.gcc.gccapplication.ui.fragment.HomeFragment.Companion
-import com.gcc.gccapplication.viewModel.HomeViewModel
+import java.util.Calendar
 
 
 class TrashbagActivity : AppCompatActivity() {
@@ -116,7 +102,7 @@ class TrashbagActivity : AppCompatActivity() {
         lytBtnKumpul = findViewById((R.id.lytBtnAturUlang))
 
         lytBtnAngkut.setOnClickListener{
-//            angkutSampah()
+            angkutSampah()
             finish()
         }
 
@@ -164,6 +150,41 @@ class TrashbagActivity : AppCompatActivity() {
         )
     }
 
+    private fun angkutSampah(){
+        if (isDataEmpty) {
+            Toast.makeText(this, "Tidak ada sampah untuk diangkut", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        // Ambil data dari RecyclerView adapter
+        val trashList = trashAdapter.listTrashbag.map { trash ->
+            mapOf(
+                "trashId" to trash.id,
+                "amount" to trash.amount.toString(),
+                "time" to Calendar.getInstance().time.toString(),
+                "email" to userPreferences.getEmail().toString()
+            )
+        }
+
+        // Panggil fungsi angkutSampahBatch dari ViewModel
+        trashViewModel.angkutSampahBatch(
+            trashList,
+            onSuccess = {
+                Toast.makeText(this, "Sampah berhasil diangkut", Toast.LENGTH_SHORT).show()
+
+                // Hapus semua data sampah dari UI
+                trashAdapter.listTrashbag.clear()
+                trashAdapter.notifyDataSetChanged()
+
+                // Lakukan tindakan lain jika perlu, seperti mengakhiri activity
+                finish()
+            },
+            onFailure = { e ->
+                Toast.makeText(this, "Gagal mengangkut sampah: ${e.message}", Toast.LENGTH_SHORT).show()
+            }
+        )
+
+    }
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == android.R.id.home) {
             finish()

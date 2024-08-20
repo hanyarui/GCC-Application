@@ -1,13 +1,11 @@
 package com.gcc.gccapplication.viewModel
 
-import android.provider.ContactsContract.CommonDataKinds.Email
 import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.gcc.gccapplication.data.model.TrashModel
 import com.gcc.gccapplication.data.model.TrashbagModel
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.launch
@@ -137,33 +135,64 @@ class TrashbagViewModel : ViewModel() {
             }
     }
 
-}
+    fun angkutSampahBatch(
+        trashList: List<Map<String, String?>>,
+        onSuccess: () -> Unit,
+        onFailure: (Exception) -> Unit
+    ) {
+        val db = FirebaseFirestore.getInstance()
+        val batch = db.batch()
 
-//        fun getTrashIdByCondition(conditionField: String, conditionValue: String, onSuccess: (String) -> Unit, onFailure: (Exception) -> Unit) {
-//            db.collection("trash")
-//                .whereEqualTo(conditionField, conditionValue)
-//                .get()
-//                .addOnSuccessListener { documents ->
-//                    if (!documents.isEmpty) {
-//                        val trashId = documents.documents[0].id  // Ambil ID dokumen pertama yang cocok
-//                        onSuccess(trashId)
-//                    } else {
-//                        onFailure(Exception("Document not found"))
-//                    }
-//                }
-//                .addOnFailureListener { e ->
-//                    onFailure(e)
-//                }
-//        }
-//        db.collection("trashbag")
-//            .add(trashbagData)
-//            .addOnSuccessListener {
-//                Log.d("TrashbagViewModel", "Trash successfully added to trashbag collection")
-//                onSuccess()
-//            }
-//            .addOnFailureListener { e ->
-//                Log.e("TrashbagViewModel", "Failed to add trash to trashbag: ${e.message}")
-//                onFailure(e)
-//            }
-//    }
-//}
+        trashList.forEach { trash ->
+            val angkutData = hashMapOf(
+                "trashId" to trash["trashId"],
+                "amount" to trash["amount"],
+                "time" to trash["time"],
+                "email" to trash["email"]
+            )
+
+            // Mengambil reference dari document yang akan ditambahkan
+            val docRef = db.collection("angkut").document()
+
+            // Menambahkan operasi untuk setiap sampah ke dalam batch
+            batch.set(docRef, angkutData)
+        }
+
+        // Menjalankan batch
+        batch.commit()
+            .addOnSuccessListener {
+                val deleteBatch = db.batch()
+
+                trashList.forEach { trash ->
+                    val trashId = trash["trashId"] ?:  return@forEach
+                    val trashDocRef = db.collection("trashbag").document(trashId)
+                    deleteBatch.delete(trashDocRef)
+                }
+                deleteBatch.commit()
+                    .addOnSuccessListener {
+                        onSuccess()
+                    }
+                    .addOnFailureListener { e ->
+                        onFailure(e)
+                    }
+
+            }
+            .addOnFailureListener { e ->
+                onFailure(e)
+            }
+    }
+
+
+    fun hapusDokumenTrash(trashId: String, onSuccess: () -> Unit, onFailure: (Exception) -> Unit) {
+        val db = FirebaseFirestore.getInstance()
+
+        db.collection("trashbag").document(trashId)
+            .delete()
+            .addOnSuccessListener {
+                onSuccess()
+            }
+            .addOnFailureListener { e ->
+                onFailure(e)
+            }
+    }
+}
