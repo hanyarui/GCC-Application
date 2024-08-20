@@ -88,7 +88,4 @@ class DetailViewModel : ViewModel() {
                 onFailure(e)
             }
     }
-
-
-
 }

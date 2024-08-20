@@ -68,6 +68,13 @@ class ProfileFragment : Fragment() {
         btnLogout = view.findViewById(R.id.btnLogout)
         btnDataSampah = view.findViewById(R.id.btnDataSampah)
         btnRekapSampah = view.findViewById(R.id.btnRekapSampah)
+        userPreferences = UserPreferences(requireContext())
+        val userRole = userPreferences.getRole() ?: "user"
+
+        if (userRole == "user"){
+            btnDataSampah.visibility = View.GONE
+            btnRekapSampah.visibility = View.GONE
+        }
 
         // Set user data
         val fullName = arguments?.getString(ARG_FULL_NAME) ?: "Nama Tidak Ada"

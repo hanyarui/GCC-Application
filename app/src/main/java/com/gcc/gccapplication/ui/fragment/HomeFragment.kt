@@ -2,11 +2,13 @@ package com.gcc.gccapplication.ui.fragment
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -15,12 +17,15 @@ import com.gcc.gccapplication.R
 import com.gcc.gccapplication.adapter.TrashAdapter
 import com.gcc.gccapplication.data.local.UserPreferences
 import com.gcc.gccapplication.ui.activity.DetailActivity
+import com.gcc.gccapplication.ui.activity.NotificationActivity
+import com.gcc.gccapplication.ui.activity.TrashbagActivity
 import com.gcc.gccapplication.viewModel.HomeViewModel
 
 class HomeFragment : Fragment() {
 
     private lateinit var tvNama: TextView
     private lateinit var rvSampah: RecyclerView
+    private lateinit var clNotification: ConstraintLayout
     private lateinit var trashAdapter: TrashAdapter
     private val trashViewModel: HomeViewModel by viewModels()
     private lateinit var userPreferences: UserPreferences
@@ -52,16 +57,28 @@ class HomeFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_home, container, false)
 
+        // Inisialisasi view
+        clNotification = view.findViewById(R.id.clNotification)
         tvNama = view.findViewById(R.id.tvNama)
         rvSampah = view.findViewById(R.id.rvSampah)
 
+        // Set nama user
         tvNama.text = fullName
 
         // Initialize UserPreferences
         userPreferences = UserPreferences(requireContext())
         val userAddress = userPreferences.getAddress()
         val userRole = userPreferences.getRole() ?: "user"
+        Toast.makeText(context,userRole,Toast.LENGTH_SHORT).show()
+        // Atur visibilitas clNotification berdasarkan peran pengguna
+        if (userRole == "user") {
+            clNotification.visibility = View.GONE
 
+        }
+        clNotification.setOnClickListener{
+            startActivity(Intent(activity, NotificationActivity::class.java))
+        }
+        // Cek apakah alamat sudah diisi
         if (userAddress.isNullOrEmpty()) {
             Toast.makeText(context, "Silahkan masukkan alamat anda terlebih dahulu", Toast.LENGTH_SHORT).show()
         } else {
@@ -72,7 +89,8 @@ class HomeFragment : Fragment() {
         return view
     }
 
-//    kode buat negload adapter
+
+    //    kode buat negload adapter
     private fun setupRecyclerView() {
         trashAdapter = TrashAdapter(ArrayList())
         rvSampah.apply {
