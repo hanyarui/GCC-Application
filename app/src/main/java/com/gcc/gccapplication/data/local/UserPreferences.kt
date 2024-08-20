@@ -2,6 +2,9 @@ package com.gcc.gccapplication.data.local
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.util.Log
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 
 class UserPreferences(context: Context) {
 
@@ -58,6 +61,14 @@ class UserPreferences(context: Context) {
         }
     }
 
+    fun firebaseCurrrentUser(): FirebaseUser? {
+        return FirebaseAuth.getInstance().currentUser
+    }
+
+    fun firebaseSignOut(){
+        FirebaseAuth.getInstance().signOut()
+    }
+
     fun getRole(): String? {
         return prefs.getString(ROLE_KEY, null)
     }
@@ -78,7 +89,11 @@ class UserPreferences(context: Context) {
             clear()
             apply()
         }
+        // Debugging line to check if preferences are actually cleared
+        Log.d("Preferences", "All preferences cleared: ${prefs.all}")
     }
+
+
     fun getUid(): String? {
         return prefs.getString(UID_KEY, null)
     }

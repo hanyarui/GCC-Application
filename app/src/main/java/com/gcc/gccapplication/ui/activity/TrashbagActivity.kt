@@ -17,6 +17,8 @@ import com.gcc.gccapplication.adapter.TrashbagAdapter
 import com.gcc.gccapplication.data.local.UserPreferences
 import com.gcc.gccapplication.viewModel.TrashbagViewModel
 import java.util.Calendar
+import java.util.Locale
+import java.text.SimpleDateFormat
 
 
 class TrashbagActivity : AppCompatActivity() {
@@ -155,13 +157,15 @@ class TrashbagActivity : AppCompatActivity() {
             Toast.makeText(this, "Tidak ada sampah untuk diangkut", Toast.LENGTH_SHORT).show()
             return
         }
-
+        val dateFormat = SimpleDateFormat("EEEE, dd-MM-yyyy HH:mm", Locale("id","ID"))
+        val trashTime = dateFormat.format(Calendar.getInstance().time)
         // Ambil data dari RecyclerView adapter
         val trashList = trashAdapter.listTrashbag.map { trash ->
             mapOf(
-                "trashId" to trash.id,
+                "trashbagId" to trash.id,
+                "trashId" to trash.trashId,
                 "amount" to trash.amount.toString(),
-                "time" to Calendar.getInstance().time.toString(),
+                "time" to trashTime,
                 "email" to userPreferences.getEmail().toString()
             )
         }

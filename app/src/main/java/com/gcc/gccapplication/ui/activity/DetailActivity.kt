@@ -1,5 +1,6 @@
 package com.gcc.gccapplication.ui.activity
 
+import android.icu.text.SimpleDateFormat
 import android.os.Bundle
 import android.view.MenuItem
 import android.widget.ImageButton
@@ -16,6 +17,7 @@ import com.gcc.gccapplication.databinding.ActivityDetailBinding
 import com.gcc.gccapplication.viewModel.DetailViewModel
 import com.google.android.material.textfield.TextInputEditText
 import java.util.Calendar
+import java.util.Locale
 
 class DetailActivity : AppCompatActivity() {
 
@@ -121,7 +123,8 @@ class DetailActivity : AppCompatActivity() {
 //        val id = intent.getStringExtra(EXTRA_TRASH_ID)
         val trashId = intent.getStringExtra(EXTRA_TRASH_ID) ?: return
         val trashAmount =  binding.etJumlahSampah.text.toString()
-        val trashTime = calendar.time.toString()
+        val dateFormat = java.text.SimpleDateFormat("EEEE, yyyy-MM-dd HH:mm", Locale("id","ID"))
+        val trashTime = dateFormat.format(Calendar.getInstance().time)
         userPreferences = UserPreferences(this)
         val email = userPreferences.getEmail()
 
@@ -149,7 +152,8 @@ class DetailActivity : AppCompatActivity() {
     private fun angkutSampah(){
         val trashId = intent.getStringExtra(EXTRA_TRASH_ID) ?: return
         val trashAmount = binding.etJumlahSampah.text.toString()
-        val trashTime = Calendar.getInstance().time.toString()
+        val dateFormat = java.text.SimpleDateFormat("EEEE, yyyy-MM-dd HH:mm", Locale("id","ID"))
+        val trashTime = dateFormat.format(Calendar.getInstance().time)
         userPreferences = UserPreferences(this)
         val email = userPreferences.getEmail()
 
