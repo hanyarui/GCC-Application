@@ -1,20 +1,18 @@
 package com.gcc.gccapplication.ui.activity
 
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import com.gcc.gccapplication.R
 import com.gcc.gccapplication.databinding.ActivityMainBinding
-import android.content.Context
 import android.content.Intent
 import android.os.Handler
 import android.os.Looper
+import com.gcc.gccapplication.data.local.UserPreferences
+//import com.google.firebase.auth.FirebaseAuth
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+    private lateinit var userPreferences: UserPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,25 +20,25 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         supportActionBar?.hide()
 
+        userPreferences = UserPreferences(this)
+
         // Menunda eksekusi untuk menunjukkan splash screen
         Handler(Looper.getMainLooper()).postDelayed({
-            checkTokenAndNavigate()
-        }, 3000) // 2000 ms (2 detik) adalah durasi splash screen
-
+            checkUserAndNavigate()
+        }, 3000) // 3000 ms (3 detik) adalah durasi splash screen
     }
 
-    private fun checkTokenAndNavigate() {
-        // Mengambil SharedPreferences
-        val sharedPref = getSharedPreferences("userPreferences", Context.MODE_PRIVATE)
-        val token = sharedPref.getString("token", null)
+    private fun checkUserAndNavigate() {
+        val currentUser = userPreferences.firebaseCurrrentUser()
 
-        if (token != null) {
-            // Jika token ditemukan, arahkan ke PageActivity
+        if (currentUser != null) {
+//            currentUser != null
+            // Jika pengguna sudah login, arahkan ke PageActivity
             val intent = Intent(this, PageActivity::class.java)
             startActivity(intent)
             finish()
         } else {
-            // Jika token tidak ditemukan, arahkan ke ValidationPage
+            // Jika pengguna belum login, arahkan ke ValidationActivity
             val intent = Intent(this, ValidationActivity::class.java)
             startActivity(intent)
             finish()

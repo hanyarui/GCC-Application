@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.gcc.gccapplication.data.model.TrashbagModel
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 
@@ -135,56 +136,108 @@ class TrashbagViewModel : ViewModel() {
             }
     }
 
+//    fun fetchBuktiUploadIdByEmail(
+//        email: String,
+//        onSuccess: (String) -> Unit,
+//        onFailure: (Exception) -> Unit
+//    ) {
+//        val db = FirebaseFirestore.getInstance()
+//        val buktiUploadCollection = db.collection("buktiSampah")
+//
+//        // Query untuk mengambil dokumen berdasarkan email
+//        buktiUploadCollection.whereEqualTo("email", email).get()
+//            .addOnSuccessListener { querySnapshot ->
+//                if (!querySnapshot.isEmpty) {
+//                    // Asumsikan bahwa hanya ada satu dokumen yang sesuai dengan email ini
+//                    val document = querySnapshot.documents[0]
+//                    val buktiUploadId = document.id
+//
+//                    // Panggil onSuccess dengan buktiUploadId yang ditemukan
+//                    onSuccess(buktiUploadId)
+//                } else {
+//                    // Jika tidak ada dokumen yang ditemukan
+//                    onFailure(Exception("No document found for email: $email"))
+//                }
+//            }
+//            .addOnFailureListener { exception ->
+//                // Panggil onFailure jika terjadi kesalahan
+//                onFailure(exception)
+//            }
+//    }
+
+    private suspend fun fetchLatestBuktiUploadIdByTimestamp(): String {
+        val db = FirebaseFirestore.getInstance()
+        val buktiUploadCollection = db.collection("buktiSampah")
+
+        // Query untuk mengambil dokumen dan urutkan berdasarkan timestamp terbaru
+        val querySnapshot = buktiUploadCollection
+            .orderBy("timestamp", Query.Direction.DESCENDING) // Urutkan berdasarkan field timestamp
+            .limit(1) // Ambil hanya satu dokumen terbaru
+            .get()
+            .await()
+
+        return if (!querySnapshot.isEmpty) {
+            querySnapshot.documents[0].id // Ambil ID dokumen terbaru
+        } else {
+            throw Exception("No document found")
+        }
+    }
+
+
+
     fun angkutSampahBatch(
         trashList: List<Map<String, String?>>,
         onSuccess: () -> Unit,
         onFailure: (Exception) -> Unit
     ) {
-        val db = FirebaseFirestore.getInstance()
-        val batch = db.batch()
+        viewModelScope.launch {
+            val db = FirebaseFirestore.getInstance()
+            val batch = db.batch()
 
-        trashList.forEach { trash ->
-            val angkutData = hashMapOf(
-                "trashId" to trash["trashId"],
-                "amount" to trash["amount"],
-                "time" to trash["time"],
-                "email" to trash["email"]
-            )
+            try {
+                for (trash in trashList) {
+                    val buktiUploadId = fetchLatestBuktiUploadIdByTimestamp()
 
-            val docRef = db.collection("angkut").document()
-            batch.set(docRef, angkutData)
-        }
+                    // Gabungkan buktiUploadId ke dalam data angkut
+                    val angkutData = hashMapOf(
+                        "trashId" to trash["trashId"],
+                        "amount" to trash["amount"],
+                        "time" to trash["time"],
+                        "email" to trash["email"],
+                        "buktiUploadId" to buktiUploadId
+                    )
 
-        batch.commit()
-            .addOnSuccessListener {
+                    val docRef = db.collection("angkut").document()
+                    batch.set(docRef, angkutData)
+                }
+
+                // Commit angkut data
+                batch.commit().await()
                 Log.d("AngkutSampahBatch", "Angkut data committed successfully")
 
+                // Buat batch untuk menghapus data dari trashbag
                 val deleteBatch = db.batch()
-                trashList.forEach { trash ->
-                    val trashbagId = trash["trashbagId"]
+                for (trashItem in trashList) {
+                    val trashbagId = trashItem["trashbagId"]
                     if (trashbagId != null) {
                         val trashDocRef = db.collection("trashbag").document(trashbagId)
                         deleteBatch.delete(trashDocRef)
                     } else {
-                        Log.e("AngkutSampahBatch", "Trash ID is null for item: $trash")
+                        Log.e("AngkutSampahBatch", "Trashbag ID is null for item: $trashItem")
                     }
                 }
 
-                deleteBatch.commit()
-                    .addOnSuccessListener {
-                        Log.d("AngkutSampahBatch", "Trashbag data deleted successfully")
-                        onSuccess()
-                    }
-                    .addOnFailureListener { e ->
-                        Log.e("AngkutSampahBatch", "Failed to delete trashbag data", e)
-                        onFailure(e)
-                    }
-            }
-            .addOnFailureListener { e ->
-                Log.e("AngkutSampahBatch", "Failed to commit angkut data", e)
+                // Commit delete batch
+                deleteBatch.commit().await()
+                Log.d("AngkutSampahBatch", "Trashbag data deleted successfully")
+                onSuccess()
+            } catch (e: Exception) {
+                Log.e("AngkutSampahBatch", "Failed to process batch", e)
                 onFailure(e)
             }
+        }
     }
+
 
 
 
