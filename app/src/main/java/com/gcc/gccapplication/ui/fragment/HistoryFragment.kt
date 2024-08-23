@@ -1,7 +1,6 @@
 package com.gcc.gccapplication.ui.fragment
 
 import android.os.Bundle
-import android.provider.ContactsContract.CommonDataKinds.Email
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -12,26 +11,25 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.gcc.gccapplication.R
-import com.gcc.gccapplication.adapter.HistoryAdapter
+import com.gcc.gccapplication.adapter.AngkutModelAdapter
+import com.gcc.gccapplication.adapter.HistoryModelAdapter
 import com.gcc.gccapplication.data.local.UserPreferences
-import com.gcc.gccapplication.databinding.ActivityHistoryBinding
 import com.gcc.gccapplication.databinding.FragmentHistoryBinding
 import com.gcc.gccapplication.viewModel.HistoryViewModel
 
 class HistoryFragment : Fragment() {
 
-
     private lateinit var binding: FragmentHistoryBinding
     private lateinit var rvKeranjangSampah: RecyclerView
     private lateinit var userPreferences: UserPreferences
-    private lateinit var historyAdapter: HistoryAdapter
-    private val historyViewModel: HistoryViewModel by viewModels()    // TODO: Rename and change types of parameters
+    private lateinit var historyAdapter: HistoryModelAdapter
+    private val historyViewModel: HistoryViewModel by viewModels()
     private var email: String? = null
 
     companion object {
         private const val ARG_EMAIL = "email"
 
-        fun newInstance(email: String) : HistoryFragment{
+        fun newInstance(email: String): HistoryFragment {
             val fragment = HistoryFragment()
             val args = Bundle()
             args.putString(ARG_EMAIL, email)
@@ -51,27 +49,25 @@ class HistoryFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-//        binding = FragmentHistoryBinding.inflate(inflater, container, false)
-        val view = inflater.inflate(R.layout.fragment_history, container, false)
-        rvKeranjangSampah = view.findViewById(R.id.rvKeranjangSampah)
+        binding = FragmentHistoryBinding.inflate(inflater, container, false)
+        rvKeranjangSampah = binding.rvKeranjangSampah
 
         userPreferences = UserPreferences(requireContext())
         email = arguments?.getString(ARG_EMAIL) ?: userPreferences.getEmail()
-        if(email != null){
+        if (email != null) {
             setupRecyclerView()
             observeViewModel()
         }
 
-        return view
+        return binding.root
     }
 
     private fun setupRecyclerView() {
-        historyAdapter = HistoryAdapter(ArrayList())
+        historyAdapter = HistoryModelAdapter(ArrayList())
         rvKeranjangSampah.apply {
             layoutManager = LinearLayoutManager(activity)
             adapter = historyAdapter
         }
-
     }
 
     private var isDataEmpty = true
@@ -80,17 +76,15 @@ class HistoryFragment : Fragment() {
             historyViewModel.fetchTrashData(email)
         }
 
-        historyViewModel.angkutData.observe(viewLifecycleOwner) { trashList ->
+        historyViewModel.historyData.observe(viewLifecycleOwner) { historyList ->
             try {
-                isDataEmpty = trashList.isEmpty()
+                isDataEmpty = historyList.isEmpty()
                 if (isDataEmpty) {
                     Toast.makeText(activity, "Belum ada data sampah", Toast.LENGTH_SHORT).show()
                 } else {
-                    historyAdapter.listAngkut.apply {
-                        clear()
-                        addAll(trashList)
-                    }
-                    historyAdapter.notifyDataSetChanged()
+                    // Update adapter with HistoryModel data
+                    historyAdapter = HistoryModelAdapter(historyList)
+                    rvKeranjangSampah.adapter = historyAdapter
                 }
             } catch (e: Exception) {
                 Log.e("HistoryFragment", "Error updating UI", e)

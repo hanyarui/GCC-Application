@@ -1,9 +1,12 @@
 package com.gcc.gccapplication.ui.activity
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -31,7 +34,7 @@ class TrashbagActivity : AppCompatActivity() {
     private lateinit var userPreferences: UserPreferences
     private lateinit var lytBtnAngkut : ConstraintLayout
     private lateinit var lytBtnKumpul : ConstraintLayout
-
+    private lateinit var launcher: ActivityResultLauncher<Intent>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,6 +52,15 @@ class TrashbagActivity : AppCompatActivity() {
 
         // Observe the ViewModel
         observeViewModel()
+
+        launcher = registerForActivityResult(
+            ActivityResultContracts.StartActivityForResult()
+        ) { result ->
+            if (result.resultCode == RESULT_OK) {
+                // Eksekusi angkutSampah jika hasilnya OK
+                angkutSampah()
+            }
+        }
 
         btnResetAngkut()
     }
@@ -104,13 +116,20 @@ class TrashbagActivity : AppCompatActivity() {
         lytBtnKumpul = findViewById((R.id.lytBtnAturUlang))
 
         lytBtnAngkut.setOnClickListener{
-            angkutSampah()
-            finish()
+            if (isDataEmpty) {
+                Toast.makeText(this, "Belum ada data sampah untuk diangkut", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }else{
+                val intent = Intent(this@TrashbagActivity, UploadTrashActivity::class.java)
+                launcher.launch(intent)
+
+            }
+
         }
 
         lytBtnKumpul.setOnClickListener{
             if (isDataEmpty) {
-                Toast.makeText(this, "Tidak ada data untuk dihapus", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Belum ada data sampah untuk dihapus", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }else{
                 aturUlangSampah()

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/fragmentHome"
-    android:background="@color/accent"
+    android:background="@color/primary"
     tools:context=".ui.activity.PageActivity">
 
     <LinearLayout
@@ -80,13 +80,19 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:paddingHorizontal="12dp">
+            android:layout_height="732dp"
+            android:paddingHorizontal="12dp"
+            android:background="@drawable/bg_rounded_top"
+            app:layout_constraintHeight_percent="0.75"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
 
             <TextView
                 android:id="@+id/tvTitle"
                 style="@style/TextTitle"
-                android:layout_marginTop="24dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
                 android:text="@string/daftar_sampah"
                 android:textSize="22sp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -94,8 +100,8 @@
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvSampah"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="388dp"
+                android:layout_height="502dp"
                 android:layout_marginTop="16dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

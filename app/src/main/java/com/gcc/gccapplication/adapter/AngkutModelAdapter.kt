@@ -8,11 +8,19 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.gcc.gccapplication.R
-import com.gcc.gccapplication.adapter.TrashAdapter.OnItemClickCallback
 import com.gcc.gccapplication.data.model.AngkutModel
 
 
-class HistoryAdapter(val listAngkut: ArrayList<AngkutModel>) : RecyclerView.Adapter<HistoryAdapter.ListViewHolder>(){
+class AngkutModelAdapter(val listAngkut: List<AngkutModel>) : RecyclerView.Adapter<AngkutModelAdapter.ListViewHolder>(){
+
+    class ListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val imgPhoto: ImageView = itemView.findViewById(R.id.ivTrashPhoto)
+        val tvKG: TextView = itemView.findViewById(R.id.tvKG)
+        val tvName: TextView = itemView.findViewById(R.id.tvTrashName)
+        val tvTime: TextView = itemView.findViewById(R.id.tvTime)
+//        val tvJumlahSampah : TextView = itemView.findViewById(R.id.tvJumlahSampah)
+//        val tvAmount: TextView = itemView.findViewById(R.id.tvTrashAmount) // Corrected ID
+    }
 
     private var onItemClickCallback: OnItemClickCallback ?= null
 
@@ -43,14 +51,7 @@ class HistoryAdapter(val listAngkut: ArrayList<AngkutModel>) : RecyclerView.Adap
     }
 
     override fun getItemCount(): Int = listAngkut.size
-    class ListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val imgPhoto: ImageView = itemView.findViewById(R.id.ivTrashPhoto)
-        val tvKG: TextView = itemView.findViewById(R.id.tvKG)
-        val tvName: TextView = itemView.findViewById(R.id.tvTrashName)
-        val tvTime: TextView = itemView.findViewById(R.id.tvTime)
-//        val tvJumlahSampah : TextView = itemView.findViewById(R.id.tvJumlahSampah)
-//        val tvAmount: TextView = itemView.findViewById(R.id.tvTrashAmount) // Corrected ID
-    }
+
     interface OnItemClickCallback {
         fun onItemClicked(data: AngkutModel)
     }

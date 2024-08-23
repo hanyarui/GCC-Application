@@ -7,6 +7,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.appcompat.app.AlertDialog
+import androidx.fragment.app.replace
 import com.gcc.gccapplication.R
 import com.gcc.gccapplication.data.local.UserPreferences
 import com.gcc.gccapplication.databinding.ActivityPageBinding
@@ -21,6 +22,8 @@ class PageActivity : AppCompatActivity() {
     private lateinit var binding: ActivityPageBinding
     private lateinit var userPreferences: UserPreferences
     private val pageViewModel: PageViewModel by viewModels()
+    private var currentNavItemId: Int = R.id.nav_home
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,23 +44,98 @@ class PageActivity : AppCompatActivity() {
         val historyFragment = HistoryFragment.newInstance(email)
         val profileFragment = ProfileFragment.newInstance(fullName, email)
 
-        setCurrentFragment(homepageFragment)
+        setDefaultFragment(homepageFragment)
         binding.bnvMain.setOnItemSelectedListener { item ->
-            when (item.itemId) {
-                R.id.nav_home -> setCurrentFragment(homepageFragment)
-                R.id.nav_history -> setCurrentFragment(historyFragment)
-                R.id.nav_person -> setCurrentFragment(profileFragment)
+            val newNavItemId = item.itemId
+            val fragment: Fragment
+
+            when (newNavItemId) {
+                R.id.nav_home -> fragment = homepageFragment
+                R.id.nav_history -> fragment = historyFragment
+                R.id.nav_person -> fragment = profileFragment
+                else -> return@setOnItemSelectedListener false
             }
+
+            val enterAnim: Int
+            val exitAnim: Int
+            val popEnterAnim: Int
+            val popExitAnim: Int
+
+            // Tentukan animasi berdasarkan kombinasi tombol navigasi
+            when (currentNavItemId to newNavItemId) {
+                R.id.nav_home to R.id.nav_history -> {
+                    enterAnim = R.anim.enter_from_right
+                    exitAnim = R.anim.exit_to_left
+                    popEnterAnim = R.anim.enter_from_left
+                    popExitAnim = R.anim.exit_to_right
+                }
+                R.id.nav_history to R.id.nav_home -> {
+                    enterAnim = R.anim.enter_from_left
+                    exitAnim = R.anim.exit_to_right
+                    popEnterAnim = R.anim.enter_from_right
+                    popExitAnim = R.anim.exit_to_left
+                }
+                R.id.nav_home to R.id.nav_person -> {
+                    enterAnim = R.anim.enter_from_right
+                    exitAnim = R.anim.exit_to_left
+                    popEnterAnim = R.anim.enter_from_left
+                    popExitAnim = R.anim.exit_to_right
+                }
+                R.id.nav_person to R.id.nav_home -> {
+                    enterAnim = R.anim.enter_from_left
+                    exitAnim = R.anim.exit_to_right
+                    popEnterAnim = R.anim.enter_from_right
+                    popExitAnim = R.anim.exit_to_left
+                }
+                R.id.nav_history to R.id.nav_person -> {
+                    enterAnim = R.anim.enter_from_right
+                    exitAnim = R.anim.exit_to_left
+                    popEnterAnim = R.anim.enter_from_left
+                    popExitAnim = R.anim.exit_to_right
+                }
+                R.id.nav_person to R.id.nav_history -> {
+                    enterAnim = R.anim.enter_from_left
+                    exitAnim = R.anim.exit_to_right
+                    popEnterAnim = R.anim.enter_from_right
+                    popExitAnim = R.anim.exit_to_left
+                }
+                // Tambahkan kasus lain jika ada
+                else -> {
+                    enterAnim = R.anim.enter_from_right
+                    exitAnim = R.anim.exit_to_left
+                    popEnterAnim = R.anim.enter_from_left
+                    popExitAnim = R.anim.exit_to_right
+                }
+            }
+
+            setCurrentFragment(fragment, enterAnim, exitAnim, popEnterAnim, popExitAnim)
+            currentNavItemId = newNavItemId
             true
+        }
+
+    }
+
+    private fun setCurrentFragment(fragment: Fragment, enterAnim: Int, exitAnim: Int, popEnterAnim: Int, popExitAnim: Int) {
+        supportFragmentManager.beginTransaction().apply {
+            setCustomAnimations(
+                enterAnim,      // Animasi untuk masuk
+                exitAnim,       // Animasi untuk keluar
+                popEnterAnim,   // Animasi untuk masuk saat kembali
+                popExitAnim     // Animasi untuk keluar saat kembali
+            )
+            replace(R.id.flFragment, fragment)
+            addToBackStack(null)
+            commit()
         }
     }
 
-    private fun setCurrentFragment(fragment: Fragment) {
+    private fun setDefaultFragment(fragment: Fragment){
         supportFragmentManager.beginTransaction().apply {
             replace(R.id.flFragment, fragment)
             commit()
         }
     }
+
 
     private fun checkAddress(email: String) {
         pageViewModel.checkAddressData(email) { addressExists ->

@@ -7,8 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.gcc.gccapplication.R
-import com.gcc.gccapplication.adapter.HistoryAdapter
-import com.gcc.gccapplication.adapter.TrashbagAdapter
+import com.gcc.gccapplication.adapter.AngkutModelAdapter
 import com.gcc.gccapplication.data.local.UserPreferences
 import com.gcc.gccapplication.databinding.ActivityHistoryBinding
 import com.gcc.gccapplication.viewModel.HistoryViewModel
@@ -18,7 +17,7 @@ class HistoryActivity : AppCompatActivity() {
     private lateinit var binding: ActivityHistoryBinding
     private lateinit var rvKeranjangSampah: RecyclerView
     private lateinit var userPreferences: UserPreferences
-    private lateinit var historyAdapter: HistoryAdapter
+    private lateinit var angkutModelAdapter: AngkutModelAdapter
     private val historyViewModel   : HistoryViewModel by viewModels()
 
 
@@ -33,11 +32,11 @@ class HistoryActivity : AppCompatActivity() {
     }
 
     private fun setupRecyclerView() {
-        historyAdapter = HistoryAdapter(ArrayList())
+        angkutModelAdapter = AngkutModelAdapter(ArrayList())
         rvKeranjangSampah = findViewById(R.id.rvKeranjangSampah)
         rvKeranjangSampah.apply {
             layoutManager = LinearLayoutManager(this@HistoryActivity)
-            adapter = historyAdapter
+            adapter = angkutModelAdapter
         }
 
     }
@@ -51,18 +50,18 @@ class HistoryActivity : AppCompatActivity() {
         }
 
         // Observe trash data from ViewModel
-        historyViewModel.angkutData.observe(this) { trashList ->
-            isDataEmpty = trashList.isEmpty()
-            if (isDataEmpty) {
-                Toast.makeText(this, "Belum ada data sampah", Toast.LENGTH_SHORT).show()
-            } else {
-                historyAdapter.listAngkut.apply {
-                    clear()
-                    addAll(trashList)
-                }
-                historyAdapter.notifyDataSetChanged()
-            }
-        }
+//        historyViewModel.angkutData.observe(this) { trashList ->
+//            isDataEmpty = trashList.isEmpty()
+//            if (isDataEmpty) {
+//                Toast.makeText(this, "Belum ada data sampah", Toast.LENGTH_SHORT).show()
+//            } else {
+//                angkutModelAdapter.listAngkut.apply {
+//                    clear()
+//                    addAll(trashList)
+//                }
+//                angkutModelAdapter.notifyDataSetChanged()
+//            }
+//        }
     }
 
 

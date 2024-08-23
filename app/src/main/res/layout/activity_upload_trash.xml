@@ -7,6 +7,35 @@
     android:layout_height="match_parent"
     tools:context=".ui.activity.CreateTrashActivity">
 
+    <!--    <androidx.constraintlayout.widget.ConstraintLayout-->
+    <!--        android:id="@+id/clTopLayout"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:background="@color/primary"-->
+    <!--        android:padding="12dp"-->
+    <!--        app:layout_constraintTop_toTopOf="parent"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent" >-->
+
+    <!--        <ImageView-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:src="@drawable/ic_back"-->
+    <!--            app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--            app:layout_constraintStart_toStartOf="parent"-->
+    <!--            app:layout_constraintTop_toTopOf="parent" />-->
+
+    <!--        <TextView-->
+    <!--            android:id="@+id/tvDataSampah"-->
+    <!--            style="@style/TextSubTitle"-->
+    <!--            android:text="@string/tambah_data_sampah"-->
+    <!--            android:textColor="@color/white"-->
+    <!--            app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--            app:layout_constraintEnd_toEndOf="parent"-->
+    <!--            app:layout_constraintTop_toTopOf="parent" />-->
+
+    <!--    </androidx.constraintlayout.widget.ConstraintLayout>-->
+
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
@@ -14,36 +43,9 @@
         android:background="@color/primary"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-<!--    <androidx.constraintlayout.widget.ConstraintLayout-->
-<!--        android:id="@+id/clTopLayout"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:background="@color/primary"-->
-<!--        android:padding="12dp"-->
-<!--        app:layout_constraintTop_toTopOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintEnd_toEndOf="parent" >-->
-
-<!--        <ImageView-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:src="@drawable/ic_back"-->
-<!--            app:layout_constraintBottom_toBottomOf="parent"-->
-<!--            app:layout_constraintStart_toStartOf="parent"-->
-<!--            app:layout_constraintTop_toTopOf="parent" />-->
-
-<!--        <TextView-->
-<!--            android:id="@+id/tvDataSampah"-->
-<!--            style="@style/TextSubTitle"-->
-<!--            android:text="@string/tambah_data_sampah"-->
-<!--            android:textColor="@color/white"-->
-<!--            app:layout_constraintBottom_toBottomOf="parent"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            app:layout_constraintTop_toTopOf="parent" />-->
-
-<!--    </androidx.constraintlayout.widget.ConstraintLayout>-->
 
     <ScrollView
         android:layout_width="match_parent"
@@ -58,6 +60,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" >
 
+            <TextView
+                android:id="@+id/tvUploadGambar"
+                style="@style/TextDetail"
+                android:layout_marginTop="19dp"
+                android:text="Upload gambar disini"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ivDummy" />
+
             <ImageView
                 android:id="@+id/ivDummy"
                 android:layout_width="80dp"
@@ -66,126 +77,115 @@
                 android:src="@drawable/ic_add_photos"
                 app:layout_constraintBottom_toBottomOf="@+id/ivPhotoSampah"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.498"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="@+id/ivPhotoSampah"
+                app:layout_constraintVertical_bias="0.589" />
 
             <ImageView
                 android:id="@+id/ivPhotoSampah"
-                android:layout_width="match_parent"
-                android:layout_height="240dp"
+                android:layout_width="407dp"
+                android:layout_height="276dp"
+                android:layout_marginTop="4dp"
                 android:scaleType="centerCrop"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/clBottomMidLayout"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
+                android:layout_width="390dp"
+                android:layout_height="635dp"
+                android:layout_marginTop="12dp"
                 android:padding="12dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/ivPhotoSampah">
 
-                <TextView
-                    android:id="@+id/tvTrashName"
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etUserName"
                     style="@style/TextDetail"
-                    android:text="@string/trash_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/it_stroke_rounded"
+                    android:hint="Masukkan Nama Anda"
+                    android:padding="12dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvUserName" />
+
+                <TextView
+                    android:id="@+id/tvUserName"
+                    style="@style/TextDetail"
+                    android:text="@string/nama_lengkap"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etTrashName"
+                    android:id="@+id/etUserAddress"
+                    style="@style/TextDetail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:background="@drawable/it_stroke_rounded"
+                    android:hint="Masukkan Alamat Lengkap Anda"
+                    android:padding="12dp"
+                    android:textAlignment="inherit"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvTrashAddress" />
+
+                <TextView
+                    android:id="@+id/tvTrashAddress"
+                    style="@style/TextDetail"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/alamat_lengkap"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/etUserName" />
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etNomor"
                     style="@style/TextDetail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
                     android:background="@drawable/it_stroke_rounded"
-                    android:hint="@string/masukkan_nama_sampah"
+                    android:hint="Masukkan Nomor Telpon ANda"
                     android:padding="12dp"
+                    android:textAlignment="inherit"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tvTrashName" />
+                    app:layout_constraintTop_toBottomOf="@id/tvNomor" />
 
                 <TextView
-                    android:id="@+id/tvTrashType"
+                    android:id="@+id/tvNomor"
                     style="@style/TextDetail"
+                    android:layout_marginStart="4dp"
                     android:layout_marginTop="12dp"
-                    android:text="@string/tipe_sampah"
+                    android:text="@string/nomor_telp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/etTrashName" />
-
-                <Spinner
-                    android:id="@+id/spinnerTipe"
-                    style="@style/TextDetail"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:background="@drawable/it_stroke_rounded"
-                    android:padding="12dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tvTrashType" />
-
-                <TextView
-                    android:id="@+id/tvTrashDesc"
-                    style="@style/TextDetail"
-                    android:layout_marginTop="12dp"
-                    android:text="@string/deskripsi_sampah"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/spinnerTipe" />
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etDesc"
-                    style="@style/TextDetail"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:background="@drawable/it_stroke_rounded"
-                    android:hint="@string/masukkan_deskripsi_sampah"
-                    android:padding="12dp"
-                    android:textAlignment="inherit"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tvTrashDesc" />
-
-                <TextView
-                    android:id="@+id/tvAlamat"
-                    style="@style/TextDetail"
-                    android:layout_marginTop="12dp"
-                    android:text="@string/dusun_pengelola_sampah"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/etDesc" />
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etAlamat"
-                    style="@style/TextDetail"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/it_stroke_rounded"
-                    android:hint="@string/masukkan_dusun_pengelola_sampah"
-                    android:padding="12dp"
-                    android:textAlignment="inherit"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tvAlamat"/>
+                    app:layout_constraintTop_toBottomOf="@+id/etUserAddress" />
 
                 <Button
                     android:id="@+id/btnKonfirmasi"
                     style="@style/TextDetail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="32dp"
                     android:background="@drawable/btn_rounded"
                     android:text="@string/konfirmasi"
                     android:textColor="@color/white"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/etAlamat" />
+                    app:layout_constraintTop_toBottomOf="@+id/etNomor"
+                    app:layout_constraintVertical_bias="0.208" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

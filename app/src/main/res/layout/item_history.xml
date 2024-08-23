@@ -10,7 +10,7 @@
     android:layout_marginTop="4dp"
     android:layout_marginEnd="8dp"
     android:layout_marginBottom="4dp"
-    card_view:cardCornerRadius="4dp"
+    card_view:cardCornerRadius="12dp"
     card_view:cardBackgroundColor="@color/primary">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -19,8 +19,10 @@
         android:padding="8dp">
 
         <TextView
-            android:id="@+id/tvName"
+            android:id="@+id/textView4"
             style="@style/TextDetail"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
             android:text="@string/nama_lengkap"
             android:textColor="@color/white"
             android:textSize="16sp"
@@ -29,16 +31,40 @@
             card_view:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/tvAlamat"
+            android:id="@+id/tvName"
+            style="@style/TextDetail"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/nama_lengkap"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            card_view:layout_constraintStart_toEndOf="@+id/textView4"
+            card_view:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textView5"
             style="@style/TextSubDetail"
+            android:layout_marginStart="8dp"
             android:text="@string/alamat"
             android:textColor="@color/white"
             card_view:layout_constraintStart_toStartOf="parent"
             card_view:layout_constraintTop_toBottomOf="@+id/tvName" />
 
         <TextView
+            android:id="@+id/tvAlamat"
+            style="@style/TextSubDetail"
+            android:layout_width="wrap_content"
+            android:layout_marginStart="12dp"
+            android:text="@string/alamat"
+            android:textColor="@color/white"
+            card_view:layout_constraintStart_toEndOf="@+id/textView5"
+            card_view:layout_constraintTop_toBottomOf="@+id/tvName" />
+
+        <TextView
             android:id="@+id/tvTelp"
             style="@style/TextSubDetail"
+            android:layout_marginStart="8dp"
             android:text="@string/nomor_telp"
             android:textColor="@color/white"
             card_view:layout_constraintStart_toStartOf="parent"
@@ -55,10 +81,35 @@
             card_view:layout_constraintTop_toBottomOf="@+id/tvTelp" />
 
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/RvChild"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             card_view:layout_constraintStart_toStartOf="parent"
             card_view:layout_constraintTop_toBottomOf="@+id/tvSampah" />
+
+        <TextView
+            android:id="@+id/textView6"
+            style="@style/TextDetail"
+            android:layout_marginTop="12dp"
+            android:text="Bukti Sampah"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            card_view:layout_constraintStart_toStartOf="parent"
+            card_view:layout_constraintTop_toBottomOf="@+id/RvChild" />
+
+        <ImageView
+            android:id="@+id/ivTrashPhoto"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:layout_marginTop="15dp"
+            android:scaleType="centerCrop"
+            card_view:layout_constraintBottom_toBottomOf="parent"
+            card_view:layout_constraintStart_toStartOf="parent"
+            card_view:layout_constraintTop_toBottomOf="@+id/textView6"
+            card_view:layout_constraintVertical_bias="1.0"
+            card_view:cardCornerRadius="12dp"
+            tools:src="@tools:sample/avatars" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
