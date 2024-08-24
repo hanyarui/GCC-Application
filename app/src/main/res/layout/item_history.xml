@@ -102,14 +102,57 @@
             android:id="@+id/ivTrashPhoto"
             android:layout_width="match_parent"
             android:layout_height="250dp"
+            android:layout_marginStart="4dp"
             android:layout_marginTop="15dp"
             android:scaleType="centerCrop"
+            card_view:cardCornerRadius="12dp"
             card_view:layout_constraintBottom_toBottomOf="parent"
             card_view:layout_constraintStart_toStartOf="parent"
             card_view:layout_constraintTop_toBottomOf="@+id/textView6"
-            card_view:layout_constraintVertical_bias="1.0"
-            card_view:cardCornerRadius="12dp"
+            card_view:layout_constraintVertical_bias="0.0"
             tools:src="@tools:sample/avatars" />
+
+        <TextView
+            android:id="@+id/tvTotal"
+            style="@style/TextDetail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="Total Sampah:"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            card_view:layout_constraintTop_toBottomOf="@id/ivTrashPhoto"
+            card_view:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:id="@+id/tvAngka"
+            style="@style/TextDetail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="122dp"
+            android:layout_marginTop="10dp"
+            android:text="20.0"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            card_view:layout_constraintStart_toStartOf="parent"
+            card_view:layout_constraintTop_toBottomOf="@id/ivTrashPhoto" />
+
+        <TextView
+            android:id="@+id/tvKg"
+            style="@style/TextDetail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="160dp"
+            android:layout_marginTop="10dp"
+            android:text="Kg"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            card_view:layout_constraintStart_toStartOf="parent"
+            card_view:layout_constraintTop_toBottomOf="@id/ivTrashPhoto" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

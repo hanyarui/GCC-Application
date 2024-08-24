@@ -18,6 +18,7 @@ class HistoryModelAdapter(val historyList: List<HistoryModel>) : RecyclerView.Ad
         val tvName: TextView = itemView.findViewById(R.id.tvName)
         val tvAlamat: TextView = itemView.findViewById(R.id.tvAlamat)
         val tvTelp: TextView = itemView.findViewById(R.id.tvTelp)
+        val tvTotalAmount: TextView = itemView.findViewById(R.id.tvAngka)
         val ivTrashPhoto: ImageView = itemView.findViewById(R.id.ivTrashPhoto)
 //        val tvTelp: TextView = itemView.findViewById(R.id.tvTelp)
         // Inisialisasi elemen lainnya jika ada
@@ -33,6 +34,7 @@ class HistoryModelAdapter(val historyList: List<HistoryModel>) : RecyclerView.Ad
         holder.tvName.text = currentItem.name
         holder.tvAlamat.text = currentItem.alamat
         holder.tvTelp.text = currentItem.telp
+        holder.tvTotalAmount.text = currentItem.totalAmount.toString()
 
         holder.recyclerViewTrash.layoutManager = LinearLayoutManager(holder.itemView.context)
         holder.recyclerViewTrash.adapter = currentItem.trashItems?.let { AngkutModelAdapter(it) }

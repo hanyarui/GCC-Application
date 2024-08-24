@@ -42,7 +42,7 @@ class HistoryViewModel : ViewModel() {
                     trashItemsQuery.addOnSuccessListener { trashItemsDocuments ->
                         val trashItemsList = ArrayList<AngkutModel>()
                         val innerFetchTasks = ArrayList<Task<*>>()
-
+                        var totalAmount = 0.0
                         for (trashItemDoc in trashItemsDocuments) {
                             val trashId = trashItemDoc.getString("trashId") ?: ""
 
@@ -53,9 +53,12 @@ class HistoryViewModel : ViewModel() {
                             trashNameQuery.addOnSuccessListener { trashDoc ->
                                 val trashName = trashDoc.getString("name") ?: ""
                                 val photo = trashDoc.getString("photoUrl")
+                                val amount = trashItemDoc.getString("amount").toString().toDoubleOrNull() ?: 0.0
+
+                                totalAmount += amount
                                 val trashItem = AngkutModel(
                                     name = trashName,
-                                    amount = trashItemDoc.getString("amount"),
+                                    amount = amount,
                                     time = trashItemDoc.getString("time"),
                                     photoUrl = photo,
 
@@ -71,6 +74,7 @@ class HistoryViewModel : ViewModel() {
                                             alamat = alamat,
                                             telp = noHp,
                                             timeStamp=timestamp,
+                                            totalAmount = totalAmount,
                                             photoUrl = photoUrl
                                         )
                                     )

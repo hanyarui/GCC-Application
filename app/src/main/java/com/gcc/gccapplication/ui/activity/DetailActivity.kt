@@ -1,21 +1,26 @@
 package com.gcc.gccapplication.ui.activity
 
+import android.content.Intent
 import android.icu.text.SimpleDateFormat
 import android.os.Bundle
 import android.view.MenuItem
 import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.gcc.gccapplication.R
 import com.gcc.gccapplication.data.local.UserPreferences
 import com.gcc.gccapplication.databinding.ActivityDetailBinding
 import com.gcc.gccapplication.viewModel.DetailViewModel
 import com.google.android.material.textfield.TextInputEditText
+import kotlinx.coroutines.launch
 import java.util.Calendar
 import java.util.Locale
 
@@ -32,7 +37,7 @@ class DetailActivity : AppCompatActivity() {
     private lateinit var lytBtnAngkut : ConstraintLayout
     private lateinit var lytBtnKumpul : ConstraintLayout
     private lateinit var userPreferences: UserPreferences
-
+    private lateinit var launcher: ActivityResultLauncher<Intent>
     companion object {
         const val EXTRA_TRASH_ID = "extra_trash_id"
         const val ARG_EMAIL = "email"
@@ -56,13 +61,24 @@ class DetailActivity : AppCompatActivity() {
         supportActionBar?.customView = customView
 
         plusMinusBtn()
+
+        observeViewModel()
+
         val trashId = intent.getStringExtra(EXTRA_TRASH_ID)
         if (trashId != null) {
             detailViewModel.getTrashDetail(trashId)
         }
 
+        launcher = registerForActivityResult(
+            ActivityResultContracts.StartActivityForResult()
+        ) { result ->
+            if (result.resultCode == RESULT_OK) {
+                // Eksekusi angkutSampah jika hasilnya OK
+                angkutSampah()
+            }
+        }
         btnKumpulAngkut()
-        observeViewModel()
+
     }
 
     private fun observeViewModel() {
@@ -102,18 +118,29 @@ class DetailActivity : AppCompatActivity() {
         }
     }
 
+    private fun isValidAmount(amount: String):Boolean{
+        val value = amount.toDoubleOrNull()
+        return value != null && value > 0
+    }
+
     private fun btnKumpulAngkut(){
         lytBtnAngkut = findViewById((R.id.lytBtnAngkut))
         lytBtnKumpul = findViewById((R.id.lytBtnAturUlang))
 
         lytBtnAngkut.setOnClickListener{
-            angkutSampah()
-            finish()
+            val trashAmount = binding.etJumlahSampah.text.toString()
+            if (isValidAmount(trashAmount)){
+                val intent = Intent(this@DetailActivity, UploadTrashActivity::class.java)
+                launcher.launch(intent)
+            }else {
+                // Tampilkan pesan jika input tidak valid
+                Toast.makeText(this, "Masukkan jumlah sampah yang valid!", Toast.LENGTH_SHORT).show()
+            }
+
         }
 
         lytBtnKumpul.setOnClickListener{
             kumpulSampah()
-//            finish()
         }
     }
 
@@ -128,7 +155,7 @@ class DetailActivity : AppCompatActivity() {
         userPreferences = UserPreferences(this)
         val email = userPreferences.getEmail()
 
-        if(trashAmount.isEmpty() || trashAmount == "0.0"){
+        if(!isValidAmount(trashAmount)){
             Toast.makeText(this, "Masukkan jumlah sampah terlebih dahulu!", Toast.LENGTH_SHORT).show()
             return
         }
@@ -156,6 +183,11 @@ class DetailActivity : AppCompatActivity() {
         val trashTime = dateFormat.format(Calendar.getInstance().time)
         userPreferences = UserPreferences(this)
         val email = userPreferences.getEmail()
+
+        if(trashAmount.isEmpty() || trashAmount == "0.0"){
+            Toast.makeText(this, "Masukkan jumlah sampah terlebih dahulu!", Toast.LENGTH_SHORT).show()
+            return
+        }
 
 
         if (email != null) {

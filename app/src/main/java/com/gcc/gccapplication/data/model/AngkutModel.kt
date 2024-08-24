@@ -10,7 +10,7 @@ data class AngkutModel (
     val name : String?=null,
 //    val trashId: String?=null,
     val time : String?= null,
-    val amount: String?=null,
+    val amount: Double?=null,
     val photoUrl: String ?=null,
 
 ) : Parcelable

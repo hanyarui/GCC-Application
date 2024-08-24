@@ -11,5 +11,6 @@ data class HistoryModel(
     val alamat: String?=null,
     val telp: String?=null,
     val timeStamp: Date?=null,
+    val totalAmount: Double?=null,
     val photoUrl: String?=null
 ): Parcelable
