@@ -69,7 +69,7 @@ class HomeFragment : Fragment() {
         userPreferences = UserPreferences(requireContext())
         val userAddress = userPreferences.getAddress()
         val userRole = userPreferences.getRole() ?: "user"
-        Toast.makeText(context,userRole,Toast.LENGTH_SHORT).show()
+
         // Atur visibilitas clNotification berdasarkan peran pengguna
         if (userRole == "user") {
             clNotification.visibility = View.GONE
@@ -78,6 +78,7 @@ class HomeFragment : Fragment() {
         clNotification.setOnClickListener{
             startActivity(Intent(activity, NotificationActivity::class.java))
         }
+
         // Cek apakah alamat sudah diisi
         if (userAddress.isNullOrEmpty()) {
             Toast.makeText(context, "Silahkan masukkan alamat anda terlebih dahulu", Toast.LENGTH_SHORT).show()

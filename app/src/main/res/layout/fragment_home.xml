@@ -79,14 +79,15 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/roundedTop"
             android:layout_width="match_parent"
-            android:layout_height="732dp"
-            android:paddingHorizontal="12dp"
+            android:layout_height="match_parent"
             android:background="@drawable/bg_rounded_top"
-            app:layout_constraintHeight_percent="0.75"
+            android:paddingHorizontal="18dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <TextView
                 android:id="@+id/tvTitle"
@@ -100,14 +101,18 @@
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvSampah"
-                android:layout_width="388dp"
-                android:layout_height="502dp"
-                android:layout_marginTop="16dp"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginTop="14dp"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvTitle" />
-
+                app:layout_constraintTop_toBottomOf="@+id/tvTitle"
+                app:layout_constraintVertical_bias="0.0"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintHeight_percent="0.93" />
         </androidx.constraintlayout.widget.ConstraintLayout>
+
 
     </LinearLayout>
 

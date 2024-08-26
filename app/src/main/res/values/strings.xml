@@ -64,12 +64,13 @@
     <string name="deskripsi_sampah">Deskripsi Sampah</string>
     <string name="masukkan_deskripsi_sampah">Masukkan Deskripsi Sampah</string>
     <string name="dusun_pengelola_sampah">Dusun Pengelola Sampah</string>
-    <string name="masukkan_dusun_pengelola_sampah">Dusun Pengelola Sampah</string>
+    <string name="masukkan_dusun_pengelola_sampah">Masukkan Dusun Pengelola Sampah</string>
     <string name="history">History</string>
     <string name="alamat_lengkap">Alamat Lengkap</string>
     <string name="masukkan_alamat_lengkap_anda">Masukkan Alamat Lengkap anda</string>
 
     <string-array name="array_tipe_sampah">
+
         <item>Organik</item>
         <item>Botol Plastik Bening</item>
         <item>Botol Plastik Berwarna</item>

@@ -7,6 +7,8 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.appcompat.app.AlertDialog
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.constraintlayout.widget.ConstraintSet
 import androidx.fragment.app.replace
 import com.gcc.gccapplication.R
 import com.gcc.gccapplication.data.local.UserPreferences
@@ -43,6 +45,8 @@ class PageActivity : AppCompatActivity() {
         val homepageFragment = HomeFragment.newInstance(fullName)
         val historyFragment = HistoryFragment.newInstance(email)
         val profileFragment = ProfileFragment.newInstance(fullName, email)
+
+
 
         setDefaultFragment(homepageFragment)
         binding.bnvMain.setOnItemSelectedListener { item ->

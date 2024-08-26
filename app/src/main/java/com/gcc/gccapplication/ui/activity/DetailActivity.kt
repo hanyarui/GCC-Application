@@ -85,7 +85,7 @@ class DetailActivity : AppCompatActivity() {
         detailViewModel.trashDetail.observe(this) { trash ->
             if (trash != null) {
                 // Set the custom title text to the trash name
-                customTitle.text = trash.name
+                customTitle.text = trash.type
 
                 binding.tvTrashDesc.text = trash.description
                 binding.tvAlamat.text = trash.address

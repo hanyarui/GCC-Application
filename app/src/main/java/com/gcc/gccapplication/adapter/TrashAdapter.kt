@@ -25,7 +25,7 @@ class TrashAdapter(val listTrash: ArrayList<TrashModel>) : RecyclerView.Adapter<
 
     override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
         val trashItem = listTrash[position]
-        holder.tvName.text = trashItem.name
+        holder.tvName.text = trashItem.type
         holder.tvDescription.text = trashItem.description
         holder.tvAddress.text = trashItem.address
         Glide.with(holder.itemView.context)

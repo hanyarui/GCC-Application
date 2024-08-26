@@ -1,11 +1,18 @@
 package com.gcc.gccapplication.ui.activity
 
 import android.content.Intent
+import android.graphics.Typeface
 import android.net.Uri
 import android.os.Bundle
+import android.text.Editable
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.TextWatcher
+import android.text.style.StyleSpan
 import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
 import android.widget.ArrayAdapter
-import android.widget.Button
 import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
@@ -47,19 +54,48 @@ class CreateTrashActivity : AppCompatActivity() {
 
         binding.ivPhotoSampah.setOnClickListener { startGallery() }
 
-        // Set spinner adapter
-        val spinner: Spinner = binding.spinnerTipe
-        ArrayAdapter.createFromResource(
-            this,
-            R.array.array_tipe_sampah,
-            android.R.layout.simple_spinner_item
-        ).also { adapter ->
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            spinner.adapter = adapter
-        }
+       setSpinner()
+
 
         // Handle save button click
         binding.btnKonfirmasi.setOnClickListener { saveTrashData() }
+    }
+
+    private fun setSpinner() {
+        // Set spinner adapter
+        val spinner: Spinner = binding.spinnerTipe
+
+        // Ambil array asli tanpa placeholder
+        val tipeSampahArray = resources.getStringArray(R.array.array_tipe_sampah).toMutableList()
+
+        // Tambahkan placeholder di awal array
+        tipeSampahArray.add(0, "Pilih Tipe Sampah")
+
+        // Buat adapter dengan array yang telah dimodifikasi
+        val adapter = object : ArrayAdapter<String>(
+            this,
+            android.R.layout.simple_spinner_item,
+            tipeSampahArray
+        ) {
+            override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
+                val view = super.getDropDownView(position, convertView, parent)
+                // Jangan tampilkan placeholder di dropdown
+                if (position == 0) {
+                    view.visibility = View.GONE
+                    view.layoutParams = ViewGroup.LayoutParams(0, 0)
+                } else {
+                    view.visibility = View.VISIBLE
+                }
+                return view
+            }
+        }
+
+        // Set layout untuk dropdown
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spinner.adapter = adapter
+
+        // Pilih default item pada spinner
+        spinner.setSelection(0)
     }
 
     private fun startGallery() {
@@ -110,7 +146,9 @@ class CreateTrashActivity : AppCompatActivity() {
         val trashDesc = binding.etDesc.text.toString()
         val trashAddress = binding.etAlamat.text.toString()
 
-        if (trashName.isEmpty() || trashType.isEmpty() || trashDesc.isEmpty() || trashAddress.isEmpty()) {
+        val selectedTipe = binding.spinnerTipe.selectedItem.toString()
+
+        if (trashName.isEmpty() || trashType.isEmpty() || trashDesc.isEmpty() || trashAddress.isEmpty() && selectedTipe == "Pilih Tipe Sampah") {
             Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show()
             return
         }

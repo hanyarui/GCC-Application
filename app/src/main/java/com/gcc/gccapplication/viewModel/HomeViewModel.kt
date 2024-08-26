@@ -30,9 +30,10 @@ class HomeViewModel : ViewModel() {
                     val address = document.getString("address") ?: ""
                     val id = document.id
                     val name = document.getString("name") ?: ""
+                    val type = document.getString("type") ?: ""
                     val description = document.getString("description") ?: ""
                     val photoUrl = document.getString("photoUrl") ?: ""
-                    trashList.add(TrashModel(id, name, description, address, photoUrl))
+                    trashList.add(TrashModel(id, name, description, type, address, photoUrl))
                 }
                 _trashData.value = trashList
                 Log.d("HomeViewModel", "Fetched ${trashList.size} trash items")
