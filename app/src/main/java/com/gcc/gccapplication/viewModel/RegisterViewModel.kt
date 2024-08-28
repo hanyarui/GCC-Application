@@ -13,6 +13,7 @@ class RegisterViewModel : ViewModel() {
         email: String,
         password: String,
         confirmPassword: String,
+        fcmToken: String,
         onSuccess: () -> Unit,
         onFailure: (String) -> Unit
     ) {
@@ -42,7 +43,8 @@ class RegisterViewModel : ViewModel() {
                             "name" to fullName,
                             "email" to email,
                             "role" to "user",
-                            "address" to ""
+                            "address" to "",
+                            "fcmToken" to fcmToken,
                         )
 
                         firestore.collection("users").document(uid).set(userData)

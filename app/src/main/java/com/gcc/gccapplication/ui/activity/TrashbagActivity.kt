@@ -179,7 +179,10 @@ class TrashbagActivity : AppCompatActivity() {
         val dateFormat = SimpleDateFormat("EEEE, dd-MM-yyyy HH:mm", Locale("id","ID"))
         val trashTime = dateFormat.format(Calendar.getInstance().time)
         // Ambil data dari RecyclerView adapter
+
         val trashList = trashAdapter.listTrashbag.map { trash ->
+//            val amount = trash.amount.toString().toDoubleOrNull() ?: 0.0
+
             mapOf(
                 "trashbagId" to trash.id,
                 "trashId" to trash.trashId,

@@ -3,6 +3,7 @@ package com.gcc.gccapplication.ui.activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import android.widget.TextView
 import android.widget.Toast
@@ -14,12 +15,20 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.gcc.gccapplication.R
+import com.gcc.gccapplication.data.API.ApiService
 import com.gcc.gccapplication.data.local.UserPreferences
+import com.gcc.gccapplication.data.model.NotificationRequest
 import com.gcc.gccapplication.databinding.ActivityTrashbagBinding
 import com.gcc.gccapplication.databinding.ActivityUploadTrashBinding
 import com.gcc.gccapplication.viewModel.UploadTrashViewModel
 import com.yalantis.ucrop.UCrop
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 import java.io.File
+
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class UploadTrashActivity : AppCompatActivity() {
 
@@ -49,14 +58,16 @@ class UploadTrashActivity : AppCompatActivity() {
         supportActionBar?.customView = customView
         customTitle.text = "Kirim Bukti Pengambilan Sampah"
 
+
+
         binding.ivPhotoSampah.setOnClickListener{startGallery()}
 
         binding.btnKonfirmasi.setOnClickListener{
             //logic simpan data
             saveUploadData()
-
-
         }
+
+
     }
     private fun startGallery() {
         val intent = Intent(Intent.ACTION_GET_CONTENT)
@@ -85,7 +96,6 @@ class UploadTrashActivity : AppCompatActivity() {
             .withMaxResultSize(1000, 1000)
             .start(this)
     }
-
 
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -122,6 +132,7 @@ class UploadTrashActivity : AppCompatActivity() {
             onSuccess = {
                 Toast.makeText(this, "Berhasil Untuk Menyimpan Data Upload", Toast.LENGTH_SHORT).show()
                 setResult(RESULT_OK)
+                viewModel.sendNotification("BYbJAcPOmlf1FoKMJ36jqsdBv0Z2", "notif ni bro", "Ini dikirim andro!")
                 finish()
             },
             onFailure = { e ->
@@ -130,6 +141,8 @@ class UploadTrashActivity : AppCompatActivity() {
         )
 
     }
+
+
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {

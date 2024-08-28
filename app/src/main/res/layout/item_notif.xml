@@ -2,7 +2,7 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/card_view"
+    android:id="@+id/card_view_notif"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
@@ -11,101 +11,140 @@
     android:layout_marginEnd="8dp"
     android:layout_marginBottom="4dp"
     android:backgroundTintMode="src_in"
-    card_view:cardBackgroundColor="@color/primary"
+    card_view:cardBackgroundColor="@color/card_unselected"
     card_view:cardCornerRadius="12dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cardd"
-        android:layout_width="392dp"
-        android:layout_height="132dp"
+        android:layout_width="match_parent"
+        android:layout_height="157dp"
         android:padding="8dp">
 
 
         <TextView
-            android:id="@+id/tvTrashNames"
+            android:id="@+id/tvNamaLengkap"
             style="@style/TextDetail"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:text="@string/trash_names"
+            android:layout_width="190dp"
+            android:layout_height="26dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="32dp"
+            android:text="Nama Lengkap"
             android:textColor="@color/white"
             android:textSize="16sp"
             android:textStyle="bold"
-            card_view:layout_constraintEnd_toEndOf="parent"
-            card_view:layout_constraintHorizontal_bias="1.0"
-            card_view:layout_constraintStart_toStartOf="parent"
+            card_view:layout_constraintEnd_toStartOf="@+id/imageView"
             card_view:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvDusun"
+            style="@style/TextSubDetail"
+            android:layout_width="138dp"
+            android:layout_height="23dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="8dp"
+            android:text="fjashfasfsfasfasfa"
+            android:textColor="@color/white"
+            card_view:layout_constraintEnd_toStartOf="@+id/imageView"
+            card_view:layout_constraintHorizontal_bias="0.434"
+            card_view:layout_constraintStart_toEndOf="@+id/tvAlamat"
+            card_view:layout_constraintTop_toBottomOf="@+id/tvTrashDescription" />
+
+        <TextView
+            android:id="@+id/tvAlamatLengkap"
+            style="@style/TextSubDetail"
+            android:layout_width="131dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="10dp"
+            android:text="@string/alamat"
+            android:textColor="@color/white"
+            card_view:layout_constraintEnd_toStartOf="@+id/imageView"
+            card_view:layout_constraintStart_toEndOf="@+id/tvTrash"
+            card_view:layout_constraintTop_toBottomOf="@+id/tvDusun" />
+
+        <TextView
+            android:id="@+id/tvTrash"
+            style="@style/TextSubDetail"
+            android:layout_width="62dp"
+            android:layout_height="23dp"
+            android:layout_marginTop="4dp"
+            android:text="@string/alamat"
+            android:textColor="@color/white"
+            card_view:layout_constraintStart_toStartOf="@+id/tvAlamat"
+            card_view:layout_constraintTop_toBottomOf="@+id/tvDusun" />
+
+        <TextView
+            android:id="@+id/tvAlamat"
+            style="@style/TextSubDetail"
+            android:layout_marginTop="4dp"
+            android:text="@string/alamat_desc"
+            android:textColor="@color/white"
+            card_view:layout_constraintStart_toStartOf="@+id/tvTrashDescription"
+            card_view:layout_constraintTop_toBottomOf="@+id/tvTrashDescription" />
 
         <TextView
             android:id="@+id/tvTrashDescription"
             style="@style/TextSubDetail"
-            android:layout_width="354dp"
-            android:layout_height="28dp"
+            android:layout_width="122dp"
+            android:layout_height="21dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="8dp"
             android:ellipsize="end"
             android:justificationMode="inter_word"
-            android:maxLines="3"
             android:text="@string/jumlah_sampah"
             android:textColor="@color/white"
-            card_view:layout_constraintBottom_toTopOf="@+id/tvTrashAddress"
-            card_view:layout_constraintEnd_toEndOf="@+id/tvTrashNames"
-            card_view:layout_constraintHorizontal_bias="0.0"
-            card_view:layout_constraintStart_toStartOf="@+id/tvTrashNames"
-            card_view:layout_constraintTop_toBottomOf="@+id/tvTrashNames"
-            card_view:layout_constraintVertical_bias="0.166" />
+            card_view:layout_constraintStart_toStartOf="@+id/tvNamaLengkap"
+            card_view:layout_constraintTop_toBottomOf="@+id/tvNamaLengkap" />
+
+        <TextView
+            android:id="@+id/tvAmount"
+            style="@style/TextSubDetail"
+            android:layout_width="30dp"
+            android:layout_height="21dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="8dp"
+            android:ellipsize="end"
+            android:justificationMode="inter_word"
+            android:text="10"
+            android:textColor="@color/white"
+            card_view:layout_constraintStart_toEndOf="@+id/tvTrashDescription"
+            card_view:layout_constraintTop_toBottomOf="@+id/tvNamaLengkap" />
 
         <TextView
             android:id="@+id/tvKg"
             style="@style/TextSubDetail"
-            android:layout_marginStart="128dp"
-            android:layout_marginTop="1dp"
-            android:text="1 KG"
-            android:textColor="@color/white"
-            card_view:layout_constraintStart_toStartOf="@+id/tvTrashDescription"
-            card_view:layout_constraintTop_toTopOf="@+id/tvTrashDescription" />
-
-        <TextView
-            android:id="@+id/tvTrashAddress"
-            style="@style/TextSubDetail"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_width="20dp"
+            android:layout_height="21dp"
             android:layout_marginStart="4dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="32dp"
-            android:text="@string/alamat"
+            android:layout_marginTop="8dp"
+            android:text="KG"
             android:textColor="@color/white"
-            card_view:layout_constraintBottom_toBottomOf="parent"
-            card_view:layout_constraintEnd_toEndOf="parent"
-            card_view:layout_constraintHorizontal_bias="0.0"
-            card_view:layout_constraintStart_toEndOf="@+id/tvAlamatDesc" />
-
-        <TextView
-            android:id="@+id/tvAlamatDesc"
-            style="@style/TextSubDetail"
-            android:layout_marginStart="12dp"
-            android:layout_marginBottom="32dp"
-            android:text="@string/alamat_desc"
-            android:textColor="@color/white"
-            card_view:layout_constraintBottom_toBottomOf="parent"
-            card_view:layout_constraintStart_toStartOf="@+id/tvTrashDescription" />
+            card_view:layout_constraintStart_toEndOf="@+id/tvAmount"
+            card_view:layout_constraintTop_toBottomOf="@+id/tvNamaLengkap" />
 
         <TextView
             android:id="@+id/tvTanggalWaktu"
             style="@style/TextSubDetail"
-            android:layout_marginStart="8dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginTop="7dp"
+            android:layout_marginEnd="95dp"
             android:text="25 juni 2024, 12.40"
+            android:textColor="@color/white"
             card_view:layout_constraintBottom_toBottomOf="parent"
-            card_view:layout_constraintStart_toStartOf="parent"
-            android:textColor="@color/white" />
+            card_view:layout_constraintEnd_toStartOf="@+id/imageView"
+            card_view:layout_constraintHorizontal_bias="0.0"
+            card_view:layout_constraintStart_toStartOf="@+id/tvTrash"
+            card_view:layout_constraintTop_toBottomOf="@+id/tvAlamatLengkap"
+            card_view:layout_constraintVertical_bias="1.0" />
 
         <ImageView
+            android:id="@+id/imageView"
             android:layout_width="137dp"
             android:layout_height="109dp"
             android:layout_marginEnd="8dp"
-            android:src="@drawable/ready_pickup"
+            android:src="@drawable/not_ready_pickup"
             card_view:layout_constraintBottom_toBottomOf="parent"
             card_view:layout_constraintEnd_toEndOf="parent"
-            card_view:layout_constraintTop_toTopOf="parent"
-            card_view:layout_constraintVertical_bias="0.571" />
+            card_view:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

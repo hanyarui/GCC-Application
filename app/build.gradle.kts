@@ -60,6 +60,9 @@ dependencies {
     implementation(libs.firebase.firestore)
     implementation(libs.firebase.storage)
 
+    //Firebase Cloude Messaging
+    implementation("com.google.firebase:firebase-messaging-ktx:23.2.1")
+
     // Glide
     implementation(libs.github.glide)
 
@@ -69,4 +72,8 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+
 }

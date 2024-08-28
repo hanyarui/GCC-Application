@@ -33,10 +33,9 @@ class TrashbagAdapter(val listTrashbag: ArrayList<TrashbagModel>) : RecyclerView
             holder.tvKG.text = amount.toString()
 //            holder.tvJumlahSampah.text = amount.toString()
 //            holder.tvAmount.text = amount.toString()
-            println(amount)
-            holder.itemView.setOnClickListener {
-                onItemClickCallback.onItemClicked(listTrashbag[holder.adapterPosition])
-            }
+//            holder.itemView.setOnClickListener {
+//                onItemClickCallback.onItemClicked(listTrashbag[holder.adapterPosition])
+//            }
         }
 
 

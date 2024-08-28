@@ -34,11 +34,13 @@ class LoginViewModel : ViewModel() {
                                     val role = document.getString("role") ?: "user"
                                     val fullName = document.getString("name") ?: "Unknown"
                                     val address = document.getString("address") ?: "Unknown"
+                                    val fcmToken = document.getString("fcmToken")?: "Unknown"
 
 
                                     // Simpan token dan data lainnya ke SharedPreferences
                                     val userPreferences = UserPreferences(context)
                                     userPreferences.saveEmail(email)
+                                    userPreferences.saveFCMtoken(fcmToken)
                                     userPreferences.saveFullName(fullName)
                                     userPreferences.saveRole(role)
                                     userPreferences.saveAddress(address)

@@ -5,6 +5,7 @@ import android.content.SharedPreferences
 import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.messaging.FirebaseMessaging
 
 class UserPreferences(context: Context) {
 
@@ -18,6 +19,7 @@ class UserPreferences(context: Context) {
         private const val ROLE_KEY = "role"  // Tambahkan konstanta untuk role
         private const val ADDRESS_KEY = "address"
         private const val UID_KEY = "uid"
+        private const val FCM_TOKEN = "fcm_token"
     }
 
     fun saveToken(token: String) {
@@ -31,12 +33,34 @@ class UserPreferences(context: Context) {
         return prefs.getString(TOKEN_KEY, null)
     }
 
+    fun setFCMtoken(token: String) {
+        return with(prefs.edit()) {
+            putString(FCM_TOKEN, token)
+            apply()
+        }
+    }
+
+    fun saveFCMtoken(token: String){
+        with(prefs.edit()){
+            putString(FCM_TOKEN,token)
+            apply()
+        }
+    }
+
+    fun getFCMtoken(): String? {
+        return prefs.getString(FCM_TOKEN, null)
+    }
+
+
+
     fun saveEmail(email: String) {
         with(prefs.edit()) {
             putString(EMAIL_KEY, email)
             apply()
         }
     }
+
+
 
     fun getEmail(): String? {
         return prefs.getString(EMAIL_KEY, null)
