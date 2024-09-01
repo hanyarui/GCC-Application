@@ -65,13 +65,15 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/clBottomMidLayout"
-                android:layout_width="442dp"
-                android:layout_height="648dp"
-                android:layout_marginTop="12dp"
-                android:padding="12dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:padding="10dp"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/ivPhotoSampah">
+                app:layout_constraintTop_toBottomOf="@+id/ivPhotoSampah"
+                app:layout_constraintVertical_bias="0.0">
 
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -98,7 +100,6 @@
                         android:hint="Masukkan Nama Lengkap Anda..."
                         android:inputType="textPersonName"
                         android:paddingHorizontal="24dp"
-                        android:paddingVertical="12dp"
                         android:textColorHint="@color/hintColor" />
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -156,12 +157,11 @@
                         android:id="@+id/etNomor"
                         style="@style/TextDetail"
                         android:layout_width="match_parent"
-                        android:layout_height="54dp"
+                        android:layout_height="wrap_content"
                         android:backgroundTint="@color/black"
                         android:hint="Masukkkan Nomor Handphone Anda..."
                         android:inputType="textPersonName"
                         android:paddingHorizontal="24dp"
-                        android:paddingVertical="12dp"
                         android:textColorHint="@color/hintColor" />
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -175,6 +175,7 @@
                     android:text="@string/konfirmasi"
                     android:textColor="@color/white"
                     android:textStyle="bold"
+                    android:layout_marginTop="50dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
