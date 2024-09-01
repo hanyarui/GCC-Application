@@ -1,15 +1,16 @@
 package com.gcc.gccapplication.viewModel
 
 import android.content.Context
+import android.graphics.Canvas
+import android.graphics.Color
 import android.graphics.Paint
+import android.graphics.Typeface
 import android.graphics.pdf.PdfDocument
 import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.gcc.gccapplication.data.local.UserPreferences
-import com.gcc.gccapplication.data.model.AngkutModel
-import com.gcc.gccapplication.data.model.HistoryModel
 import com.gcc.gccapplication.data.model.NotifikasiModel
 import com.google.android.gms.tasks.Task
 import com.google.android.gms.tasks.Tasks
@@ -17,24 +18,20 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import java.io.File
 import java.io.FileOutputStream
-import java.util.Date
+import java.io.IOException
 
-class NotifikasiViewModel : ViewModel() {
+class ProfileViewModel: ViewModel(){
+
     private val _notifikasiData = MutableLiveData<List<NotifikasiModel>>()
     val notifikasiData: LiveData<List<NotifikasiModel>> get() = _notifikasiData
 
-    private val _hasNewNotif = MutableLiveData<Boolean>()
-    val hasNewNotif: LiveData<Boolean> get() = _hasNewNotif
-
-    fun setHasNewNotif(value: Boolean) {
-        _hasNewNotif.value = value
-    }
+    private val _fileSavedLocation = MutableLiveData<String>()
+    val fileSavedLocation: LiveData<String> get() = _fileSavedLocation
 
     private val db = FirebaseFirestore.getInstance()
 
-
-
-    fun fetchAllTrashData() {
+    fun fetchAndExportDataToPdf(context: Context) {
+        // Implementasi untuk fetch data dari Firestore dan ekspor ke PDF
         val buktiCollection = db.collection("buktiSampah")
         val angkutCollection = db.collection("angkut")
         val userCollection = db.collection("users")
@@ -96,12 +93,8 @@ class NotifikasiViewModel : ViewModel() {
                                                 buktiUploadId = buktiUploadId
                                             )
                                         )
+                                        exportDataToPdf(notifikasiList)
 
-                                        if (notifikasiList.size == buktiDocuments.size()) {
-                                            notifikasiList.sortByDescending { it.time }
-                                            _notifikasiData.value = notifikasiList
-                                            Log.d("NotifikasiViewModel", "Fetched ${notifikasiList.size} notifikasi items")
-                                        }
                                     }
                                         .addOnFailureListener { e ->
                                             Log.e("NotifikasiViewModel", "Failed to fetch trash items for $buktiUploadId: ${e.message}")
@@ -129,94 +122,100 @@ class NotifikasiViewModel : ViewModel() {
             }
     }
 
-    fun exportDataToPdf(notifikasiList: List<NotifikasiModel>, context: Context) {
+    private fun exportDataToPdf(notifikasiList: List<NotifikasiModel>) {
         val pdfDocument = PdfDocument()
-        val pageInfo = PdfDocument.PageInfo.Builder(595, 842, 1).create()
-        val page = pdfDocument.startPage(pageInfo)
-        val canvas = page.canvas
-        val paint = Paint()
-
-        // Atur posisi awal teks
+        var pageNumber = 1
         var yPos = 40
+        val pageHeight = 842 // Tinggi halaman dalam piksel (A4)
+        val margin = 40 // Margin atas dan bawah
+        val pageWidth = 595 // Lebar halaman dalam piksel
+
+        fun startNewPage(page: PdfDocument.Page): PdfDocument.Page {
+            if (yPos > pageHeight - margin) {
+                pdfDocument.finishPage(page) // Finish the current page
+                pageNumber++
+                yPos = 40 // Reset yPos for new page
+                val newPageInfo = PdfDocument.PageInfo.Builder(pageWidth, pageHeight, pageNumber).create()
+                val newPage = pdfDocument.startPage(newPageInfo)
+                return newPage // Return the new page
+            }
+            return page // Return the existing page if no new page is needed
+        }
+
+        fun drawCenteredText(text: String, yPos: Int, paint: Paint, canvas: Canvas) {
+            val textWidth = paint.measureText(text)
+            val xPos = (pageWidth - textWidth) / 2 // Pusatkan secara horizontal
+            canvas.drawText(text, xPos, yPos.toFloat(), paint)
+        }
+
+        var pageInfo = PdfDocument.PageInfo.Builder(pageWidth, pageHeight, pageNumber).create()
+        var page = pdfDocument.startPage(pageInfo)
+        var canvas = page.canvas
+        val paint = Paint()
+        val linePaint = Paint().apply {
+            color = Color.BLACK
+            strokeWidth = 1f
+        }
+        val boldPaint = Paint().apply {
+            typeface = Typeface.create(Typeface.DEFAULT, Typeface.BOLD) // Set teks bold
+            textSize = 16f // Atur ukuran teks sesuai kebutuhan
+        }
+        drawCenteredText("Data Rekap Sampah Dusun ${notifikasiList.firstOrNull()?.dusun}", yPos, boldPaint, canvas)
+        yPos += 10
+        canvas.drawLine(10f, yPos.toFloat(), 585f, yPos.toFloat(), linePaint)
+        yPos += 20
 
         for (notifikasi in notifikasiList) {
-            canvas.drawText("Nama Lengkap: ${notifikasi.namaLengkap}", 10f, yPos.toFloat(), paint)
+            // Ensure that we have enough space on the current page or start a new page
+            page = startNewPage(page)
+            canvas = page.canvas
+
+            canvas.drawText("Nama Lengkap: ${notifikasi.namaLengkap}", 20f, yPos.toFloat(), paint)
             yPos += 20
-            canvas.drawText("Alamat Lengkap: ${notifikasi.alamatLengkap}", 10f, yPos.toFloat(), paint)
+            canvas.drawText("Alamat Lengkap: ${notifikasi.alamatLengkap}", 20f, yPos.toFloat(), paint)
             yPos += 20
-            canvas.drawText("No HP: ${notifikasi.noHp}", 10f, yPos.toFloat(), paint)
+            canvas.drawText("Nomor Handphone: ${notifikasi.noHp}", 20f, yPos.toFloat(), paint)
             yPos += 20
-            canvas.drawText("Total Amount: ${notifikasi.totalAmount}", 10f, yPos.toFloat(), paint)
+            canvas.drawText("Dusun: ${notifikasi.dusun}", 20f, yPos.toFloat(), paint)
             yPos += 20
-            canvas.drawText("Dusun: ${notifikasi.dusun}", 10f, yPos.toFloat(), paint)
+            canvas.drawText("Jumlah Sampah: ${notifikasi.totalAmount}", 20f, yPos.toFloat(), paint)
             yPos += 20
-            canvas.drawText("Timestamp: ${notifikasi.time}", 10f, yPos.toFloat(), paint)
-            yPos += 40 // Tambahkan spasi antara item
+            canvas.drawText("Waktu: ${notifikasi.time}", 20f, yPos.toFloat(), paint)
+            yPos += 20
+
+            if (notifikasi.isPicked == true) {
+                canvas.drawText("Status pengambilan sampah: Sudah di ambil", 20f, yPos.toFloat(), paint)
+
+            } else {
+                canvas.drawText("Status pengambilan sampah: Belum di ambil", 20f, yPos.toFloat(), paint)
+
+            }
+            yPos += 10
+
+            // Tambahkan garis di akhir data
+            canvas.drawLine(10f, yPos.toFloat(), 585f, yPos.toFloat(), linePaint)
+            yPos +=20
         }
 
         pdfDocument.finishPage(page)
 
-        // Simpan PDF di penyimpanan perangkat
-        val file = File(context.getExternalFilesDir(null), "RekapSampah.pdf")
-        pdfDocument.writeTo(FileOutputStream(file))
-        pdfDocument.close()
+        val dir = File("/storage/emulated/0/Documents/RekapGCC/")
+        if (!dir.exists()) {
+            dir.mkdirs() // Membuat direktori jika belum ada
+        }
+
+        val file = File(dir, "RekapSampah.pdf")
+        try {
+            pdfDocument.writeTo(FileOutputStream(file))
+            Log.d("ProfileFragment", "PDF berhasil disimpan di ${file.absolutePath}")
+            _fileSavedLocation.postValue(file.absolutePath)  // Update LiveData
+        } catch (e: IOException) {
+            e.printStackTrace()
+            Log.e("ProfileFragment", "Gagal menyimpan PDF: ${e.message}")
+//            _fileSavedLocation.postValue(null)  // Indicate failure
+//        } finally {
+            pdfDocument.close()
+        }
     }
 
-
-
-    // New function to update the isPicked status
-    fun updatePickedStatus(buktiUploadId: String, isPicked: Boolean, callback: (Boolean) -> Unit) {
-        val buktiCollection = db.collection("buktiSampah")
-
-        // Mendapatkan referensi dokumen dengan ID dokumen yang diberikan
-        val docRef = buktiCollection.document(buktiUploadId)
-
-        // Memperbarui field isPicked pada dokumen tersebut
-        docRef.update("isPicked", isPicked)
-            .addOnSuccessListener {
-                callback(true)
-            }
-            .addOnFailureListener { e ->
-                callback(false)
-                Log.d("ItemNotifViewmodel", "Update status for ${buktiUploadId} failed: ${e.message}")
-            }
-    }
-
-    fun checkForNewNotification(context: Context): LiveData<Boolean> {
-        val userPreferences = UserPreferences(context)
-        val lastTimestamp = userPreferences.getLastTimestamp() // Ambil timestamp terakhir dari SharedPreferences
-        val result = MutableLiveData<Boolean>()
-
-        val buktiCollection = db.collection("buktiSampah")
-        buktiCollection
-            .whereGreaterThan("timestamp", Date(lastTimestamp)) // Query untuk data baru
-            .get()
-            .addOnSuccessListener { documents ->
-                val hasNewNotification = documents.isEmpty.not()
-                result.value = hasNewNotification
-                if (hasNewNotification) {
-                    // Update timestamp terakhir
-                    val newLastTimestamp = documents.documents.maxOfOrNull { it.getTimestamp("timestamp")?.toDate()?.time ?: 0L } ?: lastTimestamp
-                    userPreferences.saveLastTimestamp(newLastTimestamp)
-                    userPreferences.setHasNewNotif(true) // Simpan status notifikasi baru
-                } else {
-                    userPreferences.setHasNewNotif(false) // Tidak ada notifikasi baru
-                }
-            }
-            .addOnFailureListener { e ->
-                Log.e("NotifikasiViewModel", "Failed to check for new notifications: ${e.message}")
-                result.value = false
-            }
-
-        return result
-    }
-
-
-//    // Menyimpan timestamp terakhir
-//    fun saveLastTimestamp(context: Context,timestamp: Long) {
-//        // Simpan timestamp di shared preferences atau database lokal
-//
-//
-//
-//    }
 }

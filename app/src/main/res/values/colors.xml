@@ -2,18 +2,30 @@
 <resources>
 
     <!-- Background -->
-    <color name="primary">#1F5B22</color>
-    <color name="secondary">#10c45b</color>
-    <color name="accent">#F9F9F9</color>
+    <color name="primary">#4CAF50</color> <!-- Hijau yang lebih lembut untuk latar belakang utama -->
+    <color name="secondary">#81C784</color> <!-- Hijau muda yang tetap harmonis dengan warna utama -->
+    <color name="accent">#FAFAFA</color> <!-- Warna putih pudar untuk aksen, lebih lembut dari #F9F9F9 -->
 
     <!-- Fonts -->
-    <color name="black">#000000</color>
-    <color name="white">#FFFFFF</color>
-    <color name="blue">#2085FF</color>
+    <color name="black">#212121</color> <!-- Abu-abu sangat gelap, lebih nyaman untuk teks daripada hitam pekat -->
+    <color name="white">#FFFFFF</color> <!-- Tetap putih untuk kontras yang baik dengan warna latar belakang -->
+    <color name="blue">#42A5F5</color> <!-- Biru lebih lembut dan harmonis untuk teks atau ikon -->
 
-    <color name="semi_transparent_white">#95000000</color>
+    <color name="strokeRounded">#e4e4e4</color>
+
+    <!-- Transparan -->
+    <color name="semi_transparent">#80181616</color> <!-- Putih semi-transparan yang lebih lembut untuk elemen transparan -->
 
     <!-- Select/Unselect -->
-    <color name="card_selected">#5FC129</color>
-    <color name="card_unselected">#C63131</color>
+    <color name="card_selected">#66BB6A</color> <!-- Hijau yang lebih lembut dan tetap jelas untuk elemen yang dipilih -->
+    <color name="card_unselected">#E57373</color> <!-- Merah muda yang lebih lembut dan tidak mencolok untuk elemen yang tidak dipilih -->
+
+    <!-- Card View Background -->
+    <color name="cardview">#F5F5F5</color> <!-- Abu-abu sangat terang, memberikan kesan bersih tanpa silau -->
+
+    <!-- colors.xml -->
+    <color name="hintColor">#808080</color> <!-- Warna untuk mode terang -->
+
+
+
 </resources>

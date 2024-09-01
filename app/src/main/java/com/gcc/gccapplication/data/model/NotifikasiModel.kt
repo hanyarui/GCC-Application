@@ -12,6 +12,7 @@ data class NotifikasiModel(
     val totalAmount: String?=null,
     val dusun: String?=null,
     val time: String?=null,
+    val timeStampLong: Long?=null,
     var isPicked: Boolean,
     val buktiUploadId: String? = null
 ): Parcelable

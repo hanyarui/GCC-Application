@@ -33,7 +33,6 @@ class RegisterActivity : AppCompatActivity() {
                 email = email,
                 password = password,
                 confirmPassword = confirmPassword,
-                fcmToken = fcmToken,
                 onSuccess = {
                     Toast.makeText(this, "Registration successful!", Toast.LENGTH_SHORT).show()
                     val intent = Intent(this, LoginActivity::class.java)
@@ -44,6 +43,7 @@ class RegisterActivity : AppCompatActivity() {
                     Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show()
                 }
             )
+
         }
 
         binding.tvAkun.setOnClickListener {

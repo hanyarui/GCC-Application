@@ -34,6 +34,8 @@ class NotificationActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         userPreferences = UserPreferences(this)
+        userPreferences.setHasNewNotif(false)
+        notifikasiViewModel.setHasNewNotif(false)
 
         setupToolbar()
         setupRecyclerView()
@@ -46,7 +48,7 @@ class NotificationActivity : AppCompatActivity() {
         supportActionBar?.apply {
             setDisplayHomeAsUpEnabled(true)
             setDisplayShowCustomEnabled(true)
-            setDisplayShowTitleEnabled(false)
+            setDisplayShowTitleEnabled(true)
             customView = layoutInflater.inflate(R.layout.actionbar_title, null).apply {
                 customTitle = findViewById(R.id.custom_title)
                 customTitle.text = "Notifikasi"

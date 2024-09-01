@@ -24,7 +24,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:text="@string/nama_lengkap"
-            android:textColor="@color/white"
+            android:textColor="@color/black"
             android:textSize="16sp"
             android:textStyle="bold"
             card_view:layout_constraintStart_toStartOf="parent"
@@ -36,7 +36,7 @@
             android:layout_marginStart="12dp"
             android:layout_marginTop="8dp"
             android:text="@string/nama_lengkap"
-            android:textColor="@color/white"
+            android:textColor="@color/black"
             android:textSize="16sp"
             android:textStyle="bold"
             card_view:layout_constraintStart_toEndOf="@+id/textView4"
@@ -47,7 +47,7 @@
             style="@style/TextSubDetail"
             android:layout_marginStart="8dp"
             android:text="@string/alamat"
-            android:textColor="@color/white"
+            android:textColor="@color/black"
             card_view:layout_constraintStart_toStartOf="parent"
             card_view:layout_constraintTop_toBottomOf="@+id/tvName" />
 
@@ -57,7 +57,7 @@
             android:layout_width="wrap_content"
             android:layout_marginStart="12dp"
             android:text="@string/alamat"
-            android:textColor="@color/white"
+            android:textColor="@color/black"
             card_view:layout_constraintStart_toEndOf="@+id/textView5"
             card_view:layout_constraintTop_toBottomOf="@+id/tvName" />
 
@@ -66,7 +66,7 @@
             style="@style/TextSubDetail"
             android:layout_marginStart="8dp"
             android:text="@string/nomor_telp"
-            android:textColor="@color/white"
+            android:textColor="@color/black"
             card_view:layout_constraintStart_toStartOf="parent"
             card_view:layout_constraintTop_toBottomOf="@+id/tvAlamat" />
 
@@ -74,7 +74,7 @@
             android:id="@+id/tvSampah"
             style="@style/TextDetail"
             android:text="@string/daftar_sampah"
-            android:textColor="@color/white"
+            android:textColor="@color/black"
             android:textSize="16sp"
             android:textStyle="bold"
             card_view:layout_constraintStart_toStartOf="parent"
@@ -92,7 +92,7 @@
             style="@style/TextDetail"
             android:layout_marginTop="12dp"
             android:text="Bukti Sampah"
-            android:textColor="@color/white"
+            android:textColor="@color/black"
             android:textSize="16sp"
             android:textStyle="bold"
             card_view:layout_constraintStart_toStartOf="parent"

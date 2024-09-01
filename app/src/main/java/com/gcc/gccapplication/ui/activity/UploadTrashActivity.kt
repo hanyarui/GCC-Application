@@ -20,6 +20,7 @@ import com.gcc.gccapplication.data.local.UserPreferences
 import com.gcc.gccapplication.data.model.NotificationRequest
 import com.gcc.gccapplication.databinding.ActivityTrashbagBinding
 import com.gcc.gccapplication.databinding.ActivityUploadTrashBinding
+import com.gcc.gccapplication.service.MyFirebaseMessagingService
 import com.gcc.gccapplication.viewModel.UploadTrashViewModel
 import com.yalantis.ucrop.UCrop
 import retrofit2.Retrofit
@@ -36,6 +37,7 @@ class UploadTrashActivity : AppCompatActivity() {
     private var currentImageUri: Uri?=null
     private lateinit var customTitle: TextView
     private val viewModel: UploadTrashViewModel by viewModels()
+    private val notification: MyFirebaseMessagingService = MyFirebaseMessagingService()
     private lateinit var userPreferences: UserPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,7 +46,7 @@ class UploadTrashActivity : AppCompatActivity() {
         setContentView(binding.root)
 
 
-
+        userPreferences  = UserPreferences(this)
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -63,8 +65,9 @@ class UploadTrashActivity : AppCompatActivity() {
         binding.ivPhotoSampah.setOnClickListener{startGallery()}
 
         binding.btnKonfirmasi.setOnClickListener{
+            (viewModel.isInternetAvailable(this) && run { saveUploadData(); true }) || run { Toast.makeText(this, "No internet connection available.", Toast.LENGTH_SHORT).show(); false }
             //logic simpan data
-            saveUploadData()
+
         }
 
 
@@ -115,7 +118,7 @@ class UploadTrashActivity : AppCompatActivity() {
     private fun saveUploadData(){
         userPreferences = UserPreferences(this)
         val userFullName = binding.etUserName.text.toString()
-        val userAddress = binding.etUserAddress.text.toString()
+        val userAddress = binding.etAlamat.text.toString()
         val phoneNumb = binding.etNomor.text.toString()
         val email = userPreferences.getEmail().toString()
         if(userFullName.isEmpty() || userAddress.isEmpty() || phoneNumb.isEmpty()){
@@ -132,7 +135,7 @@ class UploadTrashActivity : AppCompatActivity() {
             onSuccess = {
                 Toast.makeText(this, "Berhasil Untuk Menyimpan Data Upload", Toast.LENGTH_SHORT).show()
                 setResult(RESULT_OK)
-                viewModel.sendNotification("BYbJAcPOmlf1FoKMJ36jqsdBv0Z2", "notif ni bro", "Ini dikirim andro!")
+                notification.sendNotification(userPreferences.getAddress()?: "","Halo Greeners!!", "ada sampah masuk nich dari $userFullName")
                 finish()
             },
             onFailure = { e ->

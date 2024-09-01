@@ -18,17 +18,17 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.UUID
+import android.content.Context
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
+import android.os.Build
 import kotlin.math.log
 
 class UploadTrashViewModel: ViewModel() {
 
     private val db = FirebaseFirestore.getInstance()
     private val storage = FirebaseStorage.getInstance()
-    private lateinit var apiService: ApiService
-    val retrofit = Retrofit.Builder()
-        .baseUrl("https://018b-103-65-214-6.ngrok-free.app/") // Gabisa makek http, bisa nya https akalin nya makek ngrok
-        .addConverterFactory(GsonConverterFactory.create())
-        .build()
+
 
 
 
@@ -78,26 +78,24 @@ class UploadTrashViewModel: ViewModel() {
         }
     }
 
-    fun sendNotification(userId: String, title: String, body: String) {
-        apiService = retrofit.create(ApiService::class.java)
-        val notificationRequest = NotificationRequest(userId, title, body)
-        apiService.sendNotification(notificationRequest).enqueue(object : Callback<Void> {
-            override fun onResponse(call: Call<Void>, response: Response<Void>) {
-                if (response.isSuccessful) {
-                    // Notifikasi berhasil dikirim
-                    Log.d("Notification", "Notification sent successfully")
-                } else {
-                    // Tangani error
-                    Log.e("Notification", "Failed to send notification bla bla: ${response.code()}")
-                }
-            }
 
-            override fun onFailure(call: Call<Void>, t: Throwable) {
-                // Tangani kegagalan
-                Log.e("Notification", "Failed to send notification: ${t.message}")
-            }
-        })
+
+    fun isInternetAvailable(context: Context): Boolean {
+        val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            val network = connectivityManager.activeNetwork ?: return false
+            val capabilities = connectivityManager.getNetworkCapabilities(network) ?: return false
+            return capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) ||
+                    capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) ||
+                    capabilities.hasTransport(NetworkCapabilities.TRANSPORT_VPN)
+        } else {
+            val networkInfo = connectivityManager.activeNetworkInfo
+            return networkInfo?.isConnected == true
+        }
     }
+
+
 
 
 

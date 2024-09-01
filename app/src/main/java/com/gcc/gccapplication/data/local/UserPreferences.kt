@@ -5,12 +5,14 @@ import android.content.SharedPreferences
 import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.firestore.FieldValue
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.messaging.FirebaseMessaging
 
 class UserPreferences(context: Context) {
 
     private val prefs: SharedPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-
+    private val auth: FirebaseAuth = FirebaseAuth.getInstance()
     companion object {
         private const val PREFS_NAME = "userPreferences"
         private const val TOKEN_KEY = "token"
@@ -20,6 +22,8 @@ class UserPreferences(context: Context) {
         private const val ADDRESS_KEY = "address"
         private const val UID_KEY = "uid"
         private const val FCM_TOKEN = "fcm_token"
+        private const val KEY_LAST_TIMESTAMP = "last_timestamp"
+        private const val NEW_NOTIF = "has_new_notif"
     }
 
     fun saveToken(token: String) {
@@ -33,18 +37,42 @@ class UserPreferences(context: Context) {
         return prefs.getString(TOKEN_KEY, null)
     }
 
-    fun setFCMtoken(token: String) {
-        return with(prefs.edit()) {
-            putString(FCM_TOKEN, token)
+//    fun saveLastTimestamp(context: Context, timestamp: Long) {
+//        val sharedPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+//        val editor = sharedPreferences.edit()
+//        editor.putLong(KEY_LAST_TIMESTAMP, timestamp)
+//        editor.apply()
+//    }
+
+    // Menyimpan timestamp terakhir
+    fun saveLastTimestamp(timestamp: Long) {
+        with(prefs.edit()) {
+            putLong(KEY_LAST_TIMESTAMP, timestamp)
             apply()
         }
     }
 
-    fun saveFCMtoken(token: String){
-        with(prefs.edit()){
-            putString(FCM_TOKEN,token)
+    // Mengambil timestamp terakhir
+    fun getLastTimestamp(): Long {
+        return prefs.getLong(KEY_LAST_TIMESTAMP, 0L)
+    }
+
+    fun saveFCMtoken(token: String) {
+        with(prefs.edit()) {
+            putString(TOKEN_KEY, token)
             apply()
         }
+    }
+
+    fun setHasNewNotif(hasNewNotif: Boolean) {
+        with(prefs.edit()) {
+            putBoolean(NEW_NOTIF, hasNewNotif)
+            apply()
+        }
+    }
+
+    fun getHasNewNotif(): Boolean {
+        return prefs.getBoolean(NEW_NOTIF, false)
     }
 
     fun getFCMtoken(): String? {
@@ -85,12 +113,20 @@ class UserPreferences(context: Context) {
         }
     }
 
+    fun saveUid(uid: String){
+        with(prefs.edit()){
+            putString(UID_KEY, uid)
+            apply()
+        }
+    }
+
     fun firebaseCurrrentUser(): FirebaseUser? {
         return FirebaseAuth.getInstance().currentUser
     }
 
     fun firebaseSignOut(){
         FirebaseAuth.getInstance().signOut()
+        FirebaseMessaging.getInstance().deleteToken()
     }
 
     fun getRole(): String? {
@@ -121,6 +157,7 @@ class UserPreferences(context: Context) {
     fun getUid(): String? {
         return prefs.getString(UID_KEY, null)
     }
+
     // Fungsi untuk mendapatkan semua data user dalam satu objek User
     fun getUserData(): User? {
         val email = getEmail()
@@ -135,7 +172,38 @@ class UserPreferences(context: Context) {
             null
         }
     }
+
+    fun clearFCMToken(
+        uid: String?,
+        onSuccess: () -> Unit = {},
+        onFailure: (Exception) -> Unit = {}
+    ) {
+        if (uid.isNullOrEmpty()) {
+            Log.d("UID", "User is not authenticated.")
+            return
+        }
+
+        val db = FirebaseFirestore.getInstance()
+        val tokenRef = db.collection("tokenNotification").document(uid)
+        val tokenFcm = getFCMtoken()
+
+        tokenRef.update("tokensFcm", FieldValue.arrayRemove(tokenFcm))
+            .addOnSuccessListener {
+                // Token FCM berhasil dihapus dari Firestore
+                Log.d("FCM", "Token FCM berhasil dihapus dari Firestore.")
+                onSuccess() // Panggil lambda onSuccess
+            }
+            .addOnFailureListener { exception ->
+                // Gagal menghapus token FCM dari Firestore
+                Log.w("FCM", "Gagal menghapus token FCM dari Firestore $uid", exception)
+                onFailure(exception) // Panggil lambda onFailure
+            }
+    }
+
+
 }
+
+
 
 data class User(
     val email: String,

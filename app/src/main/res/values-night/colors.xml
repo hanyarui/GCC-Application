@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Background -->
+    <color name="primary">#2A2A2A</color> <!-- Warna abu-abu gelap untuk latar belakang utama -->
+    <color name="secondary">#1B1B1B</color> <!-- Warna hitam pekat untuk elemen sekunder -->
+
+    <!-- Accent/Highlights -->
+    <color name="accent">#3E3E3E</color> <!-- Warna abu-abu terang untuk aksen dan elemen yang membutuhkan sorotan -->
+    <color name="blue">#569AFF</color> <!-- Biru cerah yang masih terlihat di mode gelap -->
+
+    <!-- Fonts -->
+    <color name="black">#E0E0E0</color> <!-- Abu-abu terang untuk teks agar kontras dengan latar belakang gelap -->
+    <color name="white">#454343</color> <!-- Putih untuk elemen yang membutuhkan visibilitas tinggi -->
+
+    <color name="strokeRounded">#2c2c2c</color>
+
+    <!-- Transparan -->
+    <color name="semi_transparent">#95EBE5E5</color> <!-- Warna semi-transparan putih yang sesuai untuk night mode -->
+
+    <!-- Select/Unselect -->
+    <color name="card_selected">#3A6B35</color> <!-- Hijau gelap untuk elemen yang dipilih, tetap terlihat dalam night mode -->
+    <color name="card_unselected">#8B3E3E</color> <!-- Merah tua yang lebih lembut untuk elemen yang tidak dipilih -->
+
+    <!-- Card View Background -->
+    <color name="cardview">#3B3B3B</color> <!-- Warna abu-abu netral untuk latar belakang card view -->
+
+    <!-- night/colors.xml -->
+    <color name="hintColor">#B3B3B3</color> <!-- Warna untuk mode gelap -->
+
+
+</resources>

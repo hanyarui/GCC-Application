@@ -71,8 +71,20 @@
                     android:src="@drawable/ic_notification"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.444"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.333" />
+
+                <ImageView
+                    android:id="@+id/ivNotifDot"
+                    android:layout_width="8dp"
+                    android:layout_height="7dp"
+                    android:visibility="gone"
+                    android:src="@drawable/notifikasi_recent"
+                    app:layout_constraintEnd_toEndOf="@+id/ivNotification"
+                    app:layout_constraintTop_toTopOf="@+id/ivNotification" />
+
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -81,7 +93,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/roundedTop"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:background="@drawable/bg_rounded_top"
             android:paddingHorizontal="18dp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -93,7 +105,7 @@
                 android:id="@+id/tvTitle"
                 style="@style/TextTitle"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
                 android:text="@string/daftar_sampah"
                 android:textSize="22sp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -101,16 +113,17 @@
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvSampah"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_marginTop="14dp"
+                android:layout_width="match_parent"
+                android:layout_height="648dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="50dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHeight_percent="0.93"
+                app:layout_constraintHorizontal_bias="0.529"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvTitle"
-                app:layout_constraintVertical_bias="0.0"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintHeight_percent="0.93" />
+                app:layout_constraintVertical_bias="1.0" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 

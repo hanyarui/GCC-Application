@@ -22,7 +22,7 @@ class ValidationActivity : AppCompatActivity() {
         userPreferences = UserPreferences(this)
 
         setupListeners()
-        createFCMToken()
+
     }
 
     private fun setupListeners() {
@@ -45,16 +45,5 @@ class ValidationActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
-    fun createFCMToken(){
-        val TAG ="FCM__TOKEN"
-        FirebaseMessaging.getInstance().token.addOnCompleteListener{ task ->
-            if(!task.isSuccessful){
-                Log.w(TAG,"Fetching FCM token failed",task.exception)
-                return@addOnCompleteListener
-            }
-            val token = task.result
-            userPreferences.setFCMtoken(token)
-            Log.d(TAG,token)
-        }
-    }
+
 }

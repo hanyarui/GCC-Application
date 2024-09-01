@@ -32,6 +32,7 @@ class ItemNotifAdapter(
         holder.tvNamaLengkap.text = notifikasiItem.namaLengkap ?: ""
         holder.tvAmount.text = notifikasiItem.totalAmount ?: ""
         holder.tvDusun.text = notifikasiItem.dusun ?: ""
+        holder.tvNomor.text = notifikasiItem.noHp ?: ""
         holder.tvAlamatLengkap.text = notifikasiItem.alamatLengkap ?: ""
         holder.tvTrashDescription.text = "Jumlah Sampah:"
         holder.tvKg.text = "KG"
@@ -74,6 +75,7 @@ class ItemNotifAdapter(
         val tvTime: TextView = itemView.findViewById(R.id.tvTanggalWaktu)
         val imageView: ImageView = itemView.findViewById(R.id.imageView)
         val cardView: CardView = itemView.findViewById(R.id.card_view_notif)
+        val tvNomor: TextView = itemView.findViewById(R.id.tvNomor)
     }
 }
 

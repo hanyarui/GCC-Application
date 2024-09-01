@@ -11,7 +11,7 @@
     android:layout_marginEnd="8dp"
     android:layout_marginBottom="4dp"
     android:backgroundTintMode="src_in"
-    card_view:cardBackgroundColor="@color/cardview_light_background"
+    card_view:cardBackgroundColor="@color/cardview"
     card_view:cardCornerRadius="12dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -37,7 +37,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
-            android:textColor="@color/common_google_signin_btn_text_light_default"
+            android:textColor="@color/black"
             android:textSize="16sp"
             android:textStyle="bold"
             card_view:layout_constraintEnd_toEndOf="parent"
@@ -51,7 +51,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/jumlah_sampah"
-            android:textColor="@color/common_google_signin_btn_text_light_default"
+            android:textColor="@color/black"
             card_view:layout_constraintBottom_toBottomOf="parent"
             card_view:layout_constraintStart_toStartOf="@+id/tvTrashName" />
 
@@ -62,7 +62,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="36dp"
             android:text="waktu : "
-            android:textColor="@color/common_google_signin_btn_text_light_default"
+            android:textColor="@color/black"
             card_view:layout_constraintBottom_toBottomOf="parent"
             card_view:layout_constraintStart_toStartOf="@+id/tvTrashName" />
 
@@ -84,7 +84,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
             android:text="@string/kg"
-            android:textColor="@color/common_google_signin_btn_text_light_default"
+            android:textColor="@color/black"
             card_view:layout_constraintBottom_toBottomOf="parent"
             card_view:layout_constraintStart_toEndOf="@+id/tvKG" />
     </androidx.constraintlayout.widget.ConstraintLayout>

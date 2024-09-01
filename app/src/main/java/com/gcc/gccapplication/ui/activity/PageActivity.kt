@@ -1,6 +1,7 @@
 package com.gcc.gccapplication.ui.activity
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -35,7 +36,8 @@ class PageActivity : AppCompatActivity() {
 
         // Initialize UserPreferences and Firestore
         userPreferences = UserPreferences(this)
-
+        val fcmToken = userPreferences.getFCMtoken()
+        Log.d("FCM__Token", "Token FCM didapatkan: $fcmToken")
         // Get user data from UserPreferences
         val fullName = userPreferences.getFullName() ?: "Nama Tidak Ada"
         val email = userPreferences.getEmail() ?: "Email Tidak Ada"
