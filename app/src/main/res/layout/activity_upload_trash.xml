@@ -65,8 +65,8 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/clBottomMidLayout"
-                android:layout_width="390dp"
-                android:layout_height="635dp"
+                android:layout_width="442dp"
+                android:layout_height="648dp"
                 android:layout_marginTop="12dp"
                 android:padding="12dp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -74,18 +74,17 @@
                 app:layout_constraintTop_toBottomOf="@+id/ivPhotoSampah">
 
 
-
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/lytUserName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:boxBackgroundMode="outline"
-                    app:boxStrokeColor="@color/black"
-                    app:boxCornerRadiusTopStart="24dp"
-                    app:boxCornerRadiusTopEnd="24dp"
-                    app:boxCornerRadiusBottomStart="24dp"
-                    app:boxCornerRadiusBottomEnd="24dp"
                     android:layout_marginTop="20dp"
+                    app:boxBackgroundMode="outline"
+                    app:boxCornerRadiusBottomEnd="24dp"
+                    app:boxCornerRadiusBottomStart="24dp"
+                    app:boxCornerRadiusTopEnd="24dp"
+                    app:boxCornerRadiusTopStart="24dp"
+                    app:boxStrokeColor="@color/black"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
@@ -95,14 +94,13 @@
                         style="@style/TextDetail"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:backgroundTint="@color/black"
                         android:hint="Masukkan Nama Lengkap Anda..."
                         android:inputType="textPersonName"
-                        android:textColorHint="@color/hintColor"
                         android:paddingHorizontal="24dp"
                         android:paddingVertical="12dp"
-                        android:backgroundTint="@color/black" />
+                        android:textColorHint="@color/hintColor" />
                 </com.google.android.material.textfield.TextInputLayout>
-
 
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -126,17 +124,16 @@
                         style="@style/TextDetail"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:backgroundTint="@color/black"
                         android:gravity="top|start"
                         android:hint="Masukkan Alamat lengkap Anda..."
                         android:inputType="textMultiLine"
-                        android:textColorHint="@color/hintColor"
                         android:maxLines="10"
                         android:minLines="8"
                         android:paddingHorizontal="24dp"
                         android:paddingVertical="12dp"
                         android:scrollbars="vertical"
-                        android:backgroundTint="@color/black"
-                        />
+                        android:textColorHint="@color/hintColor" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
