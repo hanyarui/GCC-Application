@@ -96,6 +96,33 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/lytNoHp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            app:boxBackgroundMode="outline"
+            app:boxStrokeColor="@color/black"
+            app:boxBackgroundColor="@color/white"
+            app:boxCornerRadiusTopStart="24dp"
+            app:boxCornerRadiusTopEnd="24dp"
+            app:boxCornerRadiusBottomStart="24dp"
+            app:boxCornerRadiusBottomEnd="24dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/lytNama">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etNoHp"
+                style="@style/TextDetail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingVertical="12dp"
+                android:paddingHorizontal="24dp"
+                android:inputType="textPersonName"
+                android:hint="Nomor Handphone" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/lytPass"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -110,7 +137,7 @@
             app:boxCornerRadiusBottomEnd="24dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/lytNama">
+            app:layout_constraintTop_toBottomOf="@+id/lytNoHp">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etPass"

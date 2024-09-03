@@ -1,35 +1,30 @@
 package com.gcc.gccapplication.ui.activity
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
+
 import android.view.MenuItem
 import android.widget.TextView
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
+
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
+
 import com.gcc.gccapplication.R
-import com.gcc.gccapplication.data.API.ApiService
+
 import com.gcc.gccapplication.data.local.UserPreferences
-import com.gcc.gccapplication.data.model.NotificationRequest
-import com.gcc.gccapplication.databinding.ActivityTrashbagBinding
+
 import com.gcc.gccapplication.databinding.ActivityUploadTrashBinding
 import com.gcc.gccapplication.service.MyFirebaseMessagingService
 import com.gcc.gccapplication.viewModel.UploadTrashViewModel
 import com.yalantis.ucrop.UCrop
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+
 import java.io.File
 
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class UploadTrashActivity : AppCompatActivity() {
 
@@ -40,6 +35,7 @@ class UploadTrashActivity : AppCompatActivity() {
     private val notification: MyFirebaseMessagingService = MyFirebaseMessagingService()
     private lateinit var userPreferences: UserPreferences
 
+    @SuppressLint("InflateParams", "SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityUploadTrashBinding.inflate(layoutInflater)
@@ -101,6 +97,7 @@ class UploadTrashActivity : AppCompatActivity() {
     }
 
 
+    @Deprecated("This method has been deprecated in favor of using the Activity Result API\n      which brings increased type safety via an {@link ActivityResultContract} and the prebuilt\n      contracts for common intents available in\n      {@link androidx.activity.result.contract.ActivityResultContracts}, provides hooks for\n      testing, and allow receiving results in separate, testable classes independent from your\n      activity. Use\n      {@link #registerForActivityResult(ActivityResultContract, ActivityResultCallback)}\n      with the appropriate {@link ActivityResultContract} and handling the result in the\n      {@link ActivityResultCallback#onActivityResult(Object) callback}.")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == UCrop.REQUEST_CROP && resultCode == RESULT_OK) {
@@ -125,6 +122,8 @@ class UploadTrashActivity : AppCompatActivity() {
             Toast.makeText(this, "Tolong masukkan data terlebih dulu", Toast.LENGTH_SHORT).show()
             return
         }
+
+
 
         viewModel.saveUploadData(
             userFullName,

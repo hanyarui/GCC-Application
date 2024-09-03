@@ -87,12 +87,14 @@ class MainActivity : AppCompatActivity() {
 
     private fun checkUserAndNavigate() {
         val currentUser = userPreferences.firebaseCurrrentUser()
+        val currentEmail = userPreferences.getEmail()
 
         if (currentUser != null) {
             // Jika pengguna sudah login, arahkan ke PageActivity
             val intent = Intent(this, PageActivity::class.java)
             startActivity(intent)
         } else {
+
             // Jika pengguna belum login, arahkan ke ValidationActivity
             val intent = Intent(this, ValidationActivity::class.java)
             startActivity(intent)

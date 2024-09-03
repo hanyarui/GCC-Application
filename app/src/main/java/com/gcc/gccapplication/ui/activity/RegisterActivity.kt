@@ -22,16 +22,23 @@ class RegisterActivity : AppCompatActivity() {
         setContentView(binding.root)
         supportActionBar?.hide()
         userPreferences = UserPreferences(this)
+
+//        enableEdgeToEdge() //
+
         binding.register.setOnClickListener {
             val email = binding.etEmail.text.toString().trim()
             val fullName = binding.etNama.text.toString().trim()
+            val noHp = binding.etNoHp.text.toString().trim()
             val password = binding.etPass.text.toString().trim()
             val confirmPassword = binding.etRepass.text.toString().trim()
             val fcmToken = userPreferences.getFCMtoken().toString()
+
+            userPreferences.saveNoHp(noHp)
             registerViewModel.registerUser(
                 fullName = fullName,
                 email = email,
                 password = password,
+                noHp = noHp,
                 confirmPassword = confirmPassword,
                 onSuccess = {
                     Toast.makeText(this, "Registration successful!", Toast.LENGTH_SHORT).show()

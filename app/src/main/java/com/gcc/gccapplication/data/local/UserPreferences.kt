@@ -12,16 +12,17 @@ import com.google.firebase.messaging.FirebaseMessaging
 class UserPreferences(context: Context) {
 
     private val prefs: SharedPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-    private val auth: FirebaseAuth = FirebaseAuth.getInstance()
     companion object {
         private const val PREFS_NAME = "userPreferences"
         private const val TOKEN_KEY = "token"
         private const val EMAIL_KEY = "email"
         private const val NAME_KEY = "fullName"
+        private const val NoHp_KEY = "nomor handphone"
         private const val ROLE_KEY = "role"  // Tambahkan konstanta untuk role
         private const val ADDRESS_KEY = "address"
         private const val UID_KEY = "uid"
         private const val FCM_TOKEN = "fcm_token"
+        private const val URL_PROFILE = "url_profile"
         private const val KEY_LAST_TIMESTAMP = "last_timestamp"
         private const val NEW_NOTIF = "has_new_notif"
     }
@@ -31,6 +32,17 @@ class UserPreferences(context: Context) {
             putString(TOKEN_KEY, token)
             apply()
         }
+    }
+
+    fun saveUrlProfile(url: String) {
+        with(prefs.edit()) {
+            putString(URL_PROFILE, url)
+            apply()
+        }
+    }
+
+    fun getUrlProfile(): String? {
+        return prefs.getString(URL_PROFILE, null)
     }
 
     fun getToken(): String? {
@@ -64,6 +76,8 @@ class UserPreferences(context: Context) {
         }
     }
 
+
+
     fun setHasNewNotif(hasNewNotif: Boolean) {
         with(prefs.edit()) {
             putBoolean(NEW_NOTIF, hasNewNotif)
@@ -92,6 +106,19 @@ class UserPreferences(context: Context) {
 
     fun getEmail(): String? {
         return prefs.getString(EMAIL_KEY, null)
+    }
+
+    fun saveNoHp(nomor: String) {
+        with(prefs.edit()) {
+            putString(NoHp_KEY, nomor)
+            apply()
+        }
+    }
+
+
+
+    fun getNoHp(): String? {
+        return prefs.getString(NoHp_KEY, null)
     }
 
     fun saveFullName(fullName: String) {

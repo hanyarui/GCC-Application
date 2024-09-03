@@ -1,6 +1,7 @@
 package com.gcc.gccapplication.ui.fragment
 
 import android.Manifest
+import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
@@ -9,6 +10,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -25,6 +27,8 @@ import com.gcc.gccapplication.viewModel.ProfileViewModel
 import com.google.android.material.snackbar.Snackbar
 import java.io.File
 import androidx.core.content.FileProvider
+import com.bumptech.glide.Glide
+import com.gcc.gccapplication.ui.activity.EditProfileActivity
 import com.google.android.datatransport.BuildConfig
 
 class ProfileFragment : Fragment() {
@@ -34,15 +38,18 @@ class ProfileFragment : Fragment() {
     private lateinit var btnKeranjang: ConstraintLayout
     private lateinit var btnUbahPass: ConstraintLayout
     private lateinit var btnLogout: ConstraintLayout
+    private lateinit var ivProfilePicture: ImageView
     private val viewModel: ProfileViewModel by viewModels()
     private lateinit var btnDataSampah: ConstraintLayout
     private lateinit var btnRekapSampah: ConstraintLayout
+    private lateinit var btnUbahProf: ConstraintLayout
     private lateinit var userPreferences: UserPreferences
 
     companion object {
         private const val ARG_FULL_NAME = "full_name"
         private const val ARG_EMAIL = "email"
         private const val REQUEST_CODE = 1001
+        const val REQUEST_CODE_EDIT_PROFILE = 1
 
         fun newInstance(fullName: String, email: String): ProfileFragment {
             val fragment = ProfileFragment()
@@ -59,6 +66,26 @@ class ProfileFragment : Fragment() {
         arguments?.let {
             val fullName = it.getString(ARG_FULL_NAME)
             val email = it.getString(ARG_EMAIL)
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == REQUEST_CODE_EDIT_PROFILE && resultCode == Activity.RESULT_OK) {
+            // Jalankan tugas lain, seperti memperbarui UI
+
+            // Set user data
+            val fullName = userPreferences.getFullName() ?: "Nama Tidak Ada"
+            val email = userPreferences.getEmail() ?: "Email Tidak Ada"
+            tvNama.text = fullName
+            tvEmail.text = email
+
+            val URL  = userPreferences.getUrlProfile()
+            if (!URL.isNullOrEmpty()) Glide.with(requireContext())
+                .load(URL) // urlPhoto
+                .placeholder(R.drawable.img_dummy_image)
+                .into(ivProfilePicture)
+
         }
     }
 
@@ -79,6 +106,8 @@ class ProfileFragment : Fragment() {
         btnLogout = view.findViewById(R.id.btnLogout)
         btnDataSampah = view.findViewById(R.id.btnDataSampah)
         btnRekapSampah = view.findViewById(R.id.btnRekapSampah)
+        btnUbahProf = view.findViewById(R.id.btnUbahProf)
+        ivProfilePicture = view.findViewById(R.id.ivProfilePicture)
 
         val userRole = userPreferences.getRole() ?: "user"
         if (userRole == "user") {
@@ -86,11 +115,23 @@ class ProfileFragment : Fragment() {
             btnRekapSampah.visibility = View.GONE
         }
 
+
         // Set user data
-        val fullName = arguments?.getString(ARG_FULL_NAME) ?: "Nama Tidak Ada"
-        val email = arguments?.getString(ARG_EMAIL) ?: "Email Tidak Ada"
+        val fullName = userPreferences.getFullName() ?: "Nama Tidak Ada"
+        val email = userPreferences.getEmail() ?: "Email Tidak Ada"
         tvNama.text = fullName
         tvEmail.text = email
+
+
+        val URL  = userPreferences.getUrlProfile()
+        if (!URL.isNullOrEmpty()) Glide.with(requireContext())
+            .load(URL) // urlPhoto
+            .placeholder(R.drawable.img_dummy_image)
+            .into(ivProfilePicture)
+
+        ivProfilePicture.setOnClickListener{
+
+        }
 
         // Set click listeners
         btnKeranjang.setOnClickListener {
@@ -103,9 +144,10 @@ class ProfileFragment : Fragment() {
 
         btnLogout.setOnClickListener {
             val uid = userPreferences.getUid()
+            userPreferences.firebaseSignOut()
             userPreferences.clearFCMToken(uid, onSuccess = {
+
                 userPreferences.clear()
-                userPreferences.firebaseSignOut()
                 val intent = Intent(activity, ValidationActivity::class.java)
                 intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                 startActivity(intent)
@@ -117,6 +159,11 @@ class ProfileFragment : Fragment() {
 
         btnDataSampah.setOnClickListener {
             startActivity(Intent(activity, CreateTrashActivity::class.java))
+        }
+
+        btnUbahProf.setOnClickListener {
+            val intent  = Intent(activity, EditProfileActivity::class.java)
+            startActivityForResult(intent, REQUEST_CODE_EDIT_PROFILE)
         }
 
         btnRekapSampah.setOnClickListener {

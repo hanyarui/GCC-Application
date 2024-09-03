@@ -37,8 +37,6 @@ class LoginViewModel : ViewModel() {
                                     val fullName = document.getString("name") ?: "Unknown"
                                     val address = document.getString("address") ?: "Unknown"
 
-
-
                                     // Simpan token dan data lainnya ke SharedPreferences
                                     val userPreferences = UserPreferences(context)
                                     userPreferences.saveEmail(email)
