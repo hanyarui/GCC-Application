@@ -19,6 +19,8 @@ import com.google.firebase.firestore.FirebaseFirestore
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
+import java.util.Calendar
+import java.util.Locale
 
 class ProfileViewModel: ViewModel(){
 
@@ -129,12 +131,16 @@ class ProfileViewModel: ViewModel(){
         val pageHeight = 842 // Tinggi halaman dalam piksel (A4)
         val margin = 40 // Margin atas dan bawah
         val pageWidth = 595 // Lebar halaman dalam piksel
+        var dataCount = 0
+        var dateFormat = java.text.SimpleDateFormat("EEEE, dd-MM-yyyy HH:mm", Locale("id","ID"))
+        var currrentTime = dateFormat.format(Calendar.getInstance().time)
 
         fun startNewPage(page: PdfDocument.Page): PdfDocument.Page {
-            if (yPos > pageHeight - margin) {
+            if (yPos > pageHeight - margin || dataCount >= 5) {
                 pdfDocument.finishPage(page) // Finish the current page
                 pageNumber++
                 yPos = 40 // Reset yPos for new page
+                dataCount = 0 // Reset dataCount for new page
                 val newPageInfo = PdfDocument.PageInfo.Builder(pageWidth, pageHeight, pageNumber).create()
                 val newPage = pdfDocument.startPage(newPageInfo)
                 return newPage // Return the new page
@@ -152,6 +158,7 @@ class ProfileViewModel: ViewModel(){
         var page = pdfDocument.startPage(pageInfo)
         var canvas = page.canvas
         val paint = Paint()
+
         val linePaint = Paint().apply {
             color = Color.BLACK
             strokeWidth = 1f
@@ -161,7 +168,9 @@ class ProfileViewModel: ViewModel(){
             textSize = 16f // Atur ukuran teks sesuai kebutuhan
         }
         drawCenteredText("Data Rekap Sampah Dusun ${notifikasiList.firstOrNull()?.dusun}", yPos, boldPaint, canvas)
-        yPos += 10
+        yPos += 15
+        drawCenteredText("Hari ${currrentTime}", yPos, paint, canvas)
+        yPos += 5
         canvas.drawLine(10f, yPos.toFloat(), 585f, yPos.toFloat(), linePaint)
         yPos += 20
 
@@ -195,16 +204,19 @@ class ProfileViewModel: ViewModel(){
             // Tambahkan garis di akhir data
             canvas.drawLine(10f, yPos.toFloat(), 585f, yPos.toFloat(), linePaint)
             yPos +=20
+            dataCount++
         }
-
         pdfDocument.finishPage(page)
+
 
         val dir = File("/storage/emulated/0/Documents/RekapGCC/")
         if (!dir.exists()) {
             dir.mkdirs() // Membuat direktori jika belum ada
         }
 
-        val file = File(dir, "RekapSampah.pdf")
+        dateFormat = java.text.SimpleDateFormat("EEEE,dd-MM-yyyy", Locale("id","ID"))
+        currrentTime = dateFormat.format(Calendar.getInstance().time)
+        val file = File(dir, "RekapSampah,${currrentTime}.pdf")
         try {
             pdfDocument.writeTo(FileOutputStream(file))
             Log.d("ProfileFragment", "PDF berhasil disimpan di ${file.absolutePath}")

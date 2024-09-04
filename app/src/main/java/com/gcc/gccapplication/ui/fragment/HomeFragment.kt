@@ -77,13 +77,14 @@ class HomeFragment : Fragment() {
 
 
         // Set nama user
-        tvNama.text = fullName
+
 
         // Initialize UserPreferences
         userPreferences = UserPreferences(requireContext())
         val userAddress = userPreferences.getAddress()
         val userRole = userPreferences.getRole() ?: "user"
-
+        val userFullName = userPreferences.getFullName() ?: ""
+        tvNama.text = userFullName
 
 
         // Atur visibilitas clNotification berdasarkan peran pengguna

@@ -12,6 +12,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
@@ -27,7 +29,10 @@ import com.gcc.gccapplication.viewModel.ProfileViewModel
 import com.google.android.material.snackbar.Snackbar
 import java.io.File
 import androidx.core.content.FileProvider
+import androidx.core.net.toUri
 import com.bumptech.glide.Glide
+import com.gcc.gccapplication.databinding.DialogAddAddressBinding
+import com.gcc.gccapplication.databinding.DialogViewProfilePictureBinding
 import com.gcc.gccapplication.ui.activity.EditProfileActivity
 import com.google.android.datatransport.BuildConfig
 
@@ -130,7 +135,7 @@ class ProfileFragment : Fragment() {
             .into(ivProfilePicture)
 
         ivProfilePicture.setOnClickListener{
-
+            showDialogProfilePicture()
         }
 
         // Set click listeners
@@ -219,5 +224,20 @@ class ProfileFragment : Fragment() {
                 Log.d("ProfileFragment", "Permission denied")
             }
         }
+    }
+
+
+    private fun showDialogProfilePicture() {
+        val dialogBinding = DialogViewProfilePictureBinding.inflate(LayoutInflater.from(requireContext()))
+        dialogBinding.ivTrashPhoto.setImageURI(userPreferences.getUrlProfile()!!?.toUri())
+        val dialog = AlertDialog.Builder(requireContext())
+            .setTitle("Foto Profil")
+            .setView(dialogBinding.root)
+            .setCancelable(false)
+            .setNegativeButton("Ok", null)
+
+            .create()
+
+        dialog.show()
     }
 }

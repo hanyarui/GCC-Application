@@ -4,21 +4,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingVertical="24dp"
-    android:paddingHorizontal="12dp">
+    app:circularflow_radiusInDP="50dp">
 
-    <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/etAddress"
-        style="@style/TextDetail"
+    <ImageView
+        android:id="@+id/ivTrashPhoto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/it_stroke_rounded"
-        android:hint="@string/masukkan_alamat_lengkap_anda"
-        android:paddingHorizontal="24dp"
-        android:paddingVertical="12dp"
+        android:scaleType="centerCrop"
+        android:layout_margin="2dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        tools:src="@tools:sample/avatars" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
