@@ -50,9 +50,9 @@ class EditProfileActivity : AppCompatActivity() {
             .into(binding.ivProfilePicture)
 
 
-        val fullName = userPreferences.getFullName() ?: "Nama Tidak Tersedia"
-        val nomor = userPreferences.getNoHp() ?: "Nomor Tidak Tersedia"
-        val alamat = userPreferences.getAddress() ?: "Dusun Tidak Tersedia"
+        val fullName = userPreferences.getFullName() ?: "-"
+        val nomor = userPreferences.getNoHp() ?: "-"
+        val alamat = userPreferences.getAddress() ?: "-"
         binding.tvNama.text = fullName
         binding.tvNomor.text = nomor
         binding.tvAlamat.text = alamat

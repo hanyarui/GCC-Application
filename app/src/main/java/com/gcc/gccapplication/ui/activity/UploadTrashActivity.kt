@@ -56,6 +56,9 @@ class UploadTrashActivity : AppCompatActivity() {
         supportActionBar?.customView = customView
         customTitle.text = "Kirim Bukti Pengambilan Sampah"
 
+        val nomor = userPreferences.getNoHp()
+        if(!nomor.isNullOrEmpty()) binding.etNomor.setText(nomor.toString())
+
 
 
         binding.ivPhotoSampah.setOnClickListener{startGallery()}
@@ -116,6 +119,7 @@ class UploadTrashActivity : AppCompatActivity() {
         userPreferences = UserPreferences(this)
         val userFullName = binding.etUserName.text.toString()
         val userAddress = binding.etAlamat.text.toString()
+
         val phoneNumb = binding.etNomor.text.toString()
         val email = userPreferences.getEmail().toString()
         if(userFullName.isEmpty() || userAddress.isEmpty() || phoneNumb.isEmpty()){
