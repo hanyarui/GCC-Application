@@ -5,6 +5,7 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.util.Log
+import com.gcc.gccapplication.BuildConfig
 import androidx.core.app.NotificationCompat
 import com.gcc.gccapplication.R
 import com.gcc.gccapplication.data.API.ApiService
@@ -27,8 +28,8 @@ import retrofit2.converter.gson.GsonConverterFactory
 class MyFirebaseMessagingService : FirebaseMessagingService() {
     private lateinit var userPreferences: UserPreferences
     private lateinit var apiService: ApiService
-    val sendNotifApi = Retrofit.Builder()
-        .baseUrl("https://enabling-indirectly-buzzard.ngrok-free.app/") // Gabisa makek http, bisa nya https akalin nya makek ngrok
+    private val sendNotifApi: Retrofit = Retrofit.Builder()
+        .baseUrl(BuildConfig.BASE_URL) // Gabisa makek http, bisa nya https akalin nya makek ngrok
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 

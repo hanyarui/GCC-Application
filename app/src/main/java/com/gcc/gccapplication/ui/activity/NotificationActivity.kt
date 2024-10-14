@@ -1,20 +1,17 @@
 package com.gcc.gccapplication.ui.activity
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.MenuItem
 import android.widget.TextView
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.gcc.gccapplication.R
 import com.gcc.gccapplication.adapter.ItemNotifAdapter
-import com.gcc.gccapplication.adapter.TrashbagAdapter
 import com.gcc.gccapplication.data.local.UserPreferences
 import com.gcc.gccapplication.databinding.ActivityNotificationBinding
 import com.gcc.gccapplication.viewModel.NotifikasiViewModel
@@ -42,6 +39,7 @@ class NotificationActivity : AppCompatActivity() {
         observeViewModel()
     }
 
+    @SuppressLint("SetTextI18n", "InflateParams")
     private fun setupToolbar() {
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
@@ -51,7 +49,7 @@ class NotificationActivity : AppCompatActivity() {
             setDisplayShowTitleEnabled(true)
             customView = layoutInflater.inflate(R.layout.actionbar_title, null).apply {
                 customTitle = findViewById(R.id.custom_title)
-                customTitle.text = "Notifikasi"
+                customTitle.text = "Detail"
             }
         }
     }
@@ -66,6 +64,7 @@ class NotificationActivity : AppCompatActivity() {
     }
 
     private var isDataEmpty = true
+    @SuppressLint("NotifyDataSetChanged")
     private fun observeViewModel() {
         val role = userPreferences.getRole()
         if (role == "admin") {

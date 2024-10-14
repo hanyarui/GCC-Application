@@ -80,8 +80,8 @@
                     android:id="@+id/ivNotifDot"
                     android:layout_width="8dp"
                     android:layout_height="7dp"
-                    android:visibility="gone"
                     android:src="@drawable/notifikasi_recent"
+                    android:visibility="gone"
                     app:layout_constraintEnd_toEndOf="@+id/ivNotification"
                     app:layout_constraintTop_toTopOf="@+id/ivNotification" />
 

@@ -15,7 +15,7 @@ android {
         targetSdk = 34
         versionCode = 2
         versionName = "1.1"
-
+        buildConfigField("String", "BASE_URL","\"https://enabling-indirectly-buzzard.ngrok-free.app/\"")
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -26,10 +26,16 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            buildConfigField("String", "BASE_URL","\"https://enabling-indirectly-buzzard.ngrok-free.app/\"")
         }
+        debug {
+            buildConfigField("String", "BASE_URL","\"https://enabling-indirectly-buzzard.ngrok-free.app/\"")
+        }
+
     }
 
     buildFeatures {
+        buildConfig = true
         viewBinding = true
     }
 

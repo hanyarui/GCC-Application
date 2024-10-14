@@ -51,6 +51,7 @@ class DetailActivity : AppCompatActivity() {
         // Set up the Toolbar as the ActionBar
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
+        supportActionBar?.title = "Detail"
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         // Inflate and set the custom title view
